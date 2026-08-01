@@ -1,0 +1,30 @@
+{
+  "name": "spid-website",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @spid/web --filter @spid/studio dev",
+    "dev:web": "pnpm --filter @spid/web dev",
+    "dev:studio": "pnpm --filter @spid/studio dev",
+    "build": "pnpm -r --if-present build",
+    "build:web": "pnpm --filter @spid/web build",
+    "build:studio": "pnpm --filter @spid/studio build",
+    "lint": "pnpm -r --if-present lint",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test",
+    "test:e2e": "pnpm --filter @spid/web test:e2e",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "sanity:schema-extract": "pnpm --filter @spid/studio schema:extract",
+    "sanity:typegen": "pnpm sanity:schema-extract && pnpm --filter @spid/web sanity:typegen",
+    "seed": "pnpm --filter @spid/studio seed"
+  },
+  "devDependencies": {
+    "prettier": "3.6.2",
+    "typescript": "5.9.2"
+  }
+}

@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+:root {
+  --color-forest-950: #0b2e26;
+  --color-forest-800: #145a47;
+  --color-forest-700: #176b55;
+  --color-teal-600: #0b7662;
+  --color-leaf-500: #4c956c;
+  --color-earth-600: #a84e24;
+  --color-sun-400: #f2c14e;
+  --color-sand-50: #f7f3e8;
+  --color-mist-50: #edf5f1;
+  --color-ink: #13231e;
+  --color-slate: #51615b;
+  --color-border: #c8d7d0;
+  --color-error: #b42318;
+  --color-success: #18794e;
+  --font-sans: Manrope, "Segoe UI", system-ui, sans-serif;
+  --font-editorial: Newsreader, Georgia, "Times New Roman", serif;
+  --container: 80rem;
+  --focus: 0 0 0 3px var(--color-sun-400), 0 0 0 5px var(--color-forest-950);
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+body {
+  margin: 0;
+  color: var(--color-ink);
+  background: #fff;
+  font-family: var(--font-sans);
+  line-height: 1.65;
+}
+a {
+  color: inherit;
+}
+:focus-visible {
+  outline: 0;
+  box-shadow: var(--focus);
+  border-radius: 0.25rem;
+}
+.container {
+  width: min(calc(100% - 2rem), var(--container));
+  margin-inline: auto;
+}
+.section {
+  padding-block: clamp(3.5rem, 8vw, 7rem);
+}
+.eyebrow {
+  color: var(--color-teal-600);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.display {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.75rem, 7vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+.h1 {
+  font-family: var(--font-editorial);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+.h2 {
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+.lead {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  color: var(--color-slate);
+  max-width: 46rem;
+}
+.button {
+  display: inline-flex;
+  min-height: 3rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.15rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: 160ms ease;
+}
+.button-primary {
+  background: var(--color-forest-800);
+  color: white;
+}
+.button-primary:hover {
+  background: var(--color-forest-950);
+}
+.button-secondary {
+  border-color: var(--color-forest-800);
+  color: var(--color-forest-800);
+  background: white;
+}
+.button-secondary:hover {
+  background: var(--color-mist-50);
+}
+.button-warm {
+  background: var(--color-earth-600);
+  color: white;
+}
+.button-warm:hover {
+  background: #7d391b;
+}
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: white;
+}
+.grid-2 {
+  display: grid;
+  gap: 1.5rem;
+}
+.grid-3 {
+  display: grid;
+  gap: 1.5rem;
+}
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: -5rem;
+  z-index: 100;
+  background: var(--color-sun-400);
+  padding: 0.75rem 1rem;
+  font-weight: 700;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+.deep {
+  background: var(--color-forest-950);
+  color: white;
+}
+.mist {
+  background: var(--color-mist-50);
+}
+.sand {
+  background: var(--color-sand-50);
+}
+.prose {
+  max-width: 45rem;
+}
+.prose p {
+  margin-block: 1.25rem;
+}
+.prose h2 {
+  margin-top: 2.5rem;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+.field {
+  display: grid;
+  gap: 0.4rem;
+}
+.field label {
+  font-weight: 700;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 3rem;
+  border: 1px solid #71817b;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font: inherit;
+  color: var(--color-ink);
+  background: white;
+}
+.field textarea {
+  min-height: 10rem;
+  resize: vertical;
+}
+.field-error {
+  color: var(--color-error);
+  font-weight: 600;
+}
+.alert {
+  border-left: 0.3rem solid currentColor;
+  padding: 1rem;
+  background: var(--color-mist-50);
+}
+
+@media (min-width: 48rem) {
+  .container {
+    width: min(calc(100% - 3rem), var(--container));
+  }
+  .grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

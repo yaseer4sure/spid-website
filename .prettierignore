@@ -1,0 +1,11 @@
+.next
+dist
+coverage
+node_modules
+.cache
+apps/web/src/sanity/types.ts
+apps/studio/schema.json
+pnpm-lock.yaml
+docs/*.docx
+docs/*.md
+AGENTS.md
