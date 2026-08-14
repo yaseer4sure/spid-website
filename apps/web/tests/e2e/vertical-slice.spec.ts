@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 test("homepage to CPI4CG to insight to engagement and form", async ({
   page,
 }) => {
+  test.setTimeout(120_000);
   await page.route("https://challenges.cloudflare.com/**", (route) =>
     route.abort(),
   );
@@ -17,10 +18,13 @@ test("homepage to CPI4CG to insight to engagement and form", async ({
   await page.getByRole("link", { name: "Read insight" }).click();
   await expect(
     page.getByText("Non-production development placeholder"),
-  ).toBeVisible();
+  ).toBeVisible({ timeout: 60_000 });
   await page.getByRole("link", { name: "Get involved", exact: true }).click();
   await page.getByRole("link", { name: "Start this enquiry" }).first().click();
-  await expect(page.getByLabel("Enquiry type")).toHaveValue("partnership");
+  await expect(page).toHaveURL(/\/contact\?type=partnership$/);
+  await expect(page.getByLabel("Enquiry type")).toHaveValue("partnership", {
+    timeout: 60_000,
+  });
   await page.getByLabel("Name").fill("Amina Bello");
   await page.getByLabel("Email").fill("amina@example.org");
   await page

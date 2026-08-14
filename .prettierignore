@@ -5,6 +5,7 @@ node_modules
 .cache
 apps/web/src/sanity/types.ts
 apps/studio/schema.json
+apps/studio/sanity.types.ts
 pnpm-lock.yaml
 docs/*.docx
 docs/*.md

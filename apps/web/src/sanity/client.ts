@@ -31,6 +31,10 @@ export function previewClient() {
     useCdn: false,
     token,
     perspective: "drafts",
-    stega: true,
+    stega: {
+      enabled: true,
+      studioUrl:
+        process.env.NEXT_PUBLIC_SANITY_STUDIO_URL || "http://localhost:3333",
+    },
   });
 }

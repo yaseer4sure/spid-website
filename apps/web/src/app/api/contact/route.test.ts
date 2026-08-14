@@ -43,4 +43,29 @@ describe("POST /api/contact", () => {
     expect(response.status).toBe(200);
     expect(sendEnquiry).toHaveBeenCalledOnce();
   });
+
+  it("logs delivery metadata without submitted personal data", async () => {
+    vi.mocked(verifyTurnstile).mockResolvedValue(true);
+    vi.mocked(sendEnquiry).mockRejectedValue(new Error("provider failure"));
+    const consoleError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+
+    const response = await POST(
+      new Request("http://localhost/api/contact", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(payload),
+      }),
+    );
+
+    expect(response.status).toBe(502);
+    expect(consoleError).toHaveBeenCalledOnce();
+    const logged = JSON.stringify(consoleError.mock.calls);
+    expect(logged).toContain("contact_delivery_failed");
+    expect(logged).not.toContain(payload.name);
+    expect(logged).not.toContain(payload.email);
+    expect(logged).not.toContain(payload.message);
+    consoleError.mockRestore();
+  });
 });

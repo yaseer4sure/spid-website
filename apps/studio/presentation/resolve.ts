@@ -19,7 +19,10 @@ const pageRoutes: Record<string, string> = {
 
 export const resolve = {
   mainDocuments: defineDocuments([
-    { route: "/", filter: '_id == "homepage"' },
+    {
+      route: "/",
+      filter: '_id in ["homepage", "drafts.homepage"]',
+    },
     {
       route: "/our-work/:slug",
       filter: '_type == "programme" && slug.current == $slug',

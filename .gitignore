@@ -18,3 +18,5 @@ apps/studio/static/
 .vercel/
 .turbo/
 .sanity/
+tsconfig.tsbuildinfo
+*.tsbuildinfo

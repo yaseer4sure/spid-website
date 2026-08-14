@@ -1,5 +1,13 @@
 import type { NextConfig } from "next";
 
+const frameAncestors = [
+  "'self'",
+  process.env.NEXT_PUBLIC_SANITY_STUDIO_URL,
+  ...(process.env.NODE_ENV === "development" ? ["http://localhost:3333"] : []),
+]
+  .filter(Boolean)
+  .join(" ");
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   async headers() {
@@ -13,7 +21,10 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
-          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          {
+            key: "Content-Security-Policy",
+            value: `frame-ancestors ${frameAncestors}`,
+          },
         ],
       },
     ];
