@@ -5,6 +5,7 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 import { getInsight, getInsightMetadata } from "@/sanity/content";
 
 type Props = { params: Promise<{ slug: string }> };
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const insight = await getInsightMetadata((await params).slug);
   if (!insight) return {};
@@ -15,10 +16,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: { canonical: `/insights/${insight.slug}` },
   };
 }
+
 export default async function InsightPage({ params }: Props) {
   const insight = await getInsight((await params).slug);
   if (!insight) notFound();
-  const isPlaceholder = insight.seo?.noIndex === true;
   return (
     <>
       <div className="container">
@@ -49,16 +50,6 @@ export default async function InsightPage({ params }: Props) {
       </header>
       <article className="section">
         <div className="container prose">
-          {isPlaceholder && (
-            <div className="dev-placeholder">
-              <strong>Non-production development placeholder</strong>
-              <p>
-                No approved full insight or policy brief was supplied. This page
-                is marked no-index and must be replaced or editorially approved
-                before production.
-              </p>
-            </div>
-          )}
           <h2>Why local evidence matters</h2>
           <p>
             Participatory climate governance depends on community knowledge
@@ -66,9 +57,8 @@ export default async function InsightPage({ params }: Props) {
             dialogue with institutions and policy processes.
           </p>
           <p>
-            This development page demonstrates the approved programme-to-insight
-            relationship without presenting candidate figures as verified
-            results.
+            SPiD uses this principle to connect community participation with
+            research, programme learning and policy engagement.
           </p>
           <h2>Connected to CPI4CG</h2>
           <p>

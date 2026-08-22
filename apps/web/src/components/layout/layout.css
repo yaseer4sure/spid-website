@@ -12,20 +12,13 @@
   gap: 1rem;
 }
 .wordmark {
-  display: grid;
-  line-height: 1;
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  color: var(--color-forest-950);
 }
-.wordmark span {
-  font-size: 1.7rem;
-  font-weight: 800;
-  letter-spacing: -0.06em;
-}
-.wordmark small {
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.brand-logo {
+  width: clamp(9rem, 17vw, 12.25rem);
+  height: auto;
 }
 .desktop-nav {
   display: none;
@@ -101,13 +94,18 @@
   color: #d2dfda;
 }
 .footer-brand {
-  font-family: var(--font-editorial);
-  font-size: 2rem;
+  display: inline-flex;
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.6rem;
+  background: white;
+}
+.footer-brand .brand-logo {
+  width: min(12.5rem, 55vw);
 }
 .footer-bottom {
   margin-top: 3rem;
   padding-top: 1.25rem;
-  border-top: 1px solid #496b61;
+  border-top: 1px solid #315a72;
 }
 @media (min-width: 75rem) {
   .desktop-nav,

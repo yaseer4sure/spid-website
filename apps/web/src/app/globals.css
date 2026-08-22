@@ -1,24 +1,34 @@
 @import "tailwindcss";
 
 :root {
-  --color-forest-950: #0b2e26;
-  --color-forest-800: #145a47;
-  --color-forest-700: #176b55;
-  --color-teal-600: #0b7662;
-  --color-leaf-500: #4c956c;
-  --color-earth-600: #a84e24;
-  --color-sun-400: #f2c14e;
-  --color-sand-50: #f7f3e8;
-  --color-mist-50: #edf5f1;
-  --color-ink: #13231e;
-  --color-slate: #51615b;
-  --color-border: #c8d7d0;
+  --color-brand-blue: #00477e;
+  --color-brand-navy: #062f4f;
+  --color-climate-green: #1e6f5b;
+  --color-warm-yellow: #fab42b;
+  --color-terracotta: #c45a34;
+  --color-off-white: #f7f5ef;
+  --color-light-blue: #edf5fa;
+  --color-charcoal: #292f33;
+  --color-muted: #54636c;
+  --color-border: #c7d5dc;
+  --color-forest-950: var(--color-brand-navy);
+  --color-forest-800: var(--color-brand-blue);
+  --color-forest-700: var(--color-climate-green);
+  --color-teal-600: var(--color-climate-green);
+  --color-leaf-500: var(--color-climate-green);
+  --color-earth-600: var(--color-terracotta);
+  --color-sun-400: var(--color-warm-yellow);
+  --color-sand-50: var(--color-off-white);
+  --color-mist-50: var(--color-light-blue);
+  --color-ink: var(--color-charcoal);
+  --color-slate: var(--color-muted);
   --color-error: #b42318;
   --color-success: #18794e;
   --font-sans: Manrope, "Segoe UI", system-ui, sans-serif;
   --font-editorial: Newsreader, Georgia, "Times New Roman", serif;
   --container: 80rem;
-  --focus: 0 0 0 3px var(--color-sun-400), 0 0 0 5px var(--color-forest-950);
+  --focus:
+    0 0 0 3px var(--color-warm-yellow), 0 0 0 5px var(--color-brand-navy);
 }
 
 * {
@@ -107,17 +117,18 @@ a {
   background: var(--color-mist-50);
 }
 .button-warm {
-  background: var(--color-earth-600);
-  color: white;
+  background: var(--color-warm-yellow);
+  color: var(--color-brand-navy);
 }
 .button-warm:hover {
-  background: #7d391b;
+  background: #e9a00e;
 }
 .card {
   border: 1px solid var(--color-border);
   border-radius: 1rem;
   padding: clamp(1.25rem, 3vw, 2rem);
   background: white;
+  box-shadow: 0 0.75rem 2rem rgba(6, 47, 79, 0.06);
 }
 .grid-2 {
   display: grid;
@@ -159,6 +170,29 @@ a {
   margin-top: 2.5rem;
   font-size: 1.8rem;
   line-height: 1.2;
+}
+.prose-wide {
+  max-width: 62rem;
+}
+.check-list {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+.check-list li {
+  position: relative;
+  padding-left: 1.6rem;
+}
+.check-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  background: var(--color-climate-green);
 }
 .field {
   display: grid;

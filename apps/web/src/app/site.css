@@ -1,6 +1,10 @@
 .hero {
   overflow: hidden;
-  background: var(--color-sand-50);
+  background: linear-gradient(
+    110deg,
+    var(--color-off-white) 0 68%,
+    var(--color-light-blue) 68%
+  );
 }
 .hero-grid {
   display: grid;
@@ -23,7 +27,7 @@
   position: relative;
   overflow: hidden;
   border-radius: 1.5rem;
-  background: var(--color-forest-950);
+  background: var(--color-brand-navy);
   color: white;
   padding: 2rem;
   display: flex;
@@ -38,6 +42,33 @@
   height: 8rem;
   border: 1px solid var(--color-sun-400);
   border-radius: 50%;
+}
+.hero-visual::after {
+  content: "";
+  position: absolute;
+  inset: auto -4rem -5rem auto;
+  width: 17rem;
+  height: 17rem;
+  border-radius: 50%;
+  background: var(--color-climate-green);
+  opacity: 0.75;
+}
+.hero-mark {
+  position: relative;
+  z-index: 1;
+  max-width: 23rem;
+}
+.hero-mark strong {
+  display: block;
+  max-width: 18rem;
+  font-family: var(--font-editorial);
+  font-size: clamp(1.7rem, 4vw, 2.5rem);
+  line-height: 1.1;
+}
+.hero-mark span {
+  display: block;
+  margin-top: 1rem;
+  color: #dcebf2;
 }
 .hero-visual p {
   position: relative;
@@ -56,6 +87,50 @@
   display: grid;
   gap: 0;
   border-top: 1px solid var(--color-border);
+}
+.values-grid,
+.metric-grid,
+.people-grid,
+.framework-grid {
+  display: grid;
+  gap: 1rem;
+}
+.value-card,
+.metric-card,
+.person-card,
+.framework-card {
+  border-top: 3px solid var(--color-brand-blue);
+}
+.metric-card strong {
+  display: block;
+  color: var(--color-brand-blue);
+  font-family: var(--font-editorial);
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1;
+}
+.metric-card p {
+  margin-bottom: 0;
+  font-weight: 700;
+}
+.person-initials {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: var(--color-light-blue);
+  color: var(--color-brand-blue);
+  font-weight: 800;
+}
+.person-card h3,
+.value-card h3 {
+  margin-bottom: 0.25rem;
+}
+.person-card p,
+.value-card p {
+  margin: 0;
+  color: var(--color-muted);
 }
 .pillar {
   counter-increment: pillar;
@@ -126,11 +201,6 @@
   color: white;
   font-weight: 700;
 }
-.dev-placeholder {
-  border: 2px dashed var(--color-warning, #8a5a00);
-  padding: 1rem;
-  background: #fff8e6;
-}
 .pathways {
   display: grid;
   gap: 1rem;
@@ -177,5 +247,15 @@
   }
   .facts {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .values-grid,
+  .people-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .metric-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .framework-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

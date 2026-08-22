@@ -1,8 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("homepage to CPI4CG to insight to engagement and form", async ({
-  page,
-}) => {
+test("homepage to CPI4CG to engagement and form", async ({ page }) => {
   test.setTimeout(120_000);
   await page.route("https://challenges.cloudflare.com/**", (route) =>
     route.abort(),
@@ -15,16 +13,8 @@ test("homepage to CPI4CG to insight to engagement and form", async ({
   ).toBeVisible();
   await page.getByRole("link", { name: "View programme" }).first().click();
   await expect(page).toHaveURL(/\/our-work\/cpi4cg$/);
-  await page.getByRole("link", { name: "Read insight" }).click();
-  await expect(
-    page.getByText("Non-production development placeholder"),
-  ).toBeVisible({ timeout: 60_000 });
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-    "content",
-    /noindex, nofollow/,
-  );
-  await page.getByRole("link", { name: "Get involved", exact: true }).click();
-  await page.getByRole("link", { name: "Start this enquiry" }).first().click();
+  await expect(page.getByText("368")).toBeVisible();
+  await page.getByRole("link", { name: "Start a partnership enquiry" }).click();
   await expect(page).toHaveURL(/\/contact\?type=partnership$/);
   await expect(page.getByLabel("Enquiry type")).toHaveValue("partnership", {
     timeout: 60_000,
@@ -43,6 +33,40 @@ test("homepage to CPI4CG to insight to engagement and form", async ({
     .check();
   await page.getByRole("button", { name: "Send enquiry" }).click();
   await expect(page.getByText("Complete the anti-spam check.")).toBeVisible();
+});
+
+test("development insight remains noindex and is not promoted", async ({
+  page,
+}) => {
+  await page.goto("/insights");
+  await expect(
+    page.getByRole("heading", {
+      name: "Knowledge. Evidence. Community Voices.",
+    }),
+  ).toBeVisible();
+  await expect(page.getByRole("link", { name: "Read insight" })).toHaveCount(0);
+  await page.goto("/insights/participatory-climate-governance-local-evidence");
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    /noindex, nofollow/,
+  );
+});
+
+test("draft content stays out of public discovery", async ({
+  page,
+  request,
+}) => {
+  const iicare = await request.get("/our-work/iicare");
+  expect(iicare.status()).toBe(404);
+
+  const sitemap = await (await request.get("/sitemap.xml")).text();
+  expect(sitemap).not.toContain("/our-work/iicare");
+  expect(sitemap).not.toContain(
+    "/insights/participatory-climate-governance-local-evidence",
+  );
+
+  await page.goto("/our-work");
+  await expect(page.getByText("IICARE", { exact: true })).toHaveCount(0);
 });
 
 test("mobile navigation exposes the core journey", async ({

@@ -57,7 +57,7 @@ export const fallbackInsight: PublicInsight = {
   title: "What participatory climate governance asks of local evidence",
   slug: "participatory-climate-governance-local-evidence",
   summary:
-    "A development-only editorial placeholder demonstrating how CPI4CG can connect programme learning with SPiD’s knowledge publishing.",
+    "A programme note on how community knowledge can inform climate governance and policy engagement.",
   contentType: "programmeUpdate",
   publishedAt: "2026-07-30T00:00:00.000Z",
   organisationAuthor: "SPiD",
@@ -81,7 +81,7 @@ export const fallbackProgramme: PublicProgramme = {
   acronym: "CPI4CG",
   slug: "cpi4cg",
   summary:
-    "A community-led climate-governance initiative piloted in Sabon Gari Local Government Area, Kaduna State.",
+    "A community-led initiative strengthening inclusive climate governance through local evidence, participation and dialogue.",
   status: "pilot",
   overview: [],
   whyItMatters: [],
@@ -120,7 +120,7 @@ fallbackProgramme.relatedInsights = [fallbackInsight];
 export const fallbackHome: PublicHome = {
   headline: "Locally Led. Youth Driven. Climate Resilient.",
   subheadline:
-    "SPiD strengthens participatory development and climate resilience by building community capacity, amplifying local voices and advancing locally driven solutions.",
+    "Building climate resilience across Africa through participatory development, inclusive leadership, and community-driven sustainability solutions.",
   primaryAction: {
     label: "Partner With Us",
     href: "/contact?type=partnership",
@@ -139,10 +139,10 @@ export const fallbackHome: PublicHome = {
       acronym: "AYEDE",
       slug: "ayede",
       summary:
-        "A youth climate-leadership fellowship combining expert sessions, self-paced learning, mentorship, peer collaboration and practical assignments.",
+        "Building the next generation of African climate leaders through learning, mentorship, peer exchange and practical project development.",
       status: "active",
     },
   ],
-  featuredInsight: fallbackInsight,
+  featuredInsight: undefined,
   impactMetrics: [],
 };

@@ -5,41 +5,37 @@ import { ButtonLink } from "@/components/ui/ButtonLink";
 export const metadata: Metadata = {
   title: "Get Involved",
   description:
-    "Explore partnership, programme funding, research collaboration and volunteer-expertise pathways with SPiD.",
+    "Support community-led climate action with SPiD through partnership, funding, expertise and research.",
   alternates: { canonical: "/get-involved" },
 };
 const pathways = [
   [
-    "Partner with SPiD",
-    "For institutions interested in strategic, technical or implementation collaboration.",
+    "Partner With Us",
+    "Build a strategic, technical or implementation collaboration with SPiD.",
     "partnership",
   ],
   [
-    "Fund a programme",
-    "For funders exploring responsible support for SPiD’s approved programme portfolio.",
+    "Fund a Program",
+    "Support an approved SPiD programme through responsible funding.",
     "funding",
   ],
   [
-    "Sponsor youth leaders",
-    "Support future youth climate-leadership opportunities without implying an open application.",
-    "funding",
-  ],
-  [
-    "Collaborate on research",
-    "Connect community knowledge, policy questions and responsible research practice.",
-    "research",
-  ],
-  [
-    "Volunteer expertise",
-    "Offer relevant technical or professional expertise through an enquiry.",
+    "Volunteer Expertise",
+    "Contribute relevant technical or professional expertise.",
     "volunteer",
   ],
   [
-    "Media and speaking",
-    "Request approved organisational information or invite SPiD to contribute.",
-    "media",
+    "Sponsor Youth Leaders",
+    "Help strengthen youth climate leadership and learning opportunities.",
+    "funding",
+  ],
+  [
+    "Collaborate on Research",
+    "Connect community knowledge, policy questions and responsible research practice.",
+    "research",
   ],
 ] as const;
+
 export default function GetInvolvedPage() {
   return (
     <>
@@ -50,18 +46,17 @@ export default function GetInvolvedPage() {
       </div>
       <header className="page-hero">
         <div className="container">
-          <p className="eyebrow">Work with SPiD</p>
-          <h1 className="h1">Choose a clear path to contribute</h1>
+          <p className="eyebrow">Get Involved</p>
+          <h1 className="h1">Support Community-Led Climate Action</h1>
           <p className="lead">
-            Partnership, funding, research and expertise can strengthen locally
-            led climate action when the purpose and responsibilities are clear.
+            You can help strengthen local climate resilience in Africa.
           </p>
         </div>
       </header>
       <section className="section">
         <div className="container pathways grid-2">
           {pathways.map(([title, body, type]) => (
-            <article className="card" key={title}>
+            <article className="card value-card" key={title}>
               <h2>{title}</h2>
               <p>{body}</p>
               <ButtonLink href={`/contact?type=${type}`} variant="secondary">
@@ -69,6 +64,18 @@ export default function GetInvolvedPage() {
               </ButtonLink>
             </article>
           ))}
+        </div>
+      </section>
+      <section className="section mist">
+        <div className="container deep cta-panel">
+          <h2 className="h2">Take Action Today</h2>
+          <p>
+            Start a focused conversation about how you or your organisation can
+            contribute.
+          </p>
+          <ButtonLink href="/contact" variant="warm">
+            Contact SPiD
+          </ButtonLink>
         </div>
       </section>
     </>

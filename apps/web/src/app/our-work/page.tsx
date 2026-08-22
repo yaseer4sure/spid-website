@@ -1,6 +1,15 @@
-import Link from "next/link";
-import { fallbackHome } from "@/sanity/fallback";
+import type { Metadata } from "next";
 import { ProgrammeCard } from "@/components/content/Cards";
+import { ButtonLink } from "@/components/ui/ButtonLink";
+import { fallbackHome } from "@/sanity/fallback";
+
+export const metadata: Metadata = {
+  title: "Our Work",
+  description:
+    "Explore SPiD programmes advancing community-led climate governance and youth climate leadership.",
+  alternates: { canonical: "/our-work" },
+};
+
 export default function OurWorkPage() {
   return (
     <>
@@ -11,7 +20,8 @@ export default function OurWorkPage() {
             Programmes rooted in participation and evidence
           </h1>
           <p className="lead">
-            Only programmes with sufficient approved content appear here.
+            SPiD combines community knowledge, youth leadership, research and
+            policy engagement to strengthen climate resilience.
           </p>
         </div>
       </header>
@@ -23,14 +33,15 @@ export default function OurWorkPage() {
         </div>
       </section>
       <section className="section mist">
-        <div className="container">
+        <div className="container cta-panel">
+          <h2 className="h2">Collaborate on locally led climate action</h2>
           <p>
-            IICARE remains a draft CMS record and is not part of this public
-            listing.
+            Work with SPiD on programme funding, technical collaboration,
+            research and responsible implementation.
           </p>
-          <Link href="/contact?type=partnership">
+          <ButtonLink href="/contact?type=partnership">
             Discuss programme collaboration
-          </Link>
+          </ButtonLink>
         </div>
       </section>
     </>
