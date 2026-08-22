@@ -2,16 +2,16 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { getInsight } from "@/sanity/content";
+import { getInsight, getInsightMetadata } from "@/sanity/content";
 
 type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const insight = await getInsight((await params).slug);
+  const insight = await getInsightMetadata((await params).slug);
   if (!insight) return {};
   return {
     title: insight.title,
     description: insight.summary,
-    robots: insight.seo?.noIndex ? { index: false, follow: false } : undefined,
+    robots: insight.seo?.noIndex ? "noindex, nofollow" : undefined,
     alternates: { canonical: `/insights/${insight.slug}` },
   };
 }

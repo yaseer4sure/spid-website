@@ -1,12 +1,15 @@
 import type { NextConfig } from "next";
+import {
+  frameAncestors,
+  studioOriginForBuild,
+} from "./src/lib/contentSecurityPolicy";
 
-const frameAncestors = [
-  "'self'",
-  process.env.NEXT_PUBLIC_SANITY_STUDIO_URL,
-  ...(process.env.NODE_ENV === "development" ? ["http://localhost:3333"] : []),
-]
-  .filter(Boolean)
-  .join(" ");
+const trustedFrameAncestors = frameAncestors(
+  studioOriginForBuild(
+    process.env.NEXT_PUBLIC_SANITY_STUDIO_URL,
+    process.env.VERCEL === "1",
+  ),
+);
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
@@ -23,7 +26,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: `frame-ancestors ${frameAncestors}`,
+            value: `frame-ancestors ${trustedFrameAncestors}`,
           },
         ],
       },

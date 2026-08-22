@@ -10,6 +10,9 @@ const projectId = process.env.SANITY_STUDIO_PROJECT_ID || "missing-project-id";
 const dataset = process.env.SANITY_STUDIO_DATASET || "production";
 const previewOrigin =
   process.env.SANITY_STUDIO_PREVIEW_ORIGIN || "http://localhost:3000";
+const previewOrigins = Array.from(
+  new Set(["http://localhost:3000", previewOrigin]),
+);
 
 export default defineConfig({
   name: "spid",
@@ -35,6 +38,7 @@ export default defineConfig({
   plugins: [
     structureTool({ structure }),
     presentationTool({
+      allowOrigins: previewOrigins,
       previewUrl: {
         origin: previewOrigin,
         previewMode: {

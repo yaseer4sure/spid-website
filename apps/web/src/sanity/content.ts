@@ -97,8 +97,11 @@ function publicInsight(
   };
 }
 
-async function clientForRequest() {
-  return (await draftMode()).isEnabled ? previewClient() : publicClient;
+async function clientForRequest(stega = true) {
+  if (!(await draftMode()).isEnabled) return publicClient;
+
+  const client = previewClient();
+  return stega ? client : client.withConfig({ stega: false });
 }
 export async function getHome(): Promise<PublicHome> {
   const client = await clientForRequest();
@@ -116,7 +119,20 @@ export async function getProgramme(
   return programme || (slug === "cpi4cg" ? fallbackProgramme : null);
 }
 export async function getInsight(slug: string): Promise<PublicInsight | null> {
-  const client = await clientForRequest();
+  return getInsightWithStega(slug, true);
+}
+
+export async function getInsightMetadata(
+  slug: string,
+): Promise<PublicInsight | null> {
+  return getInsightWithStega(slug, false);
+}
+
+async function getInsightWithStega(
+  slug: string,
+  stega: boolean,
+): Promise<PublicInsight | null> {
+  const client = await clientForRequest(stega);
   if (!client) return slug === fallbackInsight.slug ? fallbackInsight : null;
   const insight = publicInsight(
     await client.fetch(INSIGHT_BY_SLUG_QUERY, { slug }),

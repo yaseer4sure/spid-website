@@ -19,6 +19,10 @@ test("homepage to CPI4CG to insight to engagement and form", async ({
   await expect(
     page.getByText("Non-production development placeholder"),
   ).toBeVisible({ timeout: 60_000 });
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    /noindex, nofollow/,
+  );
   await page.getByRole("link", { name: "Get involved", exact: true }).click();
   await page.getByRole("link", { name: "Start this enquiry" }).first().click();
   await expect(page).toHaveURL(/\/contact\?type=partnership$/);
@@ -53,4 +57,15 @@ test("mobile navigation exposes the core journey", async ({
       .getByRole("link", { name: "Get Involved" }),
   ).toBeVisible();
   await page.getByRole("button", { name: "Close" }).click();
+});
+
+test("Draft Mode cannot be enabled without a valid Presentation secret", async ({
+  request,
+}) => {
+  const response = await request.get("/api/draft-mode/enable", {
+    maxRedirects: 0,
+  });
+
+  expect(response.status()).toBe(401);
+  expect(await response.text()).toBe("Invalid secret");
 });
