@@ -19,6 +19,9 @@ test("homepage to CPI4CG to engagement and form", async ({ page }) => {
   await expect(page.getByLabel("Enquiry type")).toHaveValue("partnership", {
     timeout: 60_000,
   });
+  await expect(
+    page.getByRole("link", { name: "info@spidinitiative.org" }),
+  ).toHaveAttribute("href", "mailto:info@spidinitiative.org");
   await page.getByLabel("Name").fill("Amina Bello");
   await page.getByLabel("Email").fill("amina@example.org");
   await page

@@ -38,6 +38,12 @@ export default async function ContactPage({
             <p className="eyebrow">SPiD</p>
             <h2>Nigeria | Working Across Africa</h2>
             <p>
+              Email:{" "}
+              <a href="mailto:info@spidinitiative.org">
+                info@spidinitiative.org
+              </a>
+            </p>
+            <p>
               Use this form for partnership, funding, research, volunteer
               expertise and general enquiries.
             </p>

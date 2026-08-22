@@ -209,6 +209,9 @@
   display: grid;
   gap: 3rem;
 }
+.contact-layout > aside {
+  order: -1;
+}
 .contact-form {
   display: grid;
   gap: 1.25rem;
@@ -244,6 +247,9 @@
   }
   .contact-layout {
     grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.6fr);
+  }
+  .contact-layout > aside {
+    order: 0;
   }
   .facts {
     grid-template-columns: repeat(3, 1fr);
