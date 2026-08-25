@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { GraduationCap, Landmark, Search, Sprout } from "lucide-react";
+import { EditorialImage } from "@/components/content/EditorialImage";
 import { aboutContent, advisoryBoard, team } from "@/content/approved";
 
 export const metadata: Metadata = {
@@ -15,14 +17,25 @@ const initials = (name: string) =>
     .slice(0, 2)
     .join("");
 
+const approachIcons = [Search, GraduationCap, Sprout, Landmark] as const;
+
 export default function AboutPage() {
   return (
     <>
       <header className="page-hero">
-        <div className="container">
-          <p className="eyebrow">Who We Are</p>
-          <h1 className="h1">Community-rooted climate action</h1>
-          <p className="lead">{aboutContent.introduction[0]}</p>
+        <div className="container page-hero-grid">
+          <div>
+            <p className="eyebrow">Who We Are</p>
+            <h1 className="h1">Community-rooted climate action</h1>
+            <p className="lead">{aboutContent.introduction[0]}</p>
+          </div>
+          <EditorialImage
+            src="/images/about/community-rooted-leadership.webp"
+            alt="Women and children gathered outdoors in a community setting"
+            sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
+            className="page-hero-photo"
+            priority
+          />
         </div>
       </header>
       <section className="section">
@@ -62,17 +75,33 @@ export default function AboutPage() {
       </section>
       <section className="section">
         <div className="container">
-          <div className="section-heading">
-            <p className="eyebrow">Our Approach</p>
-            <h2 className="h2">How we work</h2>
+          <div className="split-feature">
+            <div className="section-heading">
+              <p className="eyebrow">Our Approach</p>
+              <h2 className="h2">How we work</h2>
+              <p>
+                SPiD connects community knowledge, practical leadership,
+                resilient interventions and policy engagement.
+              </p>
+            </div>
+            <EditorialImage
+              src="/images/about/collaborative-research-learning.webp"
+              alt="A group of students collaborating on research with a laptop"
+              sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
+              className="section-photo"
+            />
           </div>
           <div className="grid-2">
-            {aboutContent.approaches.map(([title, description]) => (
-              <article className="card" key={title}>
-                <h3>{title}</h3>
-                <p>{description}</p>
-              </article>
-            ))}
+            {aboutContent.approaches.map(([title, description], index) => {
+              const Icon = approachIcons[index];
+              return (
+                <article className="card" key={title}>
+                  <Icon className="card-icon" aria-hidden="true" />
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </article>
+              );
+            })}
           </div>
           <div className="section-heading" style={{ marginTop: "4rem" }}>
             <p className="eyebrow">Framework alignment</p>

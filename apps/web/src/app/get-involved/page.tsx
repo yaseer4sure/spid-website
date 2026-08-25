@@ -1,4 +1,12 @@
 import type { Metadata } from "next";
+import {
+  CircleDollarSign,
+  GraduationCap,
+  Handshake,
+  HeartHandshake,
+  Microscope,
+} from "lucide-react";
+import { EditorialImage } from "@/components/content/EditorialImage";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 
@@ -35,6 +43,13 @@ const pathways = [
     "research",
   ],
 ] as const;
+const pathwayIcons = [
+  Handshake,
+  CircleDollarSign,
+  HeartHandshake,
+  GraduationCap,
+  Microscope,
+] as const;
 
 export default function GetInvolvedPage() {
   return (
@@ -45,25 +60,38 @@ export default function GetInvolvedPage() {
         />
       </div>
       <header className="page-hero">
-        <div className="container">
-          <p className="eyebrow">Get Involved</p>
-          <h1 className="h1">Support Community-Led Climate Action</h1>
-          <p className="lead">
-            You can help strengthen local climate resilience in Africa.
-          </p>
+        <div className="container page-hero-grid">
+          <div>
+            <p className="eyebrow">Get Involved</p>
+            <h1 className="h1">Support Community-Led Climate Action</h1>
+            <p className="lead">
+              You can help strengthen local climate resilience in Africa.
+            </p>
+          </div>
+          <EditorialImage
+            src="/images/get-involved/collective-climate-action.webp"
+            alt="A diverse crowd gathered outdoors in collective action"
+            sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
+            className="page-hero-photo portrait-focus"
+            priority
+          />
         </div>
       </header>
       <section className="section">
         <div className="container pathways grid-2">
-          {pathways.map(([title, body, type]) => (
-            <article className="card value-card" key={title}>
-              <h2>{title}</h2>
-              <p>{body}</p>
-              <ButtonLink href={`/contact?type=${type}`} variant="secondary">
-                Start this enquiry
-              </ButtonLink>
-            </article>
-          ))}
+          {pathways.map(([title, body, type], index) => {
+            const Icon = pathwayIcons[index];
+            return (
+              <article className="card value-card" key={title}>
+                <Icon className="card-icon" aria-hidden="true" />
+                <h2>{title}</h2>
+                <p>{body}</p>
+                <ButtonLink href={`/contact?type=${type}`} variant="secondary">
+                  Start this enquiry
+                </ButtonLink>
+              </article>
+            );
+          })}
         </div>
       </section>
       <section className="section mist">

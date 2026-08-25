@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Handshake, MapPin, MessageCircle, Search } from "lucide-react";
+import { EditorialImage } from "@/components/content/EditorialImage";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ContactForm } from "@/features/contact/ContactForm";
 
@@ -23,12 +25,21 @@ export default async function ContactPage({
         />
       </div>
       <header className="page-hero">
-        <div className="container">
-          <p className="eyebrow">Contact and partnership enquiries</p>
-          <h1 className="h1">Let&apos;s Build Climate Resilience Together</h1>
-          <p className="lead">
-            Tell us how you would like to partner, contribute or collaborate.
-          </p>
+        <div className="container page-hero-grid">
+          <div>
+            <p className="eyebrow">Contact and partnership enquiries</p>
+            <h1 className="h1">Let&apos;s Build Climate Resilience Together</h1>
+            <p className="lead">
+              Tell us how you would like to partner, contribute or collaborate.
+            </p>
+          </div>
+          <EditorialImage
+            src="/images/contact/community-conversation.webp"
+            alt="People in conversation outdoors under trees"
+            sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
+            className="page-hero-photo portrait-focus"
+            priority
+          />
         </div>
       </header>
       <section className="section">
@@ -36,17 +47,22 @@ export default async function ContactPage({
           <ContactForm initialType={type} />
           <aside className="card value-card">
             <p className="eyebrow">SPiD</p>
-            <h2>Nigeria | Working Across Africa</h2>
-            <p>
-              Email:{" "}
-              <a href="mailto:info@spidinitiative.org">
-                info@spidinitiative.org
-              </a>
-            </p>
-            <p>
-              Use this form for partnership, funding, research, volunteer
-              expertise and general enquiries.
-            </p>
+            <h2 className="contact-identity">
+              <MapPin aria-hidden="true" /> Nigeria | Working Across Africa
+            </h2>
+            <ul className="contact-topics">
+              <li>
+                <Handshake aria-hidden="true" /> Partnership and funding
+                enquiries
+              </li>
+              <li>
+                <Search aria-hidden="true" /> Research and evidence enquiries
+              </li>
+              <li>
+                <MessageCircle aria-hidden="true" /> Volunteer expertise and
+                general enquiries
+              </li>
+            </ul>
             <p>
               We collect only the information needed to respond to your enquiry.
             </p>

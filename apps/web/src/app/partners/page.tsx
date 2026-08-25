@@ -1,4 +1,12 @@
 import type { Metadata } from "next";
+import {
+  BriefcaseBusiness,
+  GraduationCap,
+  Globe2,
+  Landmark,
+  UsersRound,
+} from "lucide-react";
+import { EditorialImage } from "@/components/content/EditorialImage";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { partnerCategories } from "@/content/approved";
 
@@ -8,17 +16,34 @@ export const metadata: Metadata = {
   alternates: { canonical: "/partners" },
 };
 
+const partnerIcons = [
+  UsersRound,
+  GraduationCap,
+  Landmark,
+  BriefcaseBusiness,
+  Globe2,
+] as const;
+
 export default function PartnersPage() {
   return (
     <>
       <header className="page-hero">
-        <div className="container">
-          <p className="eyebrow">Partners</p>
-          <h1 className="h1">Collaboration for stronger climate action</h1>
-          <p className="lead">
-            SPiD builds cross-sector relationships around shared purpose, clear
-            roles and community-rooted outcomes.
-          </p>
+        <div className="container page-hero-grid">
+          <div>
+            <p className="eyebrow">Partners</p>
+            <h1 className="h1">Collaboration for stronger climate action</h1>
+            <p className="lead">
+              SPiD builds cross-sector relationships around shared purpose,
+              clear roles and community-rooted outcomes.
+            </p>
+          </div>
+          <EditorialImage
+            src="/images/partners/cross-sector-community-collaboration.webp"
+            alt="A diverse group taking part in an outdoor community meeting"
+            sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
+            className="page-hero-photo"
+            priority
+          />
         </div>
       </header>
       <section className="section">
@@ -28,11 +53,15 @@ export default function PartnersPage() {
             <h2 className="h2">Partnership across sectors</h2>
           </div>
           <div className="grid-3">
-            {partnerCategories.map((category) => (
-              <article className="card value-card" key={category}>
-                <h3>{category}</h3>
-              </article>
-            ))}
+            {partnerCategories.map((category, index) => {
+              const Icon = partnerIcons[index];
+              return (
+                <article className="card value-card" key={category}>
+                  <Icon className="card-icon" aria-hidden="true" />
+                  <h3>{category}</h3>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -93,6 +93,17 @@
 .footer-grid span {
   color: #d2dfda;
 }
+.footer-icon-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+.footer-icon-link svg {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  color: var(--color-warm-yellow);
+}
 .footer-brand {
   display: inline-flex;
   padding: 0.65rem 0.8rem;

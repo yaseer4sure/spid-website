@@ -27,8 +27,12 @@ export default function OurWorkPage() {
       </header>
       <section className="section">
         <div className="container grid-2">
-          {fallbackHome.featuredProgrammes.map((item) => (
-            <ProgrammeCard key={item._id} programme={item} />
+          {fallbackHome.featuredProgrammes.map((item, index) => (
+            <ProgrammeCard
+              key={item._id}
+              programme={item}
+              imagePriority={index === 0}
+            />
           ))}
         </div>
       </section>

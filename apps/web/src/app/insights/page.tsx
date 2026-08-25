@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
+import {
+  Landmark,
+  MessageCircle,
+  Newspaper,
+  Search,
+  UsersRound,
+} from "lucide-react";
+import { EditorialImage } from "@/components/content/EditorialImage";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { insightThemes } from "@/content/approved";
+import { insightVisuals } from "@/content/visuals";
 
 export const metadata: Metadata = {
   title: "Insights",
@@ -8,6 +17,8 @@ export const metadata: Metadata = {
     "Knowledge, evidence and community voices from SPiD's climate work.",
   alternates: { canonical: "/insights" },
 };
+
+const insightIcons = [Landmark, MessageCircle, Search, UsersRound, Newspaper];
 
 export default function InsightsPage() {
   return (
@@ -29,11 +40,25 @@ export default function InsightsPage() {
             <h2 className="h2">Evidence for action and learning</h2>
           </div>
           <div className="grid-3">
-            {insightThemes.map((theme) => (
-              <article className="card value-card" key={theme}>
-                <h3>{theme}</h3>
-              </article>
-            ))}
+            {insightThemes.map((theme, index) => {
+              const Icon = insightIcons[index];
+              const visual = insightVisuals[index];
+              return (
+                <article className="card insight-theme-card" key={theme}>
+                  <EditorialImage
+                    src={visual.src}
+                    alt={visual.alt}
+                    sizes="(min-width: 768px) 25rem, calc(100vw - 2rem)"
+                    className="insight-card-image"
+                    priority={index === 0}
+                  />
+                  <div className="insight-card-content">
+                    <Icon className="card-icon" aria-hidden="true" />
+                    <h3>{theme}</h3>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Handshake, MapPin, MessageCircle } from "lucide-react";
 
 export function Footer() {
   return (
@@ -30,12 +31,18 @@ export function Footer() {
         <div>
           <h2>Connect</h2>
           <Link href="/partners">Partners</Link>
-          <Link href="/contact">Contact</Link>
-          <Link href="/contact?type=partnership">Partner With Us</Link>
+          <Link className="footer-icon-link" href="/contact">
+            <MessageCircle aria-hidden="true" /> Contact
+          </Link>
+          <Link className="footer-icon-link" href="/contact?type=partnership">
+            <Handshake aria-hidden="true" /> Partner With Us
+          </Link>
         </div>
         <div>
           <h2>Based in</h2>
-          <span>Nigeria</span>
+          <span className="footer-icon-link">
+            <MapPin aria-hidden="true" /> Nigeria
+          </span>
           <span>Working Across Africa</span>
         </div>
       </div>

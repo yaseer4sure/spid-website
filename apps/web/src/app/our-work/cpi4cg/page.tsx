@@ -1,4 +1,15 @@
 import type { Metadata } from "next";
+import {
+  ClipboardList,
+  GraduationCap,
+  Handshake,
+  Landmark,
+  MapPin,
+  MessagesSquare,
+  Search,
+  UsersRound,
+} from "lucide-react";
+import { EditorialImage } from "@/components/content/EditorialImage";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { cpi4cgContent } from "@/content/approved";
@@ -9,6 +20,17 @@ export const metadata: Metadata = {
     "Community-led participatory climate governance in Sabon Gari LGA, Kaduna State.",
   alternates: { canonical: "/our-work/cpi4cg" },
 };
+
+const methodIcons = [
+  ClipboardList,
+  UsersRound,
+  Search,
+  MessagesSquare,
+  Landmark,
+  GraduationCap,
+  Handshake,
+  Landmark,
+] as const;
 
 export default function Cpi4cgPage() {
   return (
@@ -23,10 +45,19 @@ export default function Cpi4cgPage() {
         />
       </div>
       <header className="page-hero">
-        <div className="container">
-          <p className="eyebrow">CPI4CG · Pilot initiative</p>
-          <h1 className="h1">{cpi4cgContent.title}</h1>
-          <p className="lead">{cpi4cgContent.summary}</p>
+        <div className="container page-hero-grid">
+          <div>
+            <p className="eyebrow">CPI4CG · Pilot initiative</p>
+            <h1 className="h1">{cpi4cgContent.title}</h1>
+            <p className="lead">{cpi4cgContent.summary}</p>
+          </div>
+          <EditorialImage
+            src="/images/programmes/cpi4cg/community-climate-dialogue.webp"
+            alt="Community members seated outdoors for a local discussion"
+            sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
+            className="page-hero-photo portrait-focus"
+            priority
+          />
         </div>
       </header>
       <section className="section">
@@ -40,14 +71,17 @@ export default function Cpi4cgPage() {
           </div>
           <aside className="facts" aria-label="Programme facts">
             <div>
+              <ClipboardList className="fact-icon" aria-hidden="true" />
               <strong>Status</strong>
               <p>Pilot implementation</p>
             </div>
             <div>
+              <MapPin className="fact-icon" aria-hidden="true" />
               <strong>Location</strong>
               <p>Sabon Gari LGA, Kaduna State</p>
             </div>
             <div>
+              <UsersRound className="fact-icon" aria-hidden="true" />
               <strong>Focus</strong>
               <p>Participatory climate governance</p>
             </div>
@@ -55,11 +89,17 @@ export default function Cpi4cgPage() {
         </div>
       </section>
       <section className="section mist">
-        <div className="container grid-2">
-          <div>
+        <div className="container split-feature">
+          <div className="stacked-content">
             <p className="eyebrow">Why the project matters</p>
             <h2 className="h2">Decisions grounded in lived experience</h2>
             <p>{cpi4cgContent.why}</p>
+            <EditorialImage
+              src="/images/programmes/cpi4cg/participatory-research-session.webp"
+              alt="A facilitator holding a document during an outdoor community meeting"
+              sizes="(min-width: 768px) 42vw, calc(100vw - 2rem)"
+              className="section-photo compact-photo portrait-focus"
+            />
           </div>
           <div>
             <p className="eyebrow">Pilot milestones</p>
@@ -81,19 +121,23 @@ export default function Cpi4cgPage() {
             <h2 className="h2">A participatory evidence process</h2>
           </div>
           <div className="method-list">
-            {cpi4cgContent.methods.map(([title, description]) => (
-              <article className="method" key={title}>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-                </div>
-              </article>
-            ))}
+            {cpi4cgContent.methods.map(([title, description], index) => {
+              const Icon = methodIcons[index];
+              return (
+                <article className="method" key={title}>
+                  <Icon className="method-icon" aria-hidden="true" />
+                  <div>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
       <section className="section mist">
-        <div className="container grid-2">
+        <div className="container split-feature">
           <div>
             <p className="eyebrow">Stakeholder collaboration</p>
             <h2 className="h2">Local relationships and technical support</h2>
@@ -102,6 +146,12 @@ export default function Cpi4cgPage() {
               leaders and volunteers. Technical collaboration with Nest Africa
               AI Innovation Lab supports digital tools and data analysis.
             </p>
+            <EditorialImage
+              src="/images/programmes/cpi4cg/local-stakeholder-dialogue.webp"
+              alt="People taking part in a discussion in a public community setting"
+              sizes="(min-width: 768px) 42vw, calc(100vw - 2rem)"
+              className="section-photo compact-photo"
+            />
           </div>
           <div>
             <p className="eyebrow">Expected outcomes</p>

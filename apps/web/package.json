@@ -19,6 +19,7 @@
     "@spid/validation": "workspace:*",
     "@vercel/analytics": "1.5.0",
     "@vercel/speed-insights": "1.2.0",
+    "lucide-react": "^1.34.0",
     "next": "16.2.11",
     "next-sanity": "11.6.9",
     "react": "19.1.1",

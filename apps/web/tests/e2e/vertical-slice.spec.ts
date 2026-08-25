@@ -11,7 +11,7 @@ test("homepage to CPI4CG to engagement and form", async ({ page }) => {
       name: "Locally Led. Youth Driven. Climate Resilient.",
     }),
   ).toBeVisible();
-  await page.getByRole("link", { name: "View programme" }).first().click();
+  await page.getByRole("link", { name: "View Programme" }).first().click();
   await expect(page).toHaveURL(/\/our-work\/cpi4cg$/);
   await expect(page.getByText("368")).toBeVisible();
   await page.getByRole("link", { name: "Start a partnership enquiry" }).click();
@@ -20,8 +20,8 @@ test("homepage to CPI4CG to engagement and form", async ({ page }) => {
     timeout: 60_000,
   });
   await expect(
-    page.getByRole("link", { name: "info@spidinitiative.org" }),
-  ).toHaveAttribute("href", "mailto:info@spidinitiative.org");
+    page.getByRole("heading", { name: "Nigeria | Working Across Africa" }),
+  ).toBeVisible();
   await page.getByLabel("Name").fill("Amina Bello");
   await page.getByLabel("Email").fill("amina@example.org");
   await page
