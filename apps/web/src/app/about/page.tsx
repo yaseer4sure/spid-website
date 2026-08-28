@@ -30,10 +30,10 @@ export default function AboutPage() {
             <p className="lead">{aboutContent.introduction[0]}</p>
           </div>
           <EditorialImage
-            src="/images/about/community-rooted-leadership.webp"
-            alt="Women and children gathered outdoors in a community setting"
+            src="/images/about/community-rooted-leadership.JPG"
+            alt="A young man visiting a community neighbourhood with local residents"
             sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
-            className="page-hero-photo"
+            className="page-hero-photo project-photo"
             priority
           />
         </div>
@@ -85,8 +85,8 @@ export default function AboutPage() {
               </p>
             </div>
             <EditorialImage
-              src="/images/about/collaborative-research-learning.webp"
-              alt="A group of students collaborating on research with a laptop"
+              src="/images/about/collaborative-research-learning.JPG"
+              alt="A young climate leader speaking during a panel session"
               sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
               className="section-photo"
             />

@@ -1,33 +1,33 @@
 export const programmeVisuals = {
   cpi4cg: {
-    src: "/images/programmes/cpi4cg/community-climate-dialogue.webp",
-    alt: "Community members seated outdoors during a local discussion",
+    src: "/images/programmes/cpi4cg/community-climate-dialogue.jpeg",
+    alt: "Two men discussing community issues during an outdoor interview",
   },
   ayede: {
-    src: "/images/programmes/ayede/youth-climate-learning.webp",
-    alt: "Young adults collaborating outdoors with a laptop and notebook",
+    src: "/images/programmes/ayede/youth-climate-learning.jpeg",
+    alt: "AYEDE 4 Climate Action fellows onboarding presentation",
   },
 } as const;
 
 export const insightVisuals = [
   {
-    src: "/images/insights/climate-policy-discussion.webp",
-    alt: "Two people in conversation outdoors",
+    src: "/images/insights/Climate policy analysis.jpeg",
+    alt: "Participants listening to a speaker during an indoor policy event",
   },
   {
-    src: "/images/insights/community-knowledge.webp",
-    alt: "Community members gathered with locally produced goods",
+    src: "/images/insights/Community stories.jpg",
+    alt: "Women gathered in a circle for a community conversation",
   },
   {
-    src: "/images/insights/research-findings.webp",
-    alt: "Students carrying out collaborative research in a library",
+    src: "/images/insights/Research findings.jpg",
+    alt: "Participants viewing a presentation during a research workshop",
   },
   {
-    src: "/images/insights/youth-perspectives.webp",
-    alt: "Young people learning together outdoors",
+    src: "/images/insights/Youth perspectives.jpg",
+    alt: "Two young men reviewing information together on a phone",
   },
   {
-    src: "/images/insights/programme-updates.webp",
-    alt: "People working together in a green agricultural field",
+    src: "/images/insights/Programme updates.jpg",
+    alt: "A young man observing a river and surrounding landscape",
   },
 ] as const;

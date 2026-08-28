@@ -48,10 +48,10 @@ export default async function HomePage() {
             </div>
           </div>
           <EditorialImage
-            src="/images/home/african-community-climate-leadership.webp"
-            alt="A community gathering outdoors with a speaker addressing the group"
+            src="/images/home/african-community-climate-leadership.JPG"
+            alt="A group gathered in front of a SPiD participatory dialogue banner"
             sizes="(min-width: 1024px) 42vw, calc(100vw - 2rem)"
-            className="hero-photo"
+            className="hero-photo project-photo"
             priority
           />
         </div>
@@ -70,8 +70,8 @@ export default async function HomePage() {
               </div>
             </div>
             <EditorialImage
-              src="/images/home/community-technology-collaboration.webp"
-              alt="Community members collaborating around a laptop in Rwanda"
+              src="/images/home/community-technology-collaboration.JPG"
+              alt="Community members seated in a circle during an outdoor discussion"
               sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
               className="section-photo"
             />
@@ -160,8 +160,8 @@ export default async function HomePage() {
             </ButtonLink>
           </div>
           <EditorialImage
-            src="/images/insights/research-findings.webp"
-            alt="Students discussing research together in a library"
+            src="/images/insights/Research findings.jpg"
+            alt="Participants viewing a presentation during a research workshop"
             sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
             className="section-photo"
           />

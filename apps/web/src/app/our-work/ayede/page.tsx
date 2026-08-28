@@ -52,10 +52,10 @@ export default function AyedePage() {
             <p className="lead">{ayedeContent.supportingLine}</p>
           </div>
           <EditorialImage
-            src="/images/programmes/ayede/youth-climate-learning.webp"
-            alt="Young adults collaborating outdoors with a laptop and notebook"
+            src="/images/programmes/ayede/youth-climate-learning.jpeg"
+            alt="AYEDE 4 Climate Action fellows onboarding presentation"
             sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
-            className="page-hero-photo"
+            className="page-hero-photo project-photo ayede-hero-photo"
             priority
           />
         </div>
@@ -66,8 +66,8 @@ export default function AyedePage() {
             <p className="eyebrow">Programme overview</p>
             <h2 className="h2">African youth leadership for climate action</h2>
             <EditorialImage
-              src="/images/programmes/ayede/collaborative-project-learning.webp"
-              alt="Students discussing a collaborative project in a learning space"
+              src="/images/programmes/ayede/collaborative-project-learning.jpeg"
+              alt="Online AYEDE programme walkthrough showing learning, mentorship and project components"
               sizes="(min-width: 768px) 42vw, calc(100vw - 2rem)"
               className="section-photo compact-photo"
             />

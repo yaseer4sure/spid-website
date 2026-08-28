@@ -52,10 +52,10 @@ export default function Cpi4cgPage() {
             <p className="lead">{cpi4cgContent.summary}</p>
           </div>
           <EditorialImage
-            src="/images/programmes/cpi4cg/community-climate-dialogue.webp"
-            alt="Community members seated outdoors for a local discussion"
+            src="/images/programmes/cpi4cg/community-climate-dialogue.jpeg"
+            alt="Two men discussing community issues during an outdoor interview"
             sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
-            className="page-hero-photo portrait-focus"
+            className="page-hero-photo project-photo"
             priority
           />
         </div>
@@ -95,8 +95,8 @@ export default function Cpi4cgPage() {
             <h2 className="h2">Decisions grounded in lived experience</h2>
             <p>{cpi4cgContent.why}</p>
             <EditorialImage
-              src="/images/programmes/cpi4cg/participatory-research-session.webp"
-              alt="A facilitator holding a document during an outdoor community meeting"
+              src="/images/programmes/cpi4cg/participatory-research-session.jpeg"
+              alt="Women participating in a small indoor community discussion"
               sizes="(min-width: 768px) 42vw, calc(100vw - 2rem)"
               className="section-photo compact-photo portrait-focus"
             />
@@ -147,8 +147,8 @@ export default function Cpi4cgPage() {
               AI Innovation Lab supports digital tools and data analysis.
             </p>
             <EditorialImage
-              src="/images/programmes/cpi4cg/local-stakeholder-dialogue.webp"
-              alt="People taking part in a discussion in a public community setting"
+              src="/images/programmes/cpi4cg/local-stakeholder-dialogue.jpeg"
+              alt="Community stakeholders seated around a table during a group discussion"
               sizes="(min-width: 768px) 42vw, calc(100vw - 2rem)"
               className="section-photo compact-photo"
             />

@@ -42,6 +42,13 @@
   font-weight: 700;
   letter-spacing: 0.04em;
 }
+.project-photo::after {
+  content: none;
+}
+.ayede-hero-photo .editorial-image-media {
+  object-fit: contain;
+  object-position: center;
+}
 .hero-copy {
   max-width: 47rem;
 }
