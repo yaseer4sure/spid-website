@@ -1902,6 +1902,16 @@
         },
         "optional": true
       },
+      "officeAddress": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "array",
+          "of": {
+            "type": "string"
+          }
+        },
+        "optional": true
+      },
       "socialLinks": {
         "type": "objectAttribute",
         "value": {

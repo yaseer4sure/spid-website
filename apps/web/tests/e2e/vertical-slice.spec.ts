@@ -140,6 +140,49 @@ test("official social links and partner pathways are public", async ({
   ).toHaveAttribute("href", "/get-involved");
 });
 
+test("about purpose, portraits, and footer address remain responsive", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "chromium");
+  test.setTimeout(120_000);
+
+  for (const width of [360, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/about");
+
+    await expect(
+      page.getByRole("heading", { name: "Our Vision" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Our Mission" }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("img", {
+        name: "Abdulbasit Salahudeen Mikail, SPiD team member",
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("img", {
+        name: "Jecinta Egbim, SPiD Advisory Board member",
+      }),
+    ).toBeVisible();
+
+    const footer = page.getByRole("contentinfo");
+    await expect(footer.getByText("Office Address")).toBeVisible();
+    await expect(footer.getByText("43A, Ruwan Godiya Street,")).toBeVisible();
+    await expect(
+      footer.getByText("Opposite Gwandu, Unguwar Sarki,"),
+    ).toBeVisible();
+    await expect(footer.getByText("Kaduna State, Nigeria.")).toBeVisible();
+
+    const widths = await page.evaluate(() => ({
+      client: document.documentElement.clientWidth,
+      scroll: document.documentElement.scrollWidth,
+    }));
+    expect(widths.scroll).toBeLessThanOrEqual(widths.client);
+  }
+});
+
 test("social and partner layouts reflow without horizontal overflow", async ({
   page,
 }, testInfo) => {

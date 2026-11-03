@@ -40,6 +40,11 @@ const documents: Array<SanityDocumentStub & { _id: string }> = [
     siteTitle: "SPiD | Locally Led Climate Action",
     defaultMetaDescription:
       "SPiD advances community-rooted, youth-driven climate resilience across Nigeria and Africa.",
+    officeAddress: [
+      "43A, Ruwan Godiya Street,",
+      "Opposite Gwandu, Unguwar Sarki,",
+      "Kaduna State, Nigeria.",
+    ],
     socialLinks: [
       {
         _key: "instagram",

@@ -205,6 +205,64 @@
   color: var(--color-brand-blue);
   font-weight: 800;
 }
+.person-portrait {
+  position: relative;
+  display: block;
+  width: clamp(6.5rem, 11vw, 9rem);
+  aspect-ratio: 1;
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  border: 3px solid white;
+  border-radius: 50%;
+  background: var(--color-light-blue);
+  box-shadow: 0 0 0 2px var(--color-brand-blue);
+}
+.person-portrait img {
+  object-fit: cover;
+  object-position: center 24%;
+}
+.purpose-card {
+  display: grid;
+  align-content: start;
+  gap: 1.75rem;
+}
+.purpose-item + .purpose-item {
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--color-border);
+}
+.purpose-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+}
+.purpose-heading h2 {
+  margin: 0;
+  font-size: clamp(1.35rem, 3vw, 1.65rem);
+}
+.purpose-item p {
+  margin: 0;
+}
+.purpose-icon {
+  display: grid;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex: none;
+  place-items: center;
+  border-radius: 0.75rem;
+}
+.purpose-icon svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.purpose-icon-blue {
+  background: var(--color-light-blue);
+  color: var(--color-brand-blue);
+}
+.purpose-icon-green {
+  background: color-mix(in srgb, var(--color-climate-green) 12%, white);
+  color: var(--color-climate-green);
+}
 .person-card h3,
 .value-card h3 {
   margin-bottom: 0.25rem;

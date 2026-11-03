@@ -8,7 +8,7 @@ export const HOME_PAGE_QUERY = defineQuery(`*[_id == "homepage"][0]{
   "partners":partners[]->[!(_id in path("drafts.**")) && isPublic == true && approvalStatus == "approved" && relationshipStatus in ["active", "completed"] && featured == true && defined(logo.asset)]{_id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,"logoUrl":logo.asset->url}
 }`);
 export const SITE_SETTINGS_QUERY = defineQuery(`*[_id == "siteSettings"][0]{
-  socialLinks[]{platform,url}
+  socialLinks[]{platform,url},officeAddress
 }`);
 export const PUBLIC_PARTNERS_QUERY = defineQuery(`*[
   _type == "partner" &&

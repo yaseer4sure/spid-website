@@ -304,6 +304,7 @@ export type SiteSettings = {
   tagline: string;
   publicEmail?: string;
   locationStatement?: string;
+  officeAddress?: Array<string>;
   socialLinks?: Array<{
     _key: string;
   } & SocialLink>;
@@ -806,14 +807,16 @@ export type HOME_PAGE_QUERYResult = {
   }> | null;
 } | null;
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_id == "siteSettings"][0]{  socialLinks[]{platform,url}}
+// Query: *[_id == "siteSettings"][0]{  socialLinks[]{platform,url},officeAddress}
 export type SITE_SETTINGS_QUERYResult = {
   socialLinks: null;
+  officeAddress: null;
 } | {
   socialLinks: Array<{
     platform: "facebook" | "instagram" | "linkedin" | "x";
     url: string;
   }> | null;
+  officeAddress: Array<string> | null;
 } | null;
 // Variable: PUBLIC_PARTNERS_QUERY
 // Query: *[  _type == "partner" &&  !(_id in path("drafts.**")) &&  isPublic == true &&  approvalStatus == "approved" &&  relationshipStatus in ["active", "completed"] &&  defined(logo.asset)] | order(displayOrder asc, name asc){  _id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,  "logoUrl":logo.asset->url}
@@ -913,7 +916,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_id == \"homepage\"][0]{\n  headline,subheadline,primaryAction{label,href,style},secondaryAction{label,href,style},\n  \"featuredProgrammes\":featuredProgrammes[]->[!(_id in path(\"drafts.**\")) && status != \"draftDevelopment\"]{_id,title,acronym,\"slug\":slug.current,summary,status},\n  \"featuredInsight\":featuredInsight->[!(_id in path(\"drafts.**\"))][0]{_id,title,\"slug\":slug.current,summary,contentType,publishedAt,seo{noIndex}},\n  \"impactMetrics\":impactMetrics[]->[!(_id in path(\"drafts.**\")) && isPublic == true && verificationStatus == \"verified\"]{_id,numericValue,displayValueOverride,label,publicContext},\n  \"partners\":partners[]->[!(_id in path(\"drafts.**\")) && isPublic == true && approvalStatus == \"approved\" && relationshipStatus in [\"active\", \"completed\"] && featured == true && defined(logo.asset)]{_id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,\"logoUrl\":logo.asset->url}\n}": HOME_PAGE_QUERYResult;
-    "*[_id == \"siteSettings\"][0]{\n  socialLinks[]{platform,url}\n}": SITE_SETTINGS_QUERYResult;
+    "*[_id == \"siteSettings\"][0]{\n  socialLinks[]{platform,url},officeAddress\n}": SITE_SETTINGS_QUERYResult;
     "*[\n  _type == \"partner\" &&\n  !(_id in path(\"drafts.**\")) &&\n  isPublic == true &&\n  approvalStatus == \"approved\" &&\n  relationshipStatus in [\"active\", \"completed\"] &&\n  defined(logo.asset)\n] | order(displayOrder asc, name asc){\n  _id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,\n  \"logoUrl\":logo.asset->url\n}": PUBLIC_PARTNERS_QUERYResult;
     "*[_type==\"programme\"&&slug.current==$slug&&!(_id in path(\"drafts.**\"))&&status!=\"draftDevelopment\"][0]{\n  _id,title,acronym,\"slug\":slug.current,summary,status,overview,whyItMatters,locations,methodologySteps,milestones,expectedOutcomes,frameworkAlignments,primaryAction,\n  \"impactMetrics\":impactMetrics[]->[!(_id in path(\"drafts.**\"))&&isPublic==true&&verificationStatus==\"verified\"]{_id,numericValue,displayValueOverride,label,publicContext},\n  \"relatedInsights\":relatedInsights[]->[!(_id in path(\"drafts.**\"))]{_id,title,\"slug\":slug.current,summary,contentType,publishedAt,seo{noIndex}}\n}": PROGRAMME_BY_SLUG_QUERYResult;
     "*[_type==\"insight\"&&slug.current==$slug&&!(_id in path(\"drafts.**\"))][0]{\n  _id,title,\"slug\":slug.current,summary,contentType,publishedAt,organisationAuthor,body,seo,\n  \"relatedProgrammes\":relatedProgrammes[]->[!(_id in path(\"drafts.**\"))&&status!=\"draftDevelopment\"]{_id,title,acronym,\"slug\":slug.current,summary,status}\n}": INSIGHT_BY_SLUG_QUERYResult;

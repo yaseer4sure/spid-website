@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
-import { GraduationCap, Landmark, Search, Sprout } from "lucide-react";
+import Image from "next/image";
+import {
+  Eye,
+  GraduationCap,
+  Landmark,
+  Search,
+  Sprout,
+  Target,
+} from "lucide-react";
 import { EditorialImage } from "@/components/content/EditorialImage";
-import { aboutContent, advisoryBoard, team } from "@/content/approved";
+import {
+  aboutContent,
+  advisoryBoard,
+  personPortraits,
+  team,
+} from "@/content/approved";
 
 export const metadata: Metadata = {
   title: "About",
@@ -18,6 +31,35 @@ const initials = (name: string) =>
     .join("");
 
 const approachIcons = [Search, GraduationCap, Sprout, Landmark] as const;
+
+function PersonPortrait({
+  name,
+  group,
+}: {
+  name: string;
+  group: "team" | "Advisory Board";
+}) {
+  const portrait = personPortraits[name];
+
+  if (!portrait) {
+    return (
+      <span className="person-initials" aria-hidden="true">
+        {initials(name)}
+      </span>
+    );
+  }
+
+  return (
+    <span className="person-portrait">
+      <Image
+        src={portrait}
+        alt={`${name}, SPiD ${group} member`}
+        fill
+        sizes="(min-width: 1024px) 9rem, (min-width: 640px) 8rem, 7rem"
+      />
+    </span>
+  );
+}
 
 export default function AboutPage() {
   return (
@@ -46,11 +88,25 @@ export default function AboutPage() {
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
-          <div className="card">
-            <h2>Vision</h2>
-            <p>{aboutContent.vision}</p>
-            <h2>Mission</h2>
-            <p>{aboutContent.mission}</p>
+          <div className="card purpose-card">
+            <div className="purpose-item">
+              <div className="purpose-heading">
+                <span className="purpose-icon purpose-icon-blue">
+                  <Eye aria-hidden="true" />
+                </span>
+                <h2>Our Vision</h2>
+              </div>
+              <p>{aboutContent.vision}</p>
+            </div>
+            <div className="purpose-item">
+              <div className="purpose-heading">
+                <span className="purpose-icon purpose-icon-green">
+                  <Target aria-hidden="true" />
+                </span>
+                <h2>Our Mission</h2>
+              </div>
+              <p>{aboutContent.mission}</p>
+            </div>
           </div>
         </div>
       </section>
@@ -131,9 +187,7 @@ export default function AboutPage() {
           <div className="people-grid">
             {team.map(([name, role]) => (
               <article className="card person-card" key={name}>
-                <span className="person-initials" aria-hidden="true">
-                  {initials(name)}
-                </span>
+                <PersonPortrait name={name} group="team" />
                 <h3>{name}</h3>
                 <p>{role}</p>
               </article>
@@ -146,9 +200,7 @@ export default function AboutPage() {
           <div className="grid-2">
             {advisoryBoard.map((name) => (
               <article className="card person-card" key={name}>
-                <span className="person-initials" aria-hidden="true">
-                  {initials(name)}
-                </span>
+                <PersonPortrait name={name} group="Advisory Board" />
                 <h3>{name}</h3>
                 <p>Advisory Board</p>
               </article>

@@ -102,6 +102,24 @@ export const advisoryBoard = [
   "Jecinta Egbim",
 ] as const;
 
+/**
+ * Project-owner portraits used until the corresponding approved Sanity person
+ * records provide portrait assets. Filenames are intentionally preserved.
+ */
+export const personPortraits: Readonly<Record<string, string>> = {
+  "Abdulbasit Salahudeen Mikail":
+    "/images/Team/Abdulbasit Salahudeen Mikail.jpeg",
+  "Nusaiba Ahmed": "/images/Team/Nusaiba Ahmed.jpeg",
+  "Rahmatullah Olayinka": "/images/Team/Rahmatullah Olayinka.jpg",
+  "Ebuka Vincent": "/images/Team/Ebuka Vincent.png",
+  "Abduljabbar Abdulsalam": "/images/Team/Abduljabbar Abdulsalam.jpg",
+  "Abubakar Usman": "/images/Team/Abubakar Usman.jpg",
+  "Umar Suleiman Muhammad": "/images/Team/Umar Suleiman Muhammad.jpg",
+  "Hauwa Al-bashir": "/images/Team/Hauwa Al-bashir.jpg",
+  "Yazid Salahudeen Mikail": "/images/Team/Yazid Salahudeen Mikail.jpeg",
+  "Jecinta Egbim": "/images/Team/Jecinta Egbim.jpg",
+};
+
 export const cpi4cgContent = {
   title: "Community-led Participatory Initiative for Climate Governance",
   summary:

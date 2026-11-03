@@ -25,6 +25,12 @@ import type {
   SITE_SETTINGS_QUERYResult,
 } from "./types";
 
+export const approvedOfficeAddress = [
+  "43A, Ruwan Godiya Street,",
+  "Opposite Gwandu, Unguwar Sarki,",
+  "Kaduna State, Nigeria.",
+] as const;
+
 type CompleteHome = Extract<
   NonNullable<HOME_PAGE_QUERYResult>,
   { headline: string }
@@ -149,16 +155,29 @@ export async function getHome(): Promise<PublicHome> {
 
 export async function getSiteSettings() {
   const client = await clientForRequest(false);
-  if (!client) return { socialLinks: approvedSocialLinks };
+  if (!client)
+    return {
+      socialLinks: approvedSocialLinks,
+      officeAddress: approvedOfficeAddress,
+    };
   try {
     const settings: SITE_SETTINGS_QUERYResult = await client.fetch(
       SITE_SETTINGS_QUERY,
       {},
       publicUtilityQueryOptions(),
     );
-    return { socialLinks: normaliseSocialLinks(settings?.socialLinks) };
+    const officeAddress = settings?.officeAddress?.filter(Boolean);
+    return {
+      socialLinks: normaliseSocialLinks(settings?.socialLinks),
+      officeAddress: officeAddress?.length
+        ? officeAddress
+        : approvedOfficeAddress,
+    };
   } catch {
-    return { socialLinks: approvedSocialLinks };
+    return {
+      socialLinks: approvedSocialLinks,
+      officeAddress: approvedOfficeAddress,
+    };
   }
 }
 

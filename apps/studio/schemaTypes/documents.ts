@@ -67,6 +67,14 @@ export const documentTypes = [
         type: "string",
       }),
       defineField({
+        name: "officeAddress",
+        title: "Office address",
+        description: "Public office address, one display line per item.",
+        type: "array",
+        of: [{ type: "string" }],
+        validation: (r) => r.max(4),
+      }),
+      defineField({
         name: "socialLinks",
         title: "Social links",
         type: "array",

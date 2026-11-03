@@ -52,7 +52,10 @@ export default async function RootLayout({
           </div>
         )}
         <main id="main-content">{children}</main>
-        <Footer socialLinks={siteSettings.socialLinks} />
+        <Footer
+          socialLinks={siteSettings.socialLinks}
+          officeAddress={siteSettings.officeAddress}
+        />
         {preview && <VisualEditing />}
         <Analytics />
         <SpeedInsights />
