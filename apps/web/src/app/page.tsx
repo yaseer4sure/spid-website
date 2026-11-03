@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { ProgrammeCard } from "@/components/content/Cards";
 import { EditorialImage } from "@/components/content/EditorialImage";
+import { PartnerLogoGrid } from "@/components/content/PartnerLogoGrid";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { homepageContent } from "@/content/approved";
 import { getHome } from "@/sanity/content";
@@ -165,6 +166,35 @@ export default async function HomePage() {
             sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
             className="section-photo"
           />
+        </div>
+      </section>
+      <section className="section mist">
+        <div className="container partner-showcase">
+          <div className="section-heading partner-showcase-heading">
+            <p className="eyebrow">Our Partners</p>
+            <h2 className="h2">Partnerships That Drive Climate Action</h2>
+            <p className="lead">
+              SPiD works across communities, research, government and the
+              private sector to strengthen locally led climate action.
+            </p>
+          </div>
+          {home.partners.length > 0 ? (
+            <PartnerLogoGrid partners={home.partners} compact />
+          ) : (
+            <div className="partner-empty-state">
+              <Handshake aria-hidden="true" />
+              <div>
+                <h3>Collaboration built around shared purpose</h3>
+                <p>
+                  Approved partnership profiles will appear here following
+                  SPiD&apos;s publication and relationship review.
+                </p>
+              </div>
+            </div>
+          )}
+          <div className="partner-showcase-action">
+            <ButtonLink href="/partners">View All Partners</ButtonLink>
+          </div>
         </div>
       </section>
       <section className="section">

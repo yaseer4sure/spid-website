@@ -6,6 +6,18 @@ export type PublicMetric = {
   publicContext: string;
 };
 
+export type PublicPartner = {
+  _id: string;
+  name: string;
+  partnerType: string[];
+  logoUrl: string;
+  website?: string;
+  summary?: string;
+  relationshipSummary?: string;
+  featured?: boolean;
+  displayOrder?: number;
+};
+
 export type PublicProgramme = {
   _id: string;
   title: string;
@@ -50,6 +62,7 @@ export type PublicHome = {
   featuredProgrammes: PublicProgramme[];
   featuredInsight?: PublicInsight;
   impactMetrics: PublicMetric[];
+  partners: PublicPartner[];
 };
 
 export const fallbackInsight: PublicInsight = {
@@ -145,4 +158,5 @@ export const fallbackHome: PublicHome = {
   ],
   featuredInsight: undefined,
   impactMetrics: [],
+  partners: [],
 };

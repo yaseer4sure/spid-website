@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Handshake, MapPin, MessageCircle } from "lucide-react";
+import { SocialLinks } from "@/components/content/SocialLinks";
+import type { SocialLink } from "@/content/social";
 
-export function Footer() {
+export function Footer({ socialLinks }: { socialLinks: SocialLink[] }) {
   return (
     <footer className="deep footer">
       <div className="container footer-grid">
@@ -37,6 +39,8 @@ export function Footer() {
           <Link className="footer-icon-link" href="/contact?type=partnership">
             <Handshake aria-hidden="true" /> Partner With Us
           </Link>
+          <p className="footer-social-title">Follow SPiD</p>
+          <SocialLinks links={socialLinks} ariaLabel="Follow SPiD" />
         </div>
         <div>
           <h2>Based in</h2>

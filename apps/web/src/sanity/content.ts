@@ -1,4 +1,5 @@
 import { draftMode } from "next/headers";
+import { approvedSocialLinks, normaliseSocialLinks } from "@/content/social";
 import { previewClient, publicClient } from "./client";
 import {
   fallbackHome,
@@ -6,23 +7,32 @@ import {
   fallbackProgramme,
   type PublicHome,
   type PublicInsight,
+  type PublicPartner,
   type PublicProgramme,
 } from "./fallback";
 import {
   HOME_PAGE_QUERY,
   INSIGHT_BY_SLUG_QUERY,
+  PUBLIC_PARTNERS_QUERY,
   PROGRAMME_BY_SLUG_QUERY,
+  SITE_SETTINGS_QUERY,
 } from "./queries";
 import type {
   HOME_PAGE_QUERYResult,
   INSIGHT_BY_SLUG_QUERYResult,
+  PUBLIC_PARTNERS_QUERYResult,
   PROGRAMME_BY_SLUG_QUERYResult,
+  SITE_SETTINGS_QUERYResult,
 } from "./types";
 
 type CompleteHome = Extract<
   NonNullable<HOME_PAGE_QUERYResult>,
   { headline: string }
 >;
+
+const publicUtilityQueryOptions = () => ({
+  signal: AbortSignal.timeout(3_000),
+});
 
 function programmeSummary(
   value: CompleteHome["featuredProgrammes"][number],
@@ -39,6 +49,33 @@ function insightSummary(
   };
 }
 
+function publicPartner(
+  value:
+    | NonNullable<CompleteHome["partners"]>[number]
+    | PUBLIC_PARTNERS_QUERYResult[number],
+): PublicPartner | null {
+  if (!value.logoUrl) return null;
+  return {
+    _id: value._id,
+    name: value.name,
+    partnerType: value.partnerType,
+    logoUrl: value.logoUrl,
+    website: value.website ?? undefined,
+    summary: value.summary ?? undefined,
+    relationshipSummary: value.relationshipSummary ?? undefined,
+    featured: value.featured ?? undefined,
+    displayOrder: value.displayOrder ?? undefined,
+  };
+}
+
+function publicPartners(
+  values: NonNullable<CompleteHome["partners"]> | PUBLIC_PARTNERS_QUERYResult,
+): PublicPartner[] {
+  return values
+    .map(publicPartner)
+    .filter((partner): partner is PublicPartner => partner !== null);
+}
+
 function publicHome(value: HOME_PAGE_QUERYResult): PublicHome | null {
   if (!value || typeof value.headline !== "string") return null;
   return {
@@ -49,6 +86,7 @@ function publicHome(value: HOME_PAGE_QUERYResult): PublicHome | null {
       ? insightSummary(value.featuredInsight)
       : undefined,
     impactMetrics: value.impactMetrics ?? [],
+    partners: publicPartners(value.partners ?? []),
   };
 }
 
@@ -107,6 +145,36 @@ export async function getHome(): Promise<PublicHome> {
   const client = await clientForRequest();
   if (!client) return fallbackHome;
   return publicHome(await client.fetch(HOME_PAGE_QUERY)) || fallbackHome;
+}
+
+export async function getSiteSettings() {
+  const client = await clientForRequest(false);
+  if (!client) return { socialLinks: approvedSocialLinks };
+  try {
+    const settings: SITE_SETTINGS_QUERYResult = await client.fetch(
+      SITE_SETTINGS_QUERY,
+      {},
+      publicUtilityQueryOptions(),
+    );
+    return { socialLinks: normaliseSocialLinks(settings?.socialLinks) };
+  } catch {
+    return { socialLinks: approvedSocialLinks };
+  }
+}
+
+export async function getPublicPartners(): Promise<PublicPartner[]> {
+  const client = await clientForRequest(false);
+  if (!client) return [];
+  try {
+    const partners: PUBLIC_PARTNERS_QUERYResult = await client.fetch(
+      PUBLIC_PARTNERS_QUERY,
+      {},
+      publicUtilityQueryOptions(),
+    );
+    return publicPartners(partners);
+  } catch {
+    return [];
+  }
 }
 export async function getProgramme(
   slug: string,

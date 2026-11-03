@@ -51,3 +51,19 @@ These earlier Pexels downloads are no longer referenced. They were replaced by u
 **Status:** Temporary illustrative photography. Replace with approved SPiD organisational photography before production launch.
 
 The remaining temporary files are the homepage impact and final CTA images, plus the Impact, Partners, Get Involved and Contact hero images. When any photograph is replaced, update this register in the same change and confirm ownership, consent, caption and alt text with SPiD.
+
+## Unpublished partner logo assets
+
+The following owner-provided files are retained in the partner image folder but are not rendered publicly. A matching Sanity partner record must be published with `isPublic: true`, `approvalStatus: approved`, an active or completed relationship, and confirmed logo usage before display.
+
+- `apps/web/public/images/partners/CASDI.jpeg`
+- `apps/web/public/images/partners/LCOY-nigeria.png`
+- `apps/web/public/images/partners/Ministry of environment.jpg`
+- `apps/web/public/images/partners/Nest Africa.jpg`
+- `apps/web/public/images/partners/Ploggin Club ABU.jpg`
+- `apps/web/public/images/partners/The Life We deserve.png`
+- `apps/web/public/images/partners/yandytech.png`
+
+**Source:** User-provided project assets.
+
+**Status:** Withheld from public display pending partner-record approval and logo-use confirmation.

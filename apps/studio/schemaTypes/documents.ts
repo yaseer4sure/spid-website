@@ -655,13 +655,54 @@ export const documentTypes = [
         validation: (r) => r.required(),
       }),
       defineField({
+        name: "slug",
+        title: "Slug",
+        type: "slug",
+        options: { source: "name", maxLength: 96 },
+      }),
+      defineField({
         name: "partnerType",
         title: "Partner types",
         type: "array",
         of: [{ type: "string" }],
+        options: {
+          list: [
+            "communityOrganisation",
+            "government",
+            "academic",
+            "research",
+            "civilSociety",
+            "privateSector",
+            "technical",
+            "developmentPartner",
+            "philanthropic",
+            "media",
+          ],
+        },
         validation: (r) => r.required(),
       }),
       defineField({ name: "logo", title: "Logo", type: "image" }),
+      defineField({ name: "website", title: "Website", type: "url" }),
+      defineField({
+        name: "summary",
+        title: "Public summary",
+        type: "text",
+        rows: 3,
+        validation: (r) => r.max(300),
+      }),
+      defineField({
+        name: "relationshipSummary",
+        title: "Public relationship summary",
+        type: "text",
+        rows: 3,
+        validation: (r) => r.max(300),
+      }),
+      defineField({
+        name: "relatedProgrammes",
+        title: "Related programmes",
+        type: "array",
+        of: [{ type: "reference", to: [{ type: "programme" }] }],
+      }),
       defineField({
         name: "relationshipStatus",
         title: "Relationship status",
@@ -690,9 +731,48 @@ export const documentTypes = [
         type: "boolean",
         initialValue: false,
       }),
+      defineField({
+        name: "displayOrder",
+        title: "Display order",
+        type: "number",
+        validation: (r) => r.integer().min(0),
+      }),
+      defineField({
+        name: "internalOwner",
+        title: "Internal relationship owner",
+        type: "string",
+        validation: (r) => r.required(),
+      }),
       reviewed,
       internalNotes,
     ],
+    validation: (rule) =>
+      rule.custom((value) => {
+        if (!value?.isPublic) return true;
+        if (value.approvalStatus !== "approved")
+          return "Public partners must be approved.";
+        if (!["active", "completed"].includes(String(value.relationshipStatus)))
+          return "Public partners must have an active or completed relationship.";
+        const logo = value.logo as { asset?: unknown } | undefined;
+        if (!logo?.asset)
+          return "Add an approved logo before making a partner public.";
+        if (!value.lastReviewedAt)
+          return "Record the review date before making a partner public.";
+        return true;
+      }),
+    preview: {
+      select: {
+        title: "name",
+        approval: "approvalStatus",
+        relationship: "relationshipStatus",
+        media: "logo",
+      },
+      prepare: ({ title, approval, relationship, media }) => ({
+        title,
+        subtitle: `${approval || "pending"} · ${relationship || "prospective"}`,
+        media,
+      }),
+    },
   }),
   defineType({
     name: "impactMetric",

@@ -40,6 +40,32 @@ const documents: Array<SanityDocumentStub & { _id: string }> = [
     siteTitle: "SPiD | Locally Led Climate Action",
     defaultMetaDescription:
       "SPiD advances community-rooted, youth-driven climate resilience across Nigeria and Africa.",
+    socialLinks: [
+      {
+        _key: "instagram",
+        _type: "socialLink",
+        platform: "instagram",
+        url: "https://www.instagram.com/spidclimateresilience?vrfl=eGljbmZyNHhsYTQ4",
+      },
+      {
+        _key: "x",
+        _type: "socialLink",
+        platform: "x",
+        url: "https://x.com/spid_org",
+      },
+      {
+        _key: "linkedin",
+        _type: "socialLink",
+        platform: "linkedin",
+        url: "https://www.linkedin.com/company/spidclimateresilience/",
+      },
+      {
+        _key: "facebook",
+        _type: "socialLink",
+        platform: "facebook",
+        url: "https://www.facebook.com/share/19gaDUHJZ1/",
+      },
+    ],
   },
   {
     _id: "mainNavigation",

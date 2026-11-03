@@ -96,3 +96,81 @@ test("Draft Mode cannot be enabled without a valid Presentation secret", async (
   expect(response.status()).toBe(401);
   expect(await response.text()).toBe("Invalid secret");
 });
+
+test("official social links and partner pathways are public", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(
+    page.getByRole("heading", {
+      name: "Partnerships That Drive Climate Action",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "View All Partners" }),
+  ).toHaveAttribute("href", "/partners");
+
+  const destinations = [
+    [
+      "Instagram",
+      "https://www.instagram.com/spidclimateresilience?vrfl=eGljbmZyNHhsYTQ4",
+    ],
+    ["X", "https://x.com/spid_org"],
+    ["LinkedIn", "https://www.linkedin.com/company/spidclimateresilience/"],
+    ["Facebook", "https://www.facebook.com/share/19gaDUHJZ1/"],
+  ] as const;
+
+  for (const [platform, url] of destinations) {
+    const link = page.getByRole("link", {
+      name: `SPiD on ${platform} (opens in a new tab)`,
+    });
+    await expect(link).toHaveAttribute("href", url);
+    await expect(link).toHaveAttribute("target", "_blank");
+    await expect(link).toHaveAttribute("rel", /noopener/);
+  }
+
+  await page.goto("/partners");
+  await expect(
+    page.getByRole("heading", {
+      name: "Partnerships That Drive Climate Action",
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Become a Strategic Partner" }),
+  ).toHaveAttribute("href", "/get-involved");
+});
+
+test("social and partner layouts reflow without horizontal overflow", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "chromium");
+
+  for (const viewport of [
+    { width: 360, height: 800 },
+    { width: 768, height: 1024 },
+    { width: 1440, height: 900 },
+  ]) {
+    await page.setViewportSize(viewport);
+    for (const route of ["/", "/partners", "/contact"]) {
+      await page.goto(route);
+      const widths = await page.evaluate(() => ({
+        client: document.documentElement.clientWidth,
+        scroll: document.documentElement.scrollWidth,
+      }));
+      expect(widths.scroll).toBeLessThanOrEqual(widths.client);
+    }
+
+    await page.goto("/contact");
+    const socialTargets = page
+      .getByRole("navigation", {
+        name: "Connect with SPiD on social media",
+      })
+      .getByRole("link");
+    await expect(socialTargets).toHaveCount(4);
+    for (const target of await socialTargets.all()) {
+      const box = await target.boundingBox();
+      expect(box?.height).toBeGreaterThanOrEqual(44);
+      expect(box?.width).toBeGreaterThanOrEqual(44);
+    }
+  }
+});

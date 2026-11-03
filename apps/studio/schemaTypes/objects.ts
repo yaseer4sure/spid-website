@@ -278,7 +278,20 @@ export const objectTypes = [
     title: "Social link",
     type: "object",
     fields: [
-      requiredString("platform", "Platform"),
+      defineField({
+        name: "platform",
+        title: "Platform",
+        type: "string",
+        options: {
+          list: [
+            { title: "Instagram", value: "instagram" },
+            { title: "X", value: "x" },
+            { title: "LinkedIn", value: "linkedin" },
+            { title: "Facebook", value: "facebook" },
+          ],
+        },
+        validation: (rule) => rule.required(),
+      }),
       defineField({
         name: "url",
         title: "URL",

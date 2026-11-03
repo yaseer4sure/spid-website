@@ -5,6 +5,7 @@ import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { getSiteSettings } from "@/sanity/content";
 import "./globals.css";
 import "@/components/layout/layout.css";
 import "./site.css";
@@ -33,7 +34,10 @@ export const metadata: Metadata = {
 export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const preview = (await draftMode()).isEnabled;
+  const [preview, siteSettings] = await Promise.all([
+    draftMode().then((mode) => mode.isEnabled),
+    getSiteSettings(),
+  ]);
   return (
     <html lang="en">
       <body>
@@ -48,7 +52,7 @@ export default async function RootLayout({
           </div>
         )}
         <main id="main-content">{children}</main>
-        <Footer />
+        <Footer socialLinks={siteSettings.socialLinks} />
         {preview && <VisualEditing />}
         <Analytics />
         <SpeedInsights />

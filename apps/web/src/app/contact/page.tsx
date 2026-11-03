@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Handshake, MapPin, MessageCircle, Search } from "lucide-react";
 import { EditorialImage } from "@/components/content/EditorialImage";
+import { SocialLinks } from "@/components/content/SocialLinks";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ContactForm } from "@/features/contact/ContactForm";
+import { getSiteSettings } from "@/sanity/content";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -16,7 +18,11 @@ export default async function ContactPage({
 }: {
   searchParams: Promise<{ type?: string }>;
 }) {
-  const type = (await searchParams).type;
+  const [params, siteSettings] = await Promise.all([
+    searchParams,
+    getSiteSettings(),
+  ]);
+  const type = params.type;
   return (
     <>
       <div className="container">
@@ -66,6 +72,14 @@ export default async function ContactPage({
             <p>
               We collect only the information needed to respond to your enquiry.
             </p>
+            <div className="contact-socials">
+              <h3>Connect With Us</h3>
+              <SocialLinks
+                links={siteSettings.socialLinks}
+                labelled
+                ariaLabel="Connect with SPiD on social media"
+              />
+            </div>
           </aside>
         </div>
       </section>

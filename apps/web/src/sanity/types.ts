@@ -92,6 +92,7 @@ export type Partner = {
   _updatedAt: string;
   _rev: string;
   name: string;
+  slug?: Slug;
   partnerType: Array<string>;
   logo?: {
     asset?: {
@@ -105,10 +106,22 @@ export type Partner = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+  website?: string;
+  summary?: string;
+  relationshipSummary?: string;
+  relatedProgrammes?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "programme";
+  }>;
   relationshipStatus: "active" | "completed" | "prospective" | "historical";
   approvalStatus: "pending" | "approved" | "restricted";
   featured?: boolean;
   isPublic?: boolean;
+  displayOrder?: number;
+  internalOwner: string;
   lastReviewedAt?: string;
   internalNotes?: string;
 };
@@ -364,7 +377,7 @@ export type QuickFact = {
 
 export type SocialLink = {
   _type: "socialLink";
-  platform: string;
+  platform: "instagram" | "x" | "linkedin" | "facebook";
   url: string;
 };
 
@@ -676,7 +689,7 @@ export type AllSanitySchemaTypes = Testimonial | Theme | Slug | ImpactMetric | R
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_id == "homepage"][0]{  headline,subheadline,primaryAction{label,href,style},secondaryAction{label,href,style},  "featuredProgrammes":featuredProgrammes[]->[!(_id in path("drafts.**")) && status != "draftDevelopment"]{_id,title,acronym,"slug":slug.current,summary,status},  "featuredInsight":featuredInsight->[!(_id in path("drafts.**"))][0]{_id,title,"slug":slug.current,summary,contentType,publishedAt,seo{noIndex}},  "impactMetrics":impactMetrics[]->[!(_id in path("drafts.**")) && isPublic == true && verificationStatus == "verified"]{_id,numericValue,displayValueOverride,label,publicContext}}
+// Query: *[_id == "homepage"][0]{  headline,subheadline,primaryAction{label,href,style},secondaryAction{label,href,style},  "featuredProgrammes":featuredProgrammes[]->[!(_id in path("drafts.**")) && status != "draftDevelopment"]{_id,title,acronym,"slug":slug.current,summary,status},  "featuredInsight":featuredInsight->[!(_id in path("drafts.**"))][0]{_id,title,"slug":slug.current,summary,contentType,publishedAt,seo{noIndex}},  "impactMetrics":impactMetrics[]->[!(_id in path("drafts.**")) && isPublic == true && verificationStatus == "verified"]{_id,numericValue,displayValueOverride,label,publicContext},  "partners":partners[]->[!(_id in path("drafts.**")) && isPublic == true && approvalStatus == "approved" && relationshipStatus in ["active", "completed"] && featured == true && defined(logo.asset)]{_id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,"logoUrl":logo.asset->url}}
 export type HOME_PAGE_QUERYResult = {
   headline: null;
   subheadline: null;
@@ -685,6 +698,7 @@ export type HOME_PAGE_QUERYResult = {
   featuredProgrammes: null;
   featuredInsight: null;
   impactMetrics: null;
+  partners: null;
 } | {
   headline: null;
   subheadline: null;
@@ -697,6 +711,7 @@ export type HOME_PAGE_QUERYResult = {
   featuredProgrammes: null;
   featuredInsight: null;
   impactMetrics: null;
+  partners: null;
 } | {
   headline: null;
   subheadline: null;
@@ -709,6 +724,7 @@ export type HOME_PAGE_QUERYResult = {
   featuredProgrammes: null;
   featuredInsight: null;
   impactMetrics: null;
+  partners: null;
 } | {
   headline: null;
   subheadline: null;
@@ -726,6 +742,17 @@ export type HOME_PAGE_QUERYResult = {
     displayValueOverride: string | null;
     label: string;
     publicContext: string;
+  }> | null;
+  partners: Array<{
+    _id: string;
+    name: string;
+    partnerType: Array<string>;
+    summary: string | null;
+    relationshipSummary: string | null;
+    website: string | null;
+    featured: boolean | null;
+    displayOrder: number | null;
+    logoUrl: string | null;
   }> | null;
 } | {
   headline: string;
@@ -766,7 +793,41 @@ export type HOME_PAGE_QUERYResult = {
     label: string;
     publicContext: string;
   }> | null;
+  partners: Array<{
+    _id: string;
+    name: string;
+    partnerType: Array<string>;
+    summary: string | null;
+    relationshipSummary: string | null;
+    website: string | null;
+    featured: boolean | null;
+    displayOrder: number | null;
+    logoUrl: string | null;
+  }> | null;
 } | null;
+// Variable: SITE_SETTINGS_QUERY
+// Query: *[_id == "siteSettings"][0]{  socialLinks[]{platform,url}}
+export type SITE_SETTINGS_QUERYResult = {
+  socialLinks: null;
+} | {
+  socialLinks: Array<{
+    platform: "facebook" | "instagram" | "linkedin" | "x";
+    url: string;
+  }> | null;
+} | null;
+// Variable: PUBLIC_PARTNERS_QUERY
+// Query: *[  _type == "partner" &&  !(_id in path("drafts.**")) &&  isPublic == true &&  approvalStatus == "approved" &&  relationshipStatus in ["active", "completed"] &&  defined(logo.asset)] | order(displayOrder asc, name asc){  _id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,  "logoUrl":logo.asset->url}
+export type PUBLIC_PARTNERS_QUERYResult = Array<{
+  _id: string;
+  name: string;
+  partnerType: Array<string>;
+  summary: string | null;
+  relationshipSummary: string | null;
+  website: string | null;
+  featured: boolean | null;
+  displayOrder: number | null;
+  logoUrl: string | null;
+}>;
 // Variable: PROGRAMME_BY_SLUG_QUERY
 // Query: *[_type=="programme"&&slug.current==$slug&&!(_id in path("drafts.**"))&&status!="draftDevelopment"][0]{  _id,title,acronym,"slug":slug.current,summary,status,overview,whyItMatters,locations,methodologySteps,milestones,expectedOutcomes,frameworkAlignments,primaryAction,  "impactMetrics":impactMetrics[]->[!(_id in path("drafts.**"))&&isPublic==true&&verificationStatus=="verified"]{_id,numericValue,displayValueOverride,label,publicContext},  "relatedInsights":relatedInsights[]->[!(_id in path("drafts.**"))]{_id,title,"slug":slug.current,summary,contentType,publishedAt,seo{noIndex}}}
 export type PROGRAMME_BY_SLUG_QUERYResult = {
@@ -851,7 +912,9 @@ export type SITEMAP_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_id == \"homepage\"][0]{\n  headline,subheadline,primaryAction{label,href,style},secondaryAction{label,href,style},\n  \"featuredProgrammes\":featuredProgrammes[]->[!(_id in path(\"drafts.**\")) && status != \"draftDevelopment\"]{_id,title,acronym,\"slug\":slug.current,summary,status},\n  \"featuredInsight\":featuredInsight->[!(_id in path(\"drafts.**\"))][0]{_id,title,\"slug\":slug.current,summary,contentType,publishedAt,seo{noIndex}},\n  \"impactMetrics\":impactMetrics[]->[!(_id in path(\"drafts.**\")) && isPublic == true && verificationStatus == \"verified\"]{_id,numericValue,displayValueOverride,label,publicContext}\n}": HOME_PAGE_QUERYResult;
+    "*[_id == \"homepage\"][0]{\n  headline,subheadline,primaryAction{label,href,style},secondaryAction{label,href,style},\n  \"featuredProgrammes\":featuredProgrammes[]->[!(_id in path(\"drafts.**\")) && status != \"draftDevelopment\"]{_id,title,acronym,\"slug\":slug.current,summary,status},\n  \"featuredInsight\":featuredInsight->[!(_id in path(\"drafts.**\"))][0]{_id,title,\"slug\":slug.current,summary,contentType,publishedAt,seo{noIndex}},\n  \"impactMetrics\":impactMetrics[]->[!(_id in path(\"drafts.**\")) && isPublic == true && verificationStatus == \"verified\"]{_id,numericValue,displayValueOverride,label,publicContext},\n  \"partners\":partners[]->[!(_id in path(\"drafts.**\")) && isPublic == true && approvalStatus == \"approved\" && relationshipStatus in [\"active\", \"completed\"] && featured == true && defined(logo.asset)]{_id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,\"logoUrl\":logo.asset->url}\n}": HOME_PAGE_QUERYResult;
+    "*[_id == \"siteSettings\"][0]{\n  socialLinks[]{platform,url}\n}": SITE_SETTINGS_QUERYResult;
+    "*[\n  _type == \"partner\" &&\n  !(_id in path(\"drafts.**\")) &&\n  isPublic == true &&\n  approvalStatus == \"approved\" &&\n  relationshipStatus in [\"active\", \"completed\"] &&\n  defined(logo.asset)\n] | order(displayOrder asc, name asc){\n  _id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,\n  \"logoUrl\":logo.asset->url\n}": PUBLIC_PARTNERS_QUERYResult;
     "*[_type==\"programme\"&&slug.current==$slug&&!(_id in path(\"drafts.**\"))&&status!=\"draftDevelopment\"][0]{\n  _id,title,acronym,\"slug\":slug.current,summary,status,overview,whyItMatters,locations,methodologySteps,milestones,expectedOutcomes,frameworkAlignments,primaryAction,\n  \"impactMetrics\":impactMetrics[]->[!(_id in path(\"drafts.**\"))&&isPublic==true&&verificationStatus==\"verified\"]{_id,numericValue,displayValueOverride,label,publicContext},\n  \"relatedInsights\":relatedInsights[]->[!(_id in path(\"drafts.**\"))]{_id,title,\"slug\":slug.current,summary,contentType,publishedAt,seo{noIndex}}\n}": PROGRAMME_BY_SLUG_QUERYResult;
     "*[_type==\"insight\"&&slug.current==$slug&&!(_id in path(\"drafts.**\"))][0]{\n  _id,title,\"slug\":slug.current,summary,contentType,publishedAt,organisationAuthor,body,seo,\n  \"relatedProgrammes\":relatedProgrammes[]->[!(_id in path(\"drafts.**\"))&&status!=\"draftDevelopment\"]{_id,title,acronym,\"slug\":slug.current,summary,status}\n}": INSIGHT_BY_SLUG_QUERYResult;
     "{\n  \"programmes\":*[_type==\"programme\"&&!(_id in path(\"drafts.**\"))&&status!=\"draftDevelopment\"]{\"slug\":slug.current,_updatedAt},\n  \"insights\":*[_type==\"insight\"&&!(_id in path(\"drafts.**\"))&&seo.noIndex!=true]{\"slug\":slug.current,_updatedAt}\n}": SITEMAP_QUERYResult;
