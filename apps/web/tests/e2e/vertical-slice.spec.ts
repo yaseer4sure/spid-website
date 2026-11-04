@@ -183,6 +183,46 @@ test("about purpose, portraits, and footer address remain responsive", async ({
   }
 });
 
+test("production impact dashboard withholds illustrative values and reflows", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "chromium");
+  test.setTimeout(120_000);
+
+  for (const width of [360, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    await page.goto("/impact");
+
+    const dashboard = page.getByRole("region", {
+      name: "SPiD impact indicators",
+    });
+    await expect(dashboard).toBeVisible();
+    for (const label of [
+      "Communities Reached",
+      "People Impacted",
+      "Projects Implemented",
+      "Pipeline Projects",
+    ]) {
+      await expect(dashboard.getByText(label)).toBeVisible();
+    }
+    await expect(
+      dashboard.getByText("Impact figures withheld pending verification"),
+    ).toBeVisible();
+    await expect(dashboard.getByText("5,000+")).toHaveCount(0);
+    await expect(
+      page.getByRole("img", {
+        name: "A farmer standing in a green agricultural landscape in Nigeria",
+      }),
+    ).toHaveCount(0);
+
+    const widths = await page.evaluate(() => ({
+      client: document.documentElement.clientWidth,
+      scroll: document.documentElement.scrollWidth,
+    }));
+    expect(widths.scroll).toBeLessThanOrEqual(widths.client);
+  }
+});
+
 test("social and partner layouts reflow without horizontal overflow", async ({
   page,
 }, testInfo) => {

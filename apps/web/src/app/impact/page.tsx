@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { Landmark, ShieldCheck, Sprout, UsersRound } from "lucide-react";
-import { EditorialImage } from "@/components/content/EditorialImage";
+import { Impact3DChart } from "@/components/content/Impact3DChart";
+import {
+  impactMetricsStatus,
+  impactMetricsVerification,
+  shouldRevealImpactValues,
+} from "@/config/impactMetrics";
 import { impactAreas } from "@/content/approved";
 
 export const metadata: Metadata = {
@@ -13,6 +18,13 @@ export const metadata: Metadata = {
 const impactIcons = [UsersRound, ShieldCheck, Landmark, Sprout] as const;
 
 export default function ImpactPage() {
+  const revealIllustrativeValues = shouldRevealImpactValues({
+    status: impactMetricsStatus,
+    verification: impactMetricsVerification,
+    nodeEnv: process.env.NODE_ENV,
+    vercelEnv: process.env.VERCEL_ENV,
+  });
+
   return (
     <>
       <header className="page-hero">
@@ -25,12 +37,9 @@ export default function ImpactPage() {
               participation, and resilience.
             </p>
           </div>
-          <EditorialImage
-            src="/images/impact/nigerian-climate-resilient-livelihood.webp"
-            alt="A farmer standing in a green agricultural landscape in Nigeria"
-            sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
-            className="page-hero-photo portrait-focus"
-            priority
+          <Impact3DChart
+            status={impactMetricsStatus}
+            revealValues={revealIllustrativeValues}
           />
         </div>
       </header>
