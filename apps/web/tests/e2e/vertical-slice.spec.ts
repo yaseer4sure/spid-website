@@ -223,6 +223,86 @@ test("production impact dashboard withholds illustrative values and reflows", as
   }
 });
 
+test("Voices from the Ward is integrated without changing impact totals", async ({
+  page,
+  request,
+}) => {
+  expect(
+    (await request.get("/insights/voices-from-the-ward")).ok(),
+  ).toBeTruthy();
+  await page.goto("/insights/voices-from-the-ward");
+  await expect(
+    page.getByRole("heading", { name: "Voices from the Ward", level: 1 }),
+  ).toBeVisible();
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    /noindex, nofollow/,
+  );
+  await expect(
+    page.getByRole("link", { name: "Read Full Report" }),
+  ).toHaveAttribute("href", "/insights/voices-from-the-ward/read");
+  const report = await request.get(
+    "/research/voices-from-the-ward/report.html",
+  );
+  expect(report.ok()).toBeTruthy();
+  expect(await report.text()).toContain("<title>Voices from the Ward</title>");
+  expect(
+    (
+      await request.get(
+        "/research/voices-from-the-ward/voices-from-the-ward-spid-research-report.pdf",
+      )
+    ).ok(),
+  ).toBeTruthy();
+  for (const route of ["/", "/insights", "/our-work/cpi4cg"]) {
+    await page.goto(route);
+    await expect(
+      page.getByText("Voices from the Ward", { exact: true }).first(),
+    ).toBeVisible();
+  }
+  await page.goto("/impact");
+  await expect(
+    page.getByRole("heading", { name: "Evidence From the Field" }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/not SPiD organisation-wide impact totals/),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: "SPiD impact indicators" }),
+  ).toBeVisible();
+  expect(await (await request.get("/sitemap.xml")).text()).not.toContain(
+    "voices-from-the-ward",
+  );
+});
+
+test("publication layouts reflow without horizontal overflow", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "chromium");
+  test.setTimeout(120_000);
+  for (const width of [360, 390, 768, 1024, 1280, 1440]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const route of [
+      "/insights/voices-from-the-ward",
+      "/impact",
+      "/our-work/cpi4cg",
+    ]) {
+      await page.goto(route);
+      const widths = await page.evaluate(() => ({
+        client: document.documentElement.clientWidth,
+        scroll: document.documentElement.scrollWidth,
+      }));
+      expect(widths.scroll).toBeLessThanOrEqual(widths.client);
+    }
+  }
+  await page.goto("/insights/voices-from-the-ward/read");
+  await expect(
+    page.getByTitle("Full report: Voices from the Ward"),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("link", { name: "Back to publication" }),
+  ).toBeVisible();
+});
+
 test("social and partner layouts reflow without horizontal overflow", async ({
   page,
 }, testInfo) => {

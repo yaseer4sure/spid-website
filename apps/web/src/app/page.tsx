@@ -12,6 +12,7 @@ import {
 import { ProgrammeCard } from "@/components/content/Cards";
 import { EditorialImage } from "@/components/content/EditorialImage";
 import { PartnerLogoGrid } from "@/components/content/PartnerLogoGrid";
+import { PublicationFeature } from "@/components/content/PublicationFeature";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { homepageContent } from "@/content/approved";
 import { getHome } from "@/sanity/content";
@@ -148,24 +149,16 @@ export default async function HomePage() {
         </div>
       </section>
       <section className="section">
-        <div className="container split-feature">
-          <div>
-            <p className="eyebrow">Insights</p>
-            <h2 className="h2">Knowledge. Evidence. Community Voices.</h2>
-            <p className="lead">
-              Research, policy analysis and learning that connect local climate
-              realities with wider decisions.
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">Featured research</p>
+            <h2 className="h2">Research That Informs Climate Action</h2>
+            <p>
+              Explore community-generated evidence and research informing
+              locally led climate action.
             </p>
-            <ButtonLink href="/insights" variant="secondary">
-              Read Our Latest Insights
-            </ButtonLink>
           </div>
-          <EditorialImage
-            src="/images/insights/Research findings.jpg"
-            alt="Participants viewing a presentation during a research workshop"
-            sizes="(min-width: 768px) 45vw, calc(100vw - 2rem)"
-            className="section-photo"
-          />
+          <PublicationFeature compact />
         </div>
       </section>
       <section className="section mist">

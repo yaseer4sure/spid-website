@@ -7,6 +7,8 @@ import {
   shouldRevealImpactValues,
 } from "@/config/impactMetrics";
 import { impactAreas } from "@/content/approved";
+import { voicesFromTheWard } from "@/content/research/voicesFromTheWard";
+import { ButtonLink } from "@/components/ui/ButtonLink";
 
 export const metadata: Metadata = {
   title: "Impact",
@@ -60,6 +62,35 @@ export default function ImpactPage() {
               );
             })}
           </div>
+        </div>
+      </section>
+      <section className="section mist">
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">CPI4CG research</p>
+            <h2 className="h2">Evidence From the Field</h2>
+            <p>
+              These are study findings from CPI4CG research in Sabon Gari LGA.
+              They are not SPiD organisation-wide impact totals.
+            </p>
+          </div>
+          <div className="research-findings">
+            {voicesFromTheWard.findings.map((finding) => (
+              <article className="card" key={finding.label}>
+                <strong>{finding.value}</strong>
+                <h3>{finding.label}</h3>
+                <p>{finding.source}</p>
+              </article>
+            ))}
+          </div>
+          <p className="research-source">
+            <strong>Source:</strong> Voices from the Ward — CPI4CG Research,
+            Sabon Gari LGA. Fieldwork: {voicesFromTheWard.fieldworkPeriod};
+            report: {voicesFromTheWard.publicationDateLabel}.
+          </p>
+          <ButtonLink href={voicesFromTheWard.landingPath}>
+            Read the Research Report
+          </ButtonLink>
         </div>
       </section>
     </>

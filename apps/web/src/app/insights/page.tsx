@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { EditorialImage } from "@/components/content/EditorialImage";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { PublicationFeature } from "@/components/content/PublicationFeature";
 import { insightThemes } from "@/content/approved";
 import { insightVisuals } from "@/content/visuals";
 
@@ -63,6 +64,15 @@ export default function InsightsPage() {
         </div>
       </section>
       <section className="section mist">
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">Featured publication</p>
+            <h2 className="h2">Research grounded in community evidence</h2>
+          </div>
+          <PublicationFeature />
+        </div>
+      </section>
+      <section className="section">
         <div className="container cta-panel">
           <h2 className="h2">Read Our Latest Insights</h2>
           <p>

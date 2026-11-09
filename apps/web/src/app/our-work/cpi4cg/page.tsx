@@ -10,6 +10,7 @@ import {
   UsersRound,
 } from "lucide-react";
 import { EditorialImage } from "@/components/content/EditorialImage";
+import { PublicationFeature } from "@/components/content/PublicationFeature";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { cpi4cgContent } from "@/content/approved";
@@ -86,6 +87,21 @@ export default function Cpi4cgPage() {
               <p>Participatory climate governance</p>
             </div>
           </aside>
+        </div>
+      </section>
+      <section className="section mist">
+        <div className="container">
+          <div className="section-heading">
+            <p className="eyebrow">Research &amp; Publications</p>
+            <h2 className="h2">Evidence generated through CPI4CG</h2>
+            <p>
+              Voices from the Ward presents the programme’s completed
+              quantitative household survey and geospatial assessment. Planned
+              qualitative work is clearly identified in the report as a future
+              evidence need.
+            </p>
+          </div>
+          <PublicationFeature compact />
         </div>
       </section>
       <section className="section mist">

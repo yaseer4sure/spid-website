@@ -1,8 +1,12 @@
 import type { MetadataRoute } from "next";
+import {
+  voicesFromTheWard,
+  voicesFromTheWardIsApproved,
+} from "@/content/research/voicesFromTheWard";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base =
     process.env.NEXT_PUBLIC_SITE_URL || "https://spidclimateresilience.org";
-  return [
+  const paths = [
     "",
     "/about",
     "/our-work",
@@ -13,7 +17,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/insights",
     "/get-involved",
     "/contact",
-  ].map((path) => ({
+  ];
+  if (voicesFromTheWardIsApproved) paths.push(voicesFromTheWard.landingPath);
+  return paths.map((path) => ({
     url: `${base}${path}`,
     lastModified: new Date("2026-08-22"),
     changeFrequency: path === "" ? "weekly" : "monthly",

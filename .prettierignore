@@ -10,3 +10,6 @@ pnpm-lock.yaml
 docs/*.docx
 docs/*.md
 AGENTS.md
+apps/web/src/content/research/voices-from-the-ward/Voices from the Ward.html
+apps/web/public/research/voices-from-the-ward/report.html
+apps/web/public/research/voices-from-the-ward/*.pdf

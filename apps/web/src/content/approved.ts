@@ -165,7 +165,7 @@ export const cpi4cgContent = {
   ],
   milestones: [
     ["11", "wards engaged"],
-    ["368", "household responses"],
+    ["368", "community members acknowledged"],
   ],
   expectedOutcomes: [
     "Stronger community participation in climate governance and local planning",
