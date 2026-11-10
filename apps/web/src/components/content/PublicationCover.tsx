@@ -1,23 +1,17 @@
 import Link from "next/link";
-import { FileText } from "lucide-react";
+import Image from "next/image";
 import { voicesFromTheWard } from "@/content/research/voicesFromTheWard";
 
 export function PublicationCover({ linked = false }: { linked?: boolean }) {
   const cover = (
-    <div
-      className="publication-cover"
-      aria-label="Voices from the Ward report cover"
-    >
-      <div className="publication-cover-mark">
-        <FileText aria-hidden="true" />
-      </div>
-      <p>SPiD · CPI4CG</p>
-      <h3>{voicesFromTheWard.title}</h3>
-      <span>{voicesFromTheWard.subtitle}</span>
-      <small>
-        {voicesFromTheWard.description} ·{" "}
-        {voicesFromTheWard.publicationDateLabel}
-      </small>
+    <div className="publication-cover">
+      <Image
+        src={voicesFromTheWard.posterPath}
+        alt="Voices from the Ward research summary poster with study methodology, findings and recommendations"
+        fill
+        sizes="(min-width: 1024px) 22rem, (min-width: 768px) 36vw, 85vw"
+        className="publication-cover-image"
+      />
     </div>
   );
   return linked ? (

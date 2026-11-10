@@ -541,60 +541,15 @@
 }
 .publication-cover {
   aspect-ratio: 3/4;
-  display: flex;
-  flex-direction: column;
-  padding: clamp(1.25rem, 3vw, 2.25rem);
-  color: #fff;
-  background: linear-gradient(
-    155deg,
-    var(--color-brand-navy) 0 68%,
-    var(--color-climate-green) 68% 82%,
-    var(--color-warm-yellow) 82%
-  );
+  position: relative;
+  background: white;
   border-radius: 0.75rem;
   box-shadow: 0 1.25rem 2.5rem rgba(4, 31, 58, 0.22);
-  position: relative;
   overflow: hidden;
 }
-.publication-cover::after {
-  content: "";
-  position: absolute;
-  width: 11rem;
-  height: 11rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  right: -4rem;
-  top: -4rem;
-}
-.publication-cover-mark {
-  width: 3rem;
-  height: 3rem;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: 0.6rem;
-}
-.publication-cover p {
-  margin: 1.5rem 0 0.75rem;
-  color: var(--color-warm-yellow);
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-}
-.publication-cover h3 {
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  line-height: 0.95;
-  margin: 0 0 1rem;
-}
-.publication-cover span {
-  line-height: 1.35;
-}
-.publication-cover small {
-  margin-top: auto;
-  padding-top: 1rem;
-  line-height: 1.4;
+.publication-cover-image {
+  object-fit: contain;
+  object-position: center;
 }
 .publication-meta,
 .publication-review-note {
@@ -633,6 +588,113 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+}
+.impact-research-layout {
+  display: grid;
+  grid-template-columns: minmax(13rem, 19rem) 1fr;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  align-items: start;
+}
+.impact-research-layout .research-findings {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.donation-hero {
+  max-width: 54rem;
+}
+.donation-layout {
+  display: grid;
+  grid-template-columns: 1.15fr minmax(20rem, 0.85fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.donation-support-grid {
+  display: grid;
+  gap: 1rem;
+}
+.donation-trust {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background: var(--color-mist-50);
+}
+.donation-trust > svg {
+  flex: none;
+  color: var(--color-climate-green);
+}
+.donation-trust h3 {
+  margin-top: 0;
+}
+.donation-trust p {
+  margin-bottom: 0;
+}
+.donation-form {
+  position: sticky;
+  top: 7rem;
+}
+.donation-form fieldset {
+  padding: 0;
+  margin: 1.5rem 0;
+  border: 0;
+}
+.donation-form legend {
+  margin-bottom: 0.75rem;
+  font-weight: 800;
+}
+.donation-amounts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.65rem;
+}
+.donation-amounts label {
+  position: relative;
+}
+.donation-amounts input {
+  position: absolute;
+  opacity: 0;
+}
+.donation-amounts span {
+  display: grid;
+  min-height: 3rem;
+  place-items: center;
+  padding: 0.65rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.65rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.donation-amounts input:checked + span {
+  border-color: var(--color-brand-blue);
+  background: var(--color-light-blue);
+  color: var(--color-brand-navy);
+}
+.donation-amounts input:focus-visible + span {
+  outline: 3px solid var(--color-warm-yellow);
+  outline-offset: 2px;
+}
+.donation-submit {
+  width: 100%;
+  margin-top: 1rem;
+}
+.donation-submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+}
+.donation-status {
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+.category-empty-state {
+  max-width: 48rem;
+}
+.insight-theme-card {
+  color: inherit;
+  text-decoration: none;
+}
+.insight-theme-card:hover h3 {
+  color: var(--color-brand-blue);
 }
 .research-findings strong {
   display: block;
@@ -704,6 +766,13 @@
   }
   .research-findings {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .impact-research-layout,
+  .donation-layout {
+    grid-template-columns: 1fr;
+  }
+  .donation-form {
+    position: static;
   }
   .report-reader-bar {
     align-items: flex-start;

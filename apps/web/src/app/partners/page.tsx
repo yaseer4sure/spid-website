@@ -43,10 +43,10 @@ export default async function PartnersPage() {
             </p>
           </div>
           <EditorialImage
-            src="/images/partners/cross-sector-community-collaboration.webp"
-            alt="A diverse group taking part in an outdoor community meeting"
+            src="/images/partners/cross-sector-community-collaboration.jpeg"
+            alt="Three people standing together at a professional gathering"
             sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
-            className="page-hero-photo"
+            className="page-hero-photo project-photo"
             priority
           />
         </div>

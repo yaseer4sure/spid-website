@@ -69,10 +69,10 @@ export default function GetInvolvedPage() {
             </p>
           </div>
           <EditorialImage
-            src="/images/get-involved/collective-climate-action.webp"
-            alt="A diverse crowd gathered outdoors in collective action"
+            src="/images/get-involved/collective-climate-action.jpeg"
+            alt="Women and children gathered together in a community setting"
             sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
-            className="page-hero-photo portrait-focus"
+            className="page-hero-photo portrait-focus project-photo"
             priority
           />
         </div>

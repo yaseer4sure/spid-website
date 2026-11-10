@@ -3,6 +3,7 @@ import {
   voicesFromTheWard,
   voicesFromTheWardIsApproved,
 } from "@/content/research/voicesFromTheWard";
+import { insightCategories } from "@/content/insightCategories";
 export default function sitemap(): MetadataRoute.Sitemap {
   const base =
     process.env.NEXT_PUBLIC_SITE_URL || "https://spidclimateresilience.org";
@@ -17,7 +18,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/insights",
     "/get-involved",
     "/contact",
+    "/donate",
   ];
+  paths.push(
+    ...insightCategories.map(({ slug }) => `/insights/category/${slug}`),
+  );
   if (voicesFromTheWardIsApproved) paths.push(voicesFromTheWard.landingPath);
   return paths.map((path) => ({
     url: `${base}${path}`,

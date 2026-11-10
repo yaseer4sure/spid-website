@@ -1,5 +1,6 @@
 import { draftMode } from "next/headers";
 import { approvedSocialLinks, normaliseSocialLinks } from "@/content/social";
+import { mergeApprovedPartners } from "@/content/partners";
 import { previewClient, publicClient } from "./client";
 import {
   fallbackHome,
@@ -149,8 +150,10 @@ async function clientForRequest(stega = true) {
 }
 export async function getHome(): Promise<PublicHome> {
   const client = await clientForRequest();
-  if (!client) return fallbackHome;
-  return publicHome(await client.fetch(HOME_PAGE_QUERY)) || fallbackHome;
+  const home = client
+    ? publicHome(await client.fetch(HOME_PAGE_QUERY)) || fallbackHome
+    : fallbackHome;
+  return { ...home, partners: mergeApprovedPartners(home.partners) };
 }
 
 export async function getSiteSettings() {
@@ -183,16 +186,16 @@ export async function getSiteSettings() {
 
 export async function getPublicPartners(): Promise<PublicPartner[]> {
   const client = await clientForRequest(false);
-  if (!client) return [];
+  if (!client) return mergeApprovedPartners([]);
   try {
     const partners: PUBLIC_PARTNERS_QUERYResult = await client.fetch(
       PUBLIC_PARTNERS_QUERY,
       {},
       publicUtilityQueryOptions(),
     );
-    return publicPartners(partners);
+    return mergeApprovedPartners(publicPartners(partners));
   } catch {
-    return [];
+    return mergeApprovedPartners([]);
   }
 }
 export async function getProgramme(

@@ -40,10 +40,10 @@ export default async function ContactPage({
             </p>
           </div>
           <EditorialImage
-            src="/images/contact/community-conversation.webp"
-            alt="People in conversation outdoors under trees"
+            src="/images/contact/community-conversation.png"
+            alt="Colourful phone, message, email and location symbols"
             sizes="(min-width: 768px) 44vw, calc(100vw - 2rem)"
-            className="page-hero-photo portrait-focus"
+            className="page-hero-photo portrait-focus project-photo"
             priority
           />
         </div>

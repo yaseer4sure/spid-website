@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import {
   Landmark,
   MessageCircle,
@@ -9,7 +10,7 @@ import {
 import { EditorialImage } from "@/components/content/EditorialImage";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { PublicationFeature } from "@/components/content/PublicationFeature";
-import { insightThemes } from "@/content/approved";
+import { insightCategories } from "@/content/insightCategories";
 import { insightVisuals } from "@/content/visuals";
 
 export const metadata: Metadata = {
@@ -41,11 +42,15 @@ export default function InsightsPage() {
             <h2 className="h2">Evidence for action and learning</h2>
           </div>
           <div className="grid-3">
-            {insightThemes.map((theme, index) => {
+            {insightCategories.map((category, index) => {
               const Icon = insightIcons[index];
               const visual = insightVisuals[index];
               return (
-                <article className="card insight-theme-card" key={theme}>
+                <Link
+                  className="card insight-theme-card"
+                  key={category.slug}
+                  href={`/insights/category/${category.slug}`}
+                >
                   <EditorialImage
                     src={visual.src}
                     alt={visual.alt}
@@ -55,9 +60,10 @@ export default function InsightsPage() {
                   />
                   <div className="insight-card-content">
                     <Icon className="card-icon" aria-hidden="true" />
-                    <h3>{theme}</h3>
+                    <h3>{category.label}</h3>
+                    <p>{category.description}</p>
                   </div>
-                </article>
+                </Link>
               );
             })}
           </div>

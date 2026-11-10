@@ -27,6 +27,12 @@ export const metadata: Metadata = {
     description: voicesFromTheWard.summary,
     type: "article",
     publishedTime: voicesFromTheWard.publicationDate,
+    images: [
+      {
+        url: voicesFromTheWard.posterPath,
+        alt: "Voices from the Ward research summary poster",
+      },
+    ],
   },
 };
 

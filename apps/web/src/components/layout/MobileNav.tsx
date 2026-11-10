@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { HeartHandshake } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { navItems } from "./navigation";
+import { ActiveNavLink } from "./ActiveNavLink";
 
 export function MobileNav() {
   const [open, setOpen] = useState(false);
@@ -45,20 +47,18 @@ export function MobileNav() {
           aria-label="Mobile navigation"
         >
           {navItems.map((item) => (
-            <Link
+            <ActiveNavLink
               key={item.href}
-              href={item.href}
-              onClick={() => setOpen(false)}
-            >
-              {item.label}
-            </Link>
+              {...item}
+              onNavigate={() => setOpen(false)}
+            />
           ))}
           <Link
             className="button button-primary"
-            href="/contact?type=partnership"
+            href="/donate"
             onClick={() => setOpen(false)}
           >
-            Partner With Us
+            <HeartHandshake aria-hidden="true" /> Donate
           </Link>
         </div>
       )}

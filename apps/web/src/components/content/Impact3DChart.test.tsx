@@ -11,19 +11,17 @@ import { Impact3DChart } from "./Impact3DChart";
 afterEach(cleanup);
 
 describe("Impact3DChart", () => {
-  it("renders all configured illustrative indicators and values", () => {
+  it("renders all configured owner-approved indicators and values", () => {
     render(<Impact3DChart status={impactMetricsStatus} revealValues />);
 
     for (const metric of Object.values(impactMetrics)) {
       expect(screen.getByText(metric.label)).toBeInTheDocument();
     }
-    expect(screen.getByText("25")).toBeInTheDocument();
-    expect(screen.getByText("5,000+")).toBeInTheDocument();
-    expect(screen.getByText("8")).toBeInTheDocument();
+    expect(screen.getByText("14")).toBeInTheDocument();
+    expect(screen.getByText("6,500+")).toBeInTheDocument();
     expect(screen.getByText("4")).toBeInTheDocument();
-    expect(
-      screen.getByText("Illustrative figures — pending verification"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("6")).toBeInTheDocument();
+    expect(screen.queryByText(/pending verification/i)).not.toBeInTheDocument();
   });
 
   it("reflects a value changed in the supplied central configuration", () => {
@@ -42,7 +40,7 @@ describe("Impact3DChart", () => {
     );
 
     expect(screen.getByText("31")).toBeInTheDocument();
-    expect(screen.queryByText("25")).not.toBeInTheDocument();
+    expect(screen.queryByText("14")).not.toBeInTheDocument();
   });
 
   it("uses a stable pending state for missing values", () => {
@@ -64,7 +62,7 @@ describe("Impact3DChart", () => {
     expect(screen.getByText("Value pending")).toBeInTheDocument();
   });
 
-  it("withholds illustrative numbers from production rendering", () => {
+  it("reveals owner-approved numbers in production rendering", () => {
     const revealValues = shouldRevealImpactValues({
       status: impactMetricsStatus,
       verification: impactMetricsVerification,
@@ -72,7 +70,7 @@ describe("Impact3DChart", () => {
       vercelEnv: "production",
     });
 
-    expect(revealValues).toBe(false);
+    expect(revealValues).toBe(true);
     render(
       <Impact3DChart
         status={impactMetricsStatus}
@@ -80,10 +78,8 @@ describe("Impact3DChart", () => {
       />,
     );
 
-    expect(screen.queryByText("5,000+")).not.toBeInTheDocument();
-    expect(
-      screen.getByText("Impact figures withheld pending verification"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("6,500+")).toBeInTheDocument();
+    expect(screen.queryByText(/pending verification/i)).not.toBeInTheDocument();
   });
 
   it("requires complete evidence metadata before verified values display", () => {

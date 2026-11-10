@@ -183,7 +183,7 @@ test("about purpose, portraits, and footer address remain responsive", async ({
   }
 });
 
-test("production impact dashboard withholds illustrative values and reflows", async ({
+test("owner-approved impact dashboard values render and reflow", async ({
   page,
 }, testInfo) => {
   test.skip(testInfo.project.name !== "chromium");
@@ -205,10 +205,9 @@ test("production impact dashboard withholds illustrative values and reflows", as
     ]) {
       await expect(dashboard.getByText(label)).toBeVisible();
     }
-    await expect(
-      dashboard.getByText("Impact figures withheld pending verification"),
-    ).toBeVisible();
-    await expect(dashboard.getByText("5,000+")).toHaveCount(0);
+    await expect(dashboard.getByText("14")).toBeVisible();
+    await expect(dashboard.getByText("6,500+")).toBeVisible();
+    await expect(dashboard.getByText(/pending verification/i)).toHaveCount(0);
     await expect(
       page.getByRole("img", {
         name: "A farmer standing in a green agricultural landscape in Nigeria",
@@ -221,6 +220,27 @@ test("production impact dashboard withholds illustrative values and reflows", as
     }));
     expect(widths.scroll).toBeLessThanOrEqual(widths.client);
   }
+});
+
+test("navigation exposes Home and the non-transactional donation preview", async ({
+  page,
+}, testInfo) => {
+  await page.goto("/about");
+  if (testInfo.project.name === "mobile") {
+    await page.getByRole("button", { name: "Menu" }).click();
+  }
+  await expect(
+    page.getByRole("link", { name: "Home", exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole("link", { name: /Donate/ })
+    .first()
+    .click();
+  await expect(page).toHaveURL(/\/donate$/);
+  await expect(
+    page.getByRole("button", { name: /coming soon/i }),
+  ).toBeDisabled();
+  await expect(page.getByText(/No payment will be taken/i)).toBeVisible();
 });
 
 test("Voices from the Ward is integrated without changing impact totals", async ({

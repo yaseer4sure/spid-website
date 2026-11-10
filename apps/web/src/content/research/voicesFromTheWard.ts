@@ -19,6 +19,7 @@ export const voicesFromTheWard = {
   reportPath: "/research/voices-from-the-ward/report.html",
   pdfPath:
     "/research/voices-from-the-ward/voices-from-the-ward-spid-research-report.pdf",
+  posterPath: "/images/research/voices-from-the-ward-summary.jpg",
   summary:
     "A household survey and geospatial assessment examining climate vulnerability, awareness, adaptation and governance across all eleven wards of Sabon Gari LGA.",
   executiveSummary: [
@@ -50,6 +51,11 @@ export const voicesFromTheWard = {
       value: "99%",
       label: "would join climate initiatives in the next six months",
       source: "Executive Summary and section 6.6",
+    },
+    {
+      value: "36%",
+      label: "average household income lost to climate-related hazards",
+      source: "Results, section 6.3 and Voices from the Ward summary poster",
     },
   ],
   recommendations: [

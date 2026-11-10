@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
+import { HeartHandshake } from "lucide-react";
 import { MobileNav } from "./MobileNav";
 import { navItems } from "./navigation";
+import { ActiveNavLink } from "./ActiveNavLink";
 
 export function Header() {
   return (
@@ -19,16 +21,11 @@ export function Header() {
         </Link>
         <nav className="desktop-nav" aria-label="Primary navigation">
           {navItems.map((item) => (
-            <Link key={item.href} href={item.href}>
-              {item.label}
-            </Link>
+            <ActiveNavLink key={item.href} {...item} />
           ))}
         </nav>
-        <Link
-          className="button button-primary header-cta"
-          href="/contact?type=partnership"
-        >
-          Partner With Us
+        <Link className="button button-primary header-cta" href="/donate">
+          <HeartHandshake aria-hidden="true" /> Donate
         </Link>
         <MobileNav />
       </div>

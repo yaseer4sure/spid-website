@@ -9,6 +9,7 @@ import {
 import { impactAreas } from "@/content/approved";
 import { voicesFromTheWard } from "@/content/research/voicesFromTheWard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
+import { PublicationCover } from "@/components/content/PublicationCover";
 
 export const metadata: Metadata = {
   title: "Impact",
@@ -74,14 +75,17 @@ export default function ImpactPage() {
               They are not SPiD organisation-wide impact totals.
             </p>
           </div>
-          <div className="research-findings">
-            {voicesFromTheWard.findings.map((finding) => (
-              <article className="card" key={finding.label}>
-                <strong>{finding.value}</strong>
-                <h3>{finding.label}</h3>
-                <p>{finding.source}</p>
-              </article>
-            ))}
+          <div className="impact-research-layout">
+            <PublicationCover linked />
+            <div className="research-findings">
+              {voicesFromTheWard.findings.map((finding) => (
+                <article className="card" key={finding.label}>
+                  <strong>{finding.value}</strong>
+                  <h3>{finding.label}</h3>
+                  <p>{finding.source}</p>
+                </article>
+              ))}
+            </div>
           </div>
           <p className="research-source">
             <strong>Source:</strong> Voices from the Ward — CPI4CG Research,

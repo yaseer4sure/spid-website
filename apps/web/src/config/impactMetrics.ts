@@ -1,4 +1,4 @@
-export type ImpactMetricStatus = "illustrative" | "verified";
+export type ImpactMetricStatus = "illustrative" | "ownerApproved" | "verified";
 
 export type ImpactMetricConfig = {
   label: string;
@@ -18,27 +18,32 @@ export type ImpactMetricVerification = {
 export const impactMetrics = {
   communitiesReached: {
     label: "Communities Reached",
-    value: 25,
+    value: 14,
     suffix: "",
   },
   peopleImpacted: {
     label: "People Impacted",
-    value: 5000,
+    value: 6500,
     suffix: "+",
   },
   projectsImplemented: {
     label: "Projects Implemented",
-    value: 8,
+    value: 4,
     suffix: "",
   },
   pipelineProjects: {
     label: "Pipeline Projects",
-    value: 4,
+    value: 6,
     suffix: "",
   },
 } satisfies Record<string, ImpactMetricConfig>;
 
-export const impactMetricsStatus: ImpactMetricStatus = "illustrative";
+export const impactMetricsStatus: ImpactMetricStatus = "ownerApproved";
+
+export const impactMetricsApproval = {
+  basis: "Values supplied and approved by the project owner",
+  approvedAt: "2026-11-10",
+} as const;
 
 /**
  * Complete these fields from approved organisational evidence before changing
@@ -76,6 +81,8 @@ export function shouldRevealImpactValues({
   if (status === "verified") {
     return hasCompleteImpactVerification(verification);
   }
+
+  if (status === "ownerApproved") return true;
 
   return nodeEnv === "development" || vercelEnv === "preview";
 }

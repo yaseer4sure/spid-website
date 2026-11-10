@@ -31,6 +31,23 @@
   font-weight: 650;
   text-decoration: none;
 }
+.desktop-nav a[aria-current="page"],
+.mobile-panel a[aria-current="page"] {
+  color: var(--color-brand-blue);
+  text-decoration: underline;
+  text-decoration-color: var(--color-climate-green);
+  text-decoration-thickness: 0.18rem;
+  text-underline-offset: 0.35rem;
+}
+.header-cta,
+.mobile-panel .button {
+  gap: 0.45rem;
+}
+.header-cta svg,
+.mobile-panel .button svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
 .desktop-nav a:hover {
   text-decoration: underline;
   text-underline-offset: 0.3rem;
