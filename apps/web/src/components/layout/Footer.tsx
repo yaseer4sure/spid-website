@@ -7,9 +7,11 @@ import type { SocialLink } from "@/content/social";
 export function Footer({
   socialLinks,
   officeAddress,
+  positioningStatement = "Locally led, youth-driven climate resilience across Nigeria and Africa.",
 }: {
   socialLinks: SocialLink[];
   officeAddress: readonly string[];
+  positioningStatement?: string;
 }) {
   return (
     <footer className="deep footer">
@@ -24,10 +26,7 @@ export function Footer({
               alt="SPiD"
             />
           </Link>
-          <p>
-            Locally led, youth-driven climate resilience across Nigeria and
-            Africa.
-          </p>
+          <p>{positioningStatement}</p>
         </div>
         <div>
           <h2>Explore</h2>

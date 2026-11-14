@@ -14,6 +14,7 @@ import { PublicationFeature } from "@/components/content/PublicationFeature";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { cpi4cgContent } from "@/content/approved";
+import { getProgramme } from "@/sanity/content";
 
 export const metadata: Metadata = {
   title: "CPI4CG",
@@ -33,7 +34,29 @@ const methodIcons = [
   Landmark,
 ] as const;
 
-export default function Cpi4cgPage() {
+export default async function Cpi4cgPage() {
+  const programme = await getProgramme("cpi4cg");
+  const overview = programme?.overviewText?.length
+    ? programme.overviewText
+    : [...cpi4cgContent.overview];
+  const why = programme?.whyItMattersText?.join(" ") || cpi4cgContent.why;
+  const methods = programme?.methodologySteps?.length
+    ? programme.methodologySteps.map(
+        ({ title, description }) => [title, description] as const,
+      )
+    : cpi4cgContent.methods;
+  const outcomes = programme?.expectedOutcomes?.length
+    ? programme.expectedOutcomes.map(({ title }) => title)
+    : [...cpi4cgContent.expectedOutcomes];
+  const alignments = programme?.frameworkAlignments?.length
+    ? programme.frameworkAlignments
+        .map((item) =>
+          typeof item === "object" && item && "title" in item
+            ? String(item.title)
+            : "",
+        )
+        .filter(Boolean)
+    : [...cpi4cgContent.alignments];
   return (
     <>
       <div className="container">
@@ -49,8 +72,10 @@ export default function Cpi4cgPage() {
         <div className="container page-hero-grid">
           <div>
             <p className="eyebrow">CPI4CG · Pilot initiative</p>
-            <h1 className="h1">{cpi4cgContent.title}</h1>
-            <p className="lead">{cpi4cgContent.summary}</p>
+            <h1 className="h1">{programme?.title || cpi4cgContent.title}</h1>
+            <p className="lead">
+              {programme?.summary || cpi4cgContent.summary}
+            </p>
           </div>
           <EditorialImage
             src="/images/programmes/cpi4cg/community-climate-dialogue.jpeg"
@@ -66,7 +91,7 @@ export default function Cpi4cgPage() {
           <div>
             <p className="eyebrow">Programme overview</p>
             <h2 className="h2">Community evidence in climate decisions</h2>
-            {cpi4cgContent.overview.map((paragraph) => (
+            {overview.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
@@ -109,7 +134,7 @@ export default function Cpi4cgPage() {
           <div className="stacked-content">
             <p className="eyebrow">Why the project matters</p>
             <h2 className="h2">Decisions grounded in lived experience</h2>
-            <p>{cpi4cgContent.why}</p>
+            <p>{why}</p>
             <EditorialImage
               src="/images/programmes/cpi4cg/participatory-research-session.jpeg"
               alt="Women participating in a small indoor community discussion"
@@ -137,7 +162,7 @@ export default function Cpi4cgPage() {
             <h2 className="h2">A participatory evidence process</h2>
           </div>
           <div className="method-list">
-            {cpi4cgContent.methods.map(([title, description], index) => {
+            {methods.map(([title, description], index) => {
               const Icon = methodIcons[index];
               return (
                 <article className="method" key={title}>
@@ -173,7 +198,7 @@ export default function Cpi4cgPage() {
             <p className="eyebrow">Expected outcomes</p>
             <h2 className="h2">What the programme aims to enable</h2>
             <ul className="check-list">
-              {cpi4cgContent.expectedOutcomes.map((outcome) => (
+              {outcomes.map((outcome) => (
                 <li key={outcome}>{outcome}</li>
               ))}
             </ul>
@@ -187,7 +212,7 @@ export default function Cpi4cgPage() {
             <h2 className="h2">Connected to national and global priorities</h2>
           </div>
           <div className="framework-grid">
-            {cpi4cgContent.alignments.map((alignment) => (
+            {alignments.map((alignment) => (
               <div className="card framework-card" key={alignment}>
                 <strong>{alignment}</strong>
               </div>
@@ -205,8 +230,11 @@ export default function Cpi4cgPage() {
             Connect with SPiD about technical collaboration, research, programme
             support or responsible scale.
           </p>
-          <ButtonLink href="/contact?type=partnership" variant="warm">
-            Start a partnership enquiry
+          <ButtonLink
+            href={programme?.primaryAction?.href || "/contact?type=partnership"}
+            variant="warm"
+          >
+            {programme?.primaryAction?.label || "Start a partnership enquiry"}
           </ButtonLink>
         </div>
       </section>

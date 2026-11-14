@@ -192,6 +192,13 @@ export type Homepage = {
   primaryAction: CallToAction;
   secondaryAction?: CallToAction;
   introduction?: SimplePortableText;
+  valueProposition: string;
+  workPillars: Array<{
+    _key: string;
+  } & MethodologyStep>;
+  values: Array<{
+    _key: string;
+  } & MethodologyStep>;
   featuredProgrammes: Array<{
     _ref: string;
     _type: "reference";
@@ -436,6 +443,7 @@ export type Person = {
   email?: string;
   publicEmail?: string;
   isPublic?: boolean;
+  displayOrder?: number;
   lastReviewedAt?: string;
   internalNotes?: string;
 };
@@ -514,6 +522,7 @@ export type Programme = {
   programmeType: "programme" | "project" | "fellowship" | "initiative" | "research" | "campaign";
   status: "draftDevelopment" | "pilot" | "active" | "completed" | "paused" | "upcoming" | "archived";
   applicationStatus?: "notApplicable" | "comingSoon" | "open" | "closed" | "rolling";
+  tagline?: string;
   summary: string;
   heroImage?: SpidImage;
   featured?: boolean;
@@ -571,6 +580,17 @@ export type Page = {
   title: string;
   slug: Slug;
   summary: string;
+  eyebrow?: string;
+  introductionParagraphs?: Array<string>;
+  vision?: string;
+  mission?: string;
+  whyParagraphs?: Array<string>;
+  theoryOfChange?: Array<string>;
+  approaches?: Array<{
+    _key: string;
+  } & MethodologyStep>;
+  frameworks?: Array<string>;
+  listItems?: Array<string>;
   body?: PortableText;
   primaryAction?: CallToAction;
   seo?: Seo;
@@ -690,10 +710,13 @@ export type AllSanitySchemaTypes = Testimonial | Theme | Slug | ImpactMetric | R
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: src/sanity/queries.ts
 // Variable: HOME_PAGE_QUERY
-// Query: *[_id == "homepage"][0]{  headline,subheadline,primaryAction{label,href,style},secondaryAction{label,href,style},  "featuredProgrammes":featuredProgrammes[]->[!(_id in path("drafts.**")) && status != "draftDevelopment"]{_id,title,acronym,"slug":slug.current,summary,status},  "featuredInsight":featuredInsight->[!(_id in path("drafts.**"))][0]{_id,title,"slug":slug.current,summary,contentType,publishedAt,seo{noIndex}},  "impactMetrics":impactMetrics[]->[!(_id in path("drafts.**")) && isPublic == true && verificationStatus == "verified"]{_id,numericValue,displayValueOverride,label,publicContext},  "partners":partners[]->[!(_id in path("drafts.**")) && isPublic == true && approvalStatus == "approved" && relationshipStatus in ["active", "completed"] && featured == true && defined(logo.asset)]{_id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,"logoUrl":logo.asset->url}}
+// Query: *[_id == "homepage"][0]{  headline,subheadline,valueProposition,workPillars[]{title,description},values[]{title,description},primaryAction{label,href,style},secondaryAction{label,href,style},  "featuredProgrammes":(featuredProgrammes[]->)[($includeDrafts == true || !(_id in path("drafts.**"))) && status != "draftDevelopment"]{_id,title,acronym,"slug":slug.current,summary,status},  "featuredInsight":([featuredInsight->])[($includeDrafts == true || !(_id in path("drafts.**")))][0]{_id,title,"slug":slug.current,summary,contentType,publishedAt,seo{noIndex}},  "impactMetrics":(impactMetrics[]->)[($includeDrafts == true || !(_id in path("drafts.**"))) && isPublic == true && verificationStatus == "verified"]{_id,numericValue,displayValueOverride,label,publicContext},  "partners":(partners[]->)[($includeDrafts == true || !(_id in path("drafts.**"))) && isPublic == true && approvalStatus == "approved" && relationshipStatus in ["active", "completed"] && featured == true && defined(logo.asset)]{_id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,"logoUrl":logo.asset->url}}
 export type HOME_PAGE_QUERYResult = {
   headline: null;
   subheadline: null;
+  valueProposition: null;
+  workPillars: null;
+  values: null;
   primaryAction: null;
   secondaryAction: null;
   featuredProgrammes: null;
@@ -703,6 +726,9 @@ export type HOME_PAGE_QUERYResult = {
 } | {
   headline: null;
   subheadline: null;
+  valueProposition: null;
+  workPillars: null;
+  values: null;
   primaryAction: {
     label: string;
     href: string;
@@ -716,6 +742,9 @@ export type HOME_PAGE_QUERYResult = {
 } | {
   headline: null;
   subheadline: null;
+  valueProposition: null;
+  workPillars: null;
+  values: null;
   primaryAction: {
     label: string;
     href: string;
@@ -729,6 +758,9 @@ export type HOME_PAGE_QUERYResult = {
 } | {
   headline: null;
   subheadline: null;
+  valueProposition: null;
+  workPillars: null;
+  values: null;
   primaryAction: {
     label: string;
     href: string;
@@ -758,6 +790,15 @@ export type HOME_PAGE_QUERYResult = {
 } | {
   headline: string;
   subheadline: string;
+  valueProposition: string;
+  workPillars: Array<{
+    title: string;
+    description: string;
+  }>;
+  values: Array<{
+    title: string;
+    description: string;
+  }>;
   primaryAction: {
     label: string;
     href: string;
@@ -807,19 +848,116 @@ export type HOME_PAGE_QUERYResult = {
   }> | null;
 } | null;
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_id == "siteSettings"][0]{  socialLinks[]{platform,url},officeAddress}
+// Query: {  "settings":*[_id == "siteSettings"][0]{socialLinks[]{platform,url},officeAddress},  "navigation":*[_id == "mainNavigation"][0]{items[]{label,href,visible},primaryAction{label,href,style}},  "footer":*[_id == "siteFooter"][0]{positioningStatement,copyrightText}}
 export type SITE_SETTINGS_QUERYResult = {
-  socialLinks: null;
-  officeAddress: null;
+  settings: {
+    socialLinks: null;
+    officeAddress: null;
+  } | {
+    socialLinks: Array<{
+      platform: "facebook" | "instagram" | "linkedin" | "x";
+      url: string;
+    }> | null;
+    officeAddress: Array<string> | null;
+  } | null;
+  navigation: {
+    items: Array<{
+      label: string;
+      href: string;
+      visible: boolean | null;
+    }>;
+    primaryAction: {
+      label: string;
+      href: string;
+      style: "primary" | "secondary" | "text" | "warm";
+    };
+  } | {
+    items: null;
+    primaryAction: null;
+  } | {
+    items: null;
+    primaryAction: {
+      label: string;
+      href: string;
+      style: "primary" | "secondary" | "text" | "warm";
+    };
+  } | {
+    items: null;
+    primaryAction: {
+      label: string;
+      href: string;
+      style: "primary" | "secondary" | "text" | "warm";
+    } | null;
+  } | null;
+  footer: {
+    positioningStatement: null;
+    copyrightText: null;
+  } | {
+    positioningStatement: string;
+    copyrightText: string | null;
+  } | null;
+};
+// Variable: ABOUT_PAGE_QUERY
+// Query: {  "page":*[_type == "page" && pageKey == "about" && ($includeDrafts == true || !(_id in path("drafts.**")))][0]{    title,summary,eyebrow,introductionParagraphs,vision,mission,whyParagraphs,theoryOfChange,    approaches[]{title,description},frameworks  },  "people":*[_type == "person" && isPublic == true && ($includeDrafts == true || !(_id in path("drafts.**")))] | order(displayOrder asc, fullName asc){    _id,fullName,roleTitle,personType,"portraitUrl":portrait.asset->url  }}
+export type ABOUT_PAGE_QUERYResult = {
+  page: {
+    title: string;
+    summary: string;
+    eyebrow: string | null;
+    introductionParagraphs: Array<string> | null;
+    vision: string | null;
+    mission: string | null;
+    whyParagraphs: Array<string> | null;
+    theoryOfChange: Array<string> | null;
+    approaches: Array<{
+      title: string;
+      description: string;
+    }> | null;
+    frameworks: Array<string> | null;
+  } | null;
+  people: Array<{
+    _id: string;
+    fullName: string;
+    roleTitle: string | null;
+    personType: Array<string>;
+    portraitUrl: string | null;
+  }>;
+};
+// Variable: CORE_PAGE_QUERY
+// Query: *[_type == "page" && pageKey == $pageKey && ($includeDrafts == true || !(_id in path("drafts.**")))][0]{  title,summary,eyebrow,introductionParagraphs,listItems}
+export type CORE_PAGE_QUERYResult = {
+  title: string;
+  summary: string;
+  eyebrow: string | null;
+  introductionParagraphs: Array<string> | null;
+  listItems: Array<string> | null;
+} | null;
+// Variable: CONTACT_SETTINGS_QUERY
+// Query: *[_id == "contactSettings"][0]{  pageHeading,pageIntroduction,locationStatement,successHeading,successMessage,failureMessage}
+export type CONTACT_SETTINGS_QUERYResult = {
+  pageHeading: null;
+  pageIntroduction: null;
+  locationStatement: null;
+  successHeading: null;
+  successMessage: null;
+  failureMessage: null;
 } | {
-  socialLinks: Array<{
-    platform: "facebook" | "instagram" | "linkedin" | "x";
-    url: string;
-  }> | null;
-  officeAddress: Array<string> | null;
+  pageHeading: null;
+  pageIntroduction: null;
+  locationStatement: string | null;
+  successHeading: null;
+  successMessage: null;
+  failureMessage: null;
+} | {
+  pageHeading: string;
+  pageIntroduction: string;
+  locationStatement: string | null;
+  successHeading: string;
+  successMessage: string;
+  failureMessage: string;
 } | null;
 // Variable: PUBLIC_PARTNERS_QUERY
-// Query: *[  _type == "partner" &&  !(_id in path("drafts.**")) &&  isPublic == true &&  approvalStatus == "approved" &&  relationshipStatus in ["active", "completed"] &&  defined(logo.asset)] | order(displayOrder asc, name asc){  _id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,  "logoUrl":logo.asset->url}
+// Query: *[  _type == "partner" &&  ($includeDrafts == true || !(_id in path("drafts.**"))) &&  isPublic == true &&  approvalStatus == "approved" &&  relationshipStatus in ["active", "completed"] &&  defined(logo.asset)] | order(displayOrder asc, name asc){  _id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,  "logoUrl":logo.asset->url}
 export type PUBLIC_PARTNERS_QUERYResult = Array<{
   _id: string;
   name: string;
@@ -832,7 +970,7 @@ export type PUBLIC_PARTNERS_QUERYResult = Array<{
   logoUrl: string | null;
 }>;
 // Variable: PROGRAMME_BY_SLUG_QUERY
-// Query: *[_type=="programme"&&slug.current==$slug&&!(_id in path("drafts.**"))&&status!="draftDevelopment"][0]{  _id,title,acronym,"slug":slug.current,summary,status,overview,whyItMatters,locations,methodologySteps,milestones,expectedOutcomes,frameworkAlignments,primaryAction,  "impactMetrics":impactMetrics[]->[!(_id in path("drafts.**"))&&isPublic==true&&verificationStatus=="verified"]{_id,numericValue,displayValueOverride,label,publicContext},  "relatedInsights":relatedInsights[]->[!(_id in path("drafts.**"))]{_id,title,"slug":slug.current,summary,contentType,publishedAt,seo{noIndex}}}
+// Query: *[_type=="programme"&&slug.current==$slug&&($includeDrafts==true||!(_id in path("drafts.**")))&&status!="draftDevelopment"][0]{  _id,title,acronym,"slug":slug.current,summary,status,tagline,"overviewText":overview[_type == "block"].children[].text,"whyItMattersText":whyItMatters[_type == "block"].children[].text,locations,methodologySteps,milestones,expectedOutcomes,frameworkAlignments,primaryAction,  "impactMetrics":(impactMetrics[]->)[($includeDrafts==true||!(_id in path("drafts.**")))&&isPublic==true&&verificationStatus=="verified"]{_id,numericValue,displayValueOverride,label,publicContext},  "relatedInsights":(relatedInsights[]->)[($includeDrafts==true||!(_id in path("drafts.**")))]{_id,title,"slug":slug.current,summary,contentType,publishedAt,seo{noIndex}}}
 export type PROGRAMME_BY_SLUG_QUERYResult = {
   _id: string;
   title: string;
@@ -840,8 +978,9 @@ export type PROGRAMME_BY_SLUG_QUERYResult = {
   slug: string;
   summary: string;
   status: "active" | "archived" | "completed" | "draftDevelopment" | "paused" | "pilot" | "upcoming";
-  overview: PortableText | null;
-  whyItMatters: PortableText | null;
+  tagline: string | null;
+  overviewText: Array<string | null> | null;
+  whyItMattersText: Array<string | null> | null;
   locations: Array<{
     _key: string;
   } & Location> | null;
@@ -878,7 +1017,7 @@ export type PROGRAMME_BY_SLUG_QUERYResult = {
   }> | null;
 } | null;
 // Variable: INSIGHT_BY_SLUG_QUERY
-// Query: *[_type=="insight"&&slug.current==$slug&&!(_id in path("drafts.**"))][0]{  _id,title,"slug":slug.current,summary,contentType,publishedAt,organisationAuthor,body,seo,  "relatedProgrammes":relatedProgrammes[]->[!(_id in path("drafts.**"))&&status!="draftDevelopment"]{_id,title,acronym,"slug":slug.current,summary,status}}
+// Query: *[_type=="insight"&&slug.current==$slug&&($includeDrafts==true||!(_id in path("drafts.**")))][0]{  _id,title,"slug":slug.current,summary,contentType,publishedAt,organisationAuthor,body,seo,  "relatedProgrammes":(relatedProgrammes[]->)[($includeDrafts==true||!(_id in path("drafts.**")))&&status!="draftDevelopment"]{_id,title,acronym,"slug":slug.current,summary,status}}
 export type INSIGHT_BY_SLUG_QUERYResult = {
   _id: string;
   title: string;
@@ -915,11 +1054,14 @@ export type SITEMAP_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "*[_id == \"homepage\"][0]{\n  headline,subheadline,primaryAction{label,href,style},secondaryAction{label,href,style},\n  \"featuredProgrammes\":featuredProgrammes[]->[!(_id in path(\"drafts.**\")) && status != \"draftDevelopment\"]{_id,title,acronym,\"slug\":slug.current,summary,status},\n  \"featuredInsight\":featuredInsight->[!(_id in path(\"drafts.**\"))][0]{_id,title,\"slug\":slug.current,summary,contentType,publishedAt,seo{noIndex}},\n  \"impactMetrics\":impactMetrics[]->[!(_id in path(\"drafts.**\")) && isPublic == true && verificationStatus == \"verified\"]{_id,numericValue,displayValueOverride,label,publicContext},\n  \"partners\":partners[]->[!(_id in path(\"drafts.**\")) && isPublic == true && approvalStatus == \"approved\" && relationshipStatus in [\"active\", \"completed\"] && featured == true && defined(logo.asset)]{_id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,\"logoUrl\":logo.asset->url}\n}": HOME_PAGE_QUERYResult;
-    "*[_id == \"siteSettings\"][0]{\n  socialLinks[]{platform,url},officeAddress\n}": SITE_SETTINGS_QUERYResult;
-    "*[\n  _type == \"partner\" &&\n  !(_id in path(\"drafts.**\")) &&\n  isPublic == true &&\n  approvalStatus == \"approved\" &&\n  relationshipStatus in [\"active\", \"completed\"] &&\n  defined(logo.asset)\n] | order(displayOrder asc, name asc){\n  _id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,\n  \"logoUrl\":logo.asset->url\n}": PUBLIC_PARTNERS_QUERYResult;
-    "*[_type==\"programme\"&&slug.current==$slug&&!(_id in path(\"drafts.**\"))&&status!=\"draftDevelopment\"][0]{\n  _id,title,acronym,\"slug\":slug.current,summary,status,overview,whyItMatters,locations,methodologySteps,milestones,expectedOutcomes,frameworkAlignments,primaryAction,\n  \"impactMetrics\":impactMetrics[]->[!(_id in path(\"drafts.**\"))&&isPublic==true&&verificationStatus==\"verified\"]{_id,numericValue,displayValueOverride,label,publicContext},\n  \"relatedInsights\":relatedInsights[]->[!(_id in path(\"drafts.**\"))]{_id,title,\"slug\":slug.current,summary,contentType,publishedAt,seo{noIndex}}\n}": PROGRAMME_BY_SLUG_QUERYResult;
-    "*[_type==\"insight\"&&slug.current==$slug&&!(_id in path(\"drafts.**\"))][0]{\n  _id,title,\"slug\":slug.current,summary,contentType,publishedAt,organisationAuthor,body,seo,\n  \"relatedProgrammes\":relatedProgrammes[]->[!(_id in path(\"drafts.**\"))&&status!=\"draftDevelopment\"]{_id,title,acronym,\"slug\":slug.current,summary,status}\n}": INSIGHT_BY_SLUG_QUERYResult;
+    "*[_id == \"homepage\"][0]{\n  headline,subheadline,valueProposition,workPillars[]{title,description},values[]{title,description},primaryAction{label,href,style},secondaryAction{label,href,style},\n  \"featuredProgrammes\":(featuredProgrammes[]->)[($includeDrafts == true || !(_id in path(\"drafts.**\"))) && status != \"draftDevelopment\"]{_id,title,acronym,\"slug\":slug.current,summary,status},\n  \"featuredInsight\":([featuredInsight->])[($includeDrafts == true || !(_id in path(\"drafts.**\")))][0]{_id,title,\"slug\":slug.current,summary,contentType,publishedAt,seo{noIndex}},\n  \"impactMetrics\":(impactMetrics[]->)[($includeDrafts == true || !(_id in path(\"drafts.**\"))) && isPublic == true && verificationStatus == \"verified\"]{_id,numericValue,displayValueOverride,label,publicContext},\n  \"partners\":(partners[]->)[($includeDrafts == true || !(_id in path(\"drafts.**\"))) && isPublic == true && approvalStatus == \"approved\" && relationshipStatus in [\"active\", \"completed\"] && featured == true && defined(logo.asset)]{_id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,\"logoUrl\":logo.asset->url}\n}": HOME_PAGE_QUERYResult;
+    "{\n  \"settings\":*[_id == \"siteSettings\"][0]{socialLinks[]{platform,url},officeAddress},\n  \"navigation\":*[_id == \"mainNavigation\"][0]{items[]{label,href,visible},primaryAction{label,href,style}},\n  \"footer\":*[_id == \"siteFooter\"][0]{positioningStatement,copyrightText}\n}": SITE_SETTINGS_QUERYResult;
+    "{\n  \"page\":*[_type == \"page\" && pageKey == \"about\" && ($includeDrafts == true || !(_id in path(\"drafts.**\")))][0]{\n    title,summary,eyebrow,introductionParagraphs,vision,mission,whyParagraphs,theoryOfChange,\n    approaches[]{title,description},frameworks\n  },\n  \"people\":*[_type == \"person\" && isPublic == true && ($includeDrafts == true || !(_id in path(\"drafts.**\")))] | order(displayOrder asc, fullName asc){\n    _id,fullName,roleTitle,personType,\"portraitUrl\":portrait.asset->url\n  }\n}": ABOUT_PAGE_QUERYResult;
+    "*[_type == \"page\" && pageKey == $pageKey && ($includeDrafts == true || !(_id in path(\"drafts.**\")))][0]{\n  title,summary,eyebrow,introductionParagraphs,listItems\n}": CORE_PAGE_QUERYResult;
+    "*[_id == \"contactSettings\"][0]{\n  pageHeading,pageIntroduction,locationStatement,successHeading,successMessage,failureMessage\n}": CONTACT_SETTINGS_QUERYResult;
+    "*[\n  _type == \"partner\" &&\n  ($includeDrafts == true || !(_id in path(\"drafts.**\"))) &&\n  isPublic == true &&\n  approvalStatus == \"approved\" &&\n  relationshipStatus in [\"active\", \"completed\"] &&\n  defined(logo.asset)\n] | order(displayOrder asc, name asc){\n  _id,name,partnerType,summary,relationshipSummary,website,featured,displayOrder,\n  \"logoUrl\":logo.asset->url\n}": PUBLIC_PARTNERS_QUERYResult;
+    "*[_type==\"programme\"&&slug.current==$slug&&($includeDrafts==true||!(_id in path(\"drafts.**\")))&&status!=\"draftDevelopment\"][0]{\n  _id,title,acronym,\"slug\":slug.current,summary,status,tagline,\"overviewText\":overview[_type == \"block\"].children[].text,\"whyItMattersText\":whyItMatters[_type == \"block\"].children[].text,locations,methodologySteps,milestones,expectedOutcomes,frameworkAlignments,primaryAction,\n  \"impactMetrics\":(impactMetrics[]->)[($includeDrafts==true||!(_id in path(\"drafts.**\")))&&isPublic==true&&verificationStatus==\"verified\"]{_id,numericValue,displayValueOverride,label,publicContext},\n  \"relatedInsights\":(relatedInsights[]->)[($includeDrafts==true||!(_id in path(\"drafts.**\")))]{_id,title,\"slug\":slug.current,summary,contentType,publishedAt,seo{noIndex}}\n}": PROGRAMME_BY_SLUG_QUERYResult;
+    "*[_type==\"insight\"&&slug.current==$slug&&($includeDrafts==true||!(_id in path(\"drafts.**\")))][0]{\n  _id,title,\"slug\":slug.current,summary,contentType,publishedAt,organisationAuthor,body,seo,\n  \"relatedProgrammes\":(relatedProgrammes[]->)[($includeDrafts==true||!(_id in path(\"drafts.**\")))&&status!=\"draftDevelopment\"]{_id,title,acronym,\"slug\":slug.current,summary,status}\n}": INSIGHT_BY_SLUG_QUERYResult;
     "{\n  \"programmes\":*[_type==\"programme\"&&!(_id in path(\"drafts.**\"))&&status!=\"draftDevelopment\"]{\"slug\":slug.current,_updatedAt},\n  \"insights\":*[_type==\"insight\"&&!(_id in path(\"drafts.**\"))&&seo.noIndex!=true]{\"slug\":slug.current,_updatedAt}\n}": SITEMAP_QUERYResult;
   }
 }

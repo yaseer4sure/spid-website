@@ -20,3 +20,4 @@ apps/studio/static/
 .sanity/
 tsconfig.tsbuildinfo
 *.tsbuildinfo
+backups/sanity/

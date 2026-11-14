@@ -4,7 +4,7 @@ import { EditorialImage } from "@/components/content/EditorialImage";
 import { SocialLinks } from "@/components/content/SocialLinks";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ContactForm } from "@/features/contact/ContactForm";
-import { getSiteSettings } from "@/sanity/content";
+import { getContactSettings, getSiteSettings } from "@/sanity/content";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -18,9 +18,10 @@ export default async function ContactPage({
 }: {
   searchParams: Promise<{ type?: string }>;
 }) {
-  const [params, siteSettings] = await Promise.all([
+  const [params, siteSettings, contactSettings] = await Promise.all([
     searchParams,
     getSiteSettings(),
+    getContactSettings(),
   ]);
   const type = params.type;
   return (
@@ -34,9 +35,13 @@ export default async function ContactPage({
         <div className="container page-hero-grid">
           <div>
             <p className="eyebrow">Contact and partnership enquiries</p>
-            <h1 className="h1">Let&apos;s Build Climate Resilience Together</h1>
+            <h1 className="h1">
+              {contactSettings?.pageHeading ||
+                "Let's Build Climate Resilience Together"}
+            </h1>
             <p className="lead">
-              Tell us how you would like to partner, contribute or collaborate.
+              {contactSettings?.pageIntroduction ||
+                "Tell us how you would like to partner, contribute or collaborate."}
             </p>
           </div>
           <EditorialImage

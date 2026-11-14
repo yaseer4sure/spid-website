@@ -8,7 +8,8 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "schema:extract": "sanity schema extract --path schema.json --enforce-required-fields",
-    "seed": "tsx scripts/seed.ts"
+    "seed": "tsx scripts/seed.ts",
+    "migrate:approved": "sanity exec scripts/migrate-approved-content.ts --with-user-token --"
   },
   "dependencies": {
     "@sanity/client": "7.13.0",

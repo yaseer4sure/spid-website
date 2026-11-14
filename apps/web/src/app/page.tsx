@@ -14,7 +14,6 @@ import { EditorialImage } from "@/components/content/EditorialImage";
 import { PartnerLogoGrid } from "@/components/content/PartnerLogoGrid";
 import { PublicationFeature } from "@/components/content/PublicationFeature";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { homepageContent } from "@/content/approved";
 import { getHome } from "@/sanity/content";
 
 const pillarIcons = [GraduationCap, Lightbulb, Landmark, Sprout] as const;
@@ -38,14 +37,20 @@ export default async function HomePage() {
               Sustainable Participatory Development and Climate Resilience
               Initiative
             </p>
-            <h1 className="display">{homepageContent.headline}</h1>
-            <p className="lead">{homepageContent.subheadline}</p>
+            <h1 className="display">{home.headline}</h1>
+            <p className="lead">{home.subheadline}</p>
             <div className="hero-actions">
-              <ButtonLink href="/contact?type=partnership">
-                Partner With Us
+              <ButtonLink
+                href={home.primaryAction?.href || "/contact?type=partnership"}
+              >
+                {home.primaryAction?.label || "Partner With Us"}
               </ButtonLink>
-              <ButtonLink href="/get-involved" variant="warm">
-                Support Community Climate Action
+              <ButtonLink
+                href={home.secondaryAction?.href || "/get-involved"}
+                variant="warm"
+              >
+                {home.secondaryAction?.label ||
+                  "Support Community Climate Action"}
               </ButtonLink>
             </div>
           </div>
@@ -64,7 +69,7 @@ export default async function HomePage() {
             <div className="section-heading">
               <p className="eyebrow">Who we are</p>
               <h2 className="h2">Locally rooted climate action</h2>
-              <p className="lead">{homepageContent.valueProposition}</p>
+              <p className="lead">{home.valueProposition}</p>
               <div className="hero-actions">
                 <ButtonLink href="/our-work" variant="secondary">
                   Explore Our Work
@@ -79,7 +84,7 @@ export default async function HomePage() {
             />
           </div>
           <div className="pillars">
-            {homepageContent.pillars.map(([title, description], index) => {
+            {home.workPillars.map(({ title, description }, index) => {
               const Icon = pillarIcons[index];
               return (
                 <article className="pillar" key={title}>
@@ -114,7 +119,7 @@ export default async function HomePage() {
             <h2 className="h2">Principles that shape how we work</h2>
           </div>
           <div className="values-grid">
-            {homepageContent.values.map(([title, description], index) => {
+            {home.values.map(({ title, description }, index) => {
               const Icon = valueIcons[index];
               return (
                 <article className="card value-card" key={title}>

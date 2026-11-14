@@ -25,6 +25,9 @@ export type PublicProgramme = {
   slug: string;
   summary: string;
   status: string;
+  tagline?: string;
+  overviewText?: string[];
+  whyItMattersText?: string[];
   overview?: unknown[];
   whyItMatters?: unknown[];
   locations?: Array<{ label: string; country: string }>;
@@ -57,6 +60,9 @@ export type PublicInsight = {
 export type PublicHome = {
   headline: string;
   subheadline: string;
+  valueProposition: string;
+  workPillars: Array<{ title: string; description: string }>;
+  values: Array<{ title: string; description: string }>;
   primaryAction?: { label: string; href: string; style: string };
   secondaryAction?: { label: string; href: string; style: string };
   featuredProgrammes: PublicProgramme[];
@@ -122,7 +128,7 @@ export const fallbackProgramme: PublicProgramme = {
   ],
   frameworkAlignments: [],
   primaryAction: {
-    label: "Partner on community-led climate governance",
+    label: "Start a partnership enquiry",
     href: "/contact?type=partnership",
     style: "primary",
   },
@@ -134,6 +140,58 @@ export const fallbackHome: PublicHome = {
   headline: "Locally Led. Youth Driven. Climate Resilient.",
   subheadline:
     "Building climate resilience across Africa through participatory development, inclusive leadership, and community-driven sustainability solutions.",
+  valueProposition:
+    "Sustainable Participatory Development and Climate Resilience Initiative (SPiD) is a youth-led, community-driven organisation advancing locally rooted climate action. We strengthen leadership, amplify community voices, and co-create practical solutions that drive resilience, equity, and sustainable development.",
+  workPillars: [
+    {
+      title: "Build Climate Leadership",
+      description:
+        "Equip youth and communities with the skills to lead adaptation and sustainability initiatives.",
+    },
+    {
+      title: "Co-Create Local Solutions",
+      description:
+        "Support participatory design and implementation of climate-resilient interventions.",
+    },
+    {
+      title: "Influence Policy & Governance",
+      description:
+        "Bridge grassroots realities with national and global climate policy processes.",
+    },
+    {
+      title: "Strengthen Green Livelihoods",
+      description:
+        "Promote nature-based and technology-enabled solutions that improve incomes and resilience.",
+    },
+  ],
+  values: [
+    {
+      title: "Participation",
+      description: "Centering communities in decision-making",
+    },
+    {
+      title: "Equity & Justice",
+      description: "Prioritising vulnerable and underrepresented groups",
+    },
+    {
+      title: "Sustainability",
+      description: "Advancing long-term environmental and social wellbeing",
+    },
+    {
+      title: "Transparency & Accountability",
+      description:
+        "Ensuring open, ethical, democratic and responsible practice",
+    },
+    {
+      title: "Innovation",
+      description:
+        "Integrating systems thinking, traditional knowledge and technology",
+    },
+    {
+      title: "Collaboration",
+      description: "Building cross-sector partnerships for impact",
+    },
+  ],
   primaryAction: {
     label: "Partner With Us",
     href: "/contact?type=partnership",

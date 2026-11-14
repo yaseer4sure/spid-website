@@ -3,10 +3,16 @@
 import Link from "next/link";
 import { HeartHandshake } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { navItems } from "./navigation";
+import { navItems as fallbackNavItems } from "./navigation";
 import { ActiveNavLink } from "./ActiveNavLink";
 
-export function MobileNav() {
+type NavigationItem = { label: string; href: string };
+
+export function MobileNav({
+  items = fallbackNavItems,
+}: {
+  items?: ReadonlyArray<NavigationItem>;
+}) {
   const [open, setOpen] = useState(false);
   const panel = useRef<HTMLDivElement>(null);
   const button = useRef<HTMLButtonElement>(null);
@@ -46,7 +52,7 @@ export function MobileNav() {
           className="mobile-panel"
           aria-label="Mobile navigation"
         >
-          {navItems.map((item) => (
+          {items.map((item) => (
             <ActiveNavLink
               key={item.href}
               {...item}

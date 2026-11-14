@@ -21,7 +21,8 @@
     "format:check": "prettier --check .",
     "sanity:schema-extract": "pnpm --filter @spid/studio schema:extract",
     "sanity:typegen": "pnpm sanity:schema-extract && pnpm --filter @spid/web sanity:typegen",
-    "seed": "pnpm --filter @spid/studio seed"
+    "seed": "pnpm --filter @spid/studio seed",
+    "sanity:migrate:approved": "pnpm --filter @spid/studio migrate:approved"
   },
   "devDependencies": {
     "prettier": "3.6.2",

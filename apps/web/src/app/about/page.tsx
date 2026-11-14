@@ -15,6 +15,7 @@ import {
   personPortraits,
   team,
 } from "@/content/approved";
+import { getAboutContent } from "@/sanity/content";
 
 export const metadata: Metadata = {
   title: "About",
@@ -35,11 +36,13 @@ const approachIcons = [Search, GraduationCap, Sprout, Landmark] as const;
 function PersonPortrait({
   name,
   group,
+  portraitUrl,
 }: {
   name: string;
   group: "team" | "Advisory Board";
+  portraitUrl?: string | null;
 }) {
-  const portrait = personPortraits[name];
+  const portrait = portraitUrl || personPortraits[name];
 
   if (!portrait) {
     return (
@@ -61,7 +64,50 @@ function PersonPortrait({
   );
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const cms = await getAboutContent();
+  const page = cms?.page;
+  const content = {
+    introduction: page?.introductionParagraphs?.length
+      ? page.introductionParagraphs
+      : [...aboutContent.introduction],
+    vision: page?.vision || aboutContent.vision,
+    mission: page?.mission || aboutContent.mission,
+    why: page?.whyParagraphs?.length
+      ? page.whyParagraphs
+      : [...aboutContent.why],
+    theoryOfChange: page?.theoryOfChange?.length
+      ? page.theoryOfChange
+      : [...aboutContent.theoryOfChange],
+    approaches: page?.approaches?.length
+      ? page.approaches
+      : aboutContent.approaches.map(([title, description]) => ({
+          title,
+          description,
+        })),
+    frameworks: page?.frameworks?.length
+      ? page.frameworks
+      : [...aboutContent.frameworks],
+  };
+  const cmsTeam =
+    cms?.people?.filter((person) => !person.personType.includes("adviser")) ||
+    [];
+  const cmsAdvisers =
+    cms?.people?.filter((person) => person.personType.includes("adviser")) ||
+    [];
+  const teamMembers = cmsTeam.length
+    ? cmsTeam.map((person) => ({
+        name: person.fullName,
+        role: person.roleTitle || "Team member",
+        portraitUrl: person.portraitUrl,
+      }))
+    : team.map(([name, role]) => ({ name, role, portraitUrl: null }));
+  const advisers = cmsAdvisers.length
+    ? cmsAdvisers.map((person) => ({
+        name: person.fullName,
+        portraitUrl: person.portraitUrl,
+      }))
+    : advisoryBoard.map((name) => ({ name, portraitUrl: null }));
   return (
     <>
       <header className="page-hero">
@@ -69,7 +115,7 @@ export default function AboutPage() {
           <div>
             <p className="eyebrow">Who We Are</p>
             <h1 className="h1">Community-rooted climate action</h1>
-            <p className="lead">{aboutContent.introduction[0]}</p>
+            <p className="lead">{content.introduction[0]}</p>
           </div>
           <EditorialImage
             src="/images/about/community-rooted-leadership.JPG"
@@ -84,7 +130,7 @@ export default function AboutPage() {
         <div className="container grid-2">
           <div className="prose">
             <p className="eyebrow">About Us</p>
-            {aboutContent.introduction.slice(1).map((paragraph) => (
+            {content.introduction.slice(1).map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
@@ -96,7 +142,7 @@ export default function AboutPage() {
                 </span>
                 <h2>Our Vision</h2>
               </div>
-              <p>{aboutContent.vision}</p>
+              <p>{content.vision}</p>
             </div>
             <div className="purpose-item">
               <div className="purpose-heading">
@@ -105,7 +151,7 @@ export default function AboutPage() {
                 </span>
                 <h2>Our Mission</h2>
               </div>
-              <p>{aboutContent.mission}</p>
+              <p>{content.mission}</p>
             </div>
           </div>
         </div>
@@ -115,14 +161,14 @@ export default function AboutPage() {
           <div>
             <p className="eyebrow">Our Why</p>
             <h2 className="h2">Closing the participation gap</h2>
-            {aboutContent.why.map((paragraph) => (
+            {content.why.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
           <div>
             <p className="eyebrow">Theory of Change</p>
             <ol className="check-list">
-              {aboutContent.theoryOfChange.map((line) => (
+              {content.theoryOfChange.map((line) => (
                 <li key={line}>{line}</li>
               ))}
             </ol>
@@ -148,7 +194,7 @@ export default function AboutPage() {
             />
           </div>
           <div className="grid-2">
-            {aboutContent.approaches.map(([title, description], index) => {
+            {content.approaches.map(({ title, description }, index) => {
               const Icon = approachIcons[index];
               return (
                 <article className="card" key={title}>
@@ -164,7 +210,7 @@ export default function AboutPage() {
             <h2 className="h2">Connected to global and national action</h2>
           </div>
           <div className="framework-grid">
-            {aboutContent.frameworks.map((framework) => (
+            {content.frameworks.map((framework) => (
               <div className="card framework-card" key={framework}>
                 <strong>{framework}</strong>
               </div>
@@ -185,9 +231,13 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="people-grid">
-            {team.map(([name, role]) => (
+            {teamMembers.map(({ name, role, portraitUrl }) => (
               <article className="card person-card" key={name}>
-                <PersonPortrait name={name} group="team" />
+                <PersonPortrait
+                  name={name}
+                  group="team"
+                  portraitUrl={portraitUrl}
+                />
                 <h3>{name}</h3>
                 <p>{role}</p>
               </article>
@@ -198,9 +248,13 @@ export default function AboutPage() {
             <h2 className="h2">Strategic guidance</h2>
           </div>
           <div className="grid-2">
-            {advisoryBoard.map((name) => (
+            {advisers.map(({ name, portraitUrl }) => (
               <article className="card person-card" key={name}>
-                <PersonPortrait name={name} group="Advisory Board" />
+                <PersonPortrait
+                  name={name}
+                  group="Advisory Board"
+                  portraitUrl={portraitUrl}
+                />
                 <h3>{name}</h3>
                 <p>Advisory Board</p>
               </article>

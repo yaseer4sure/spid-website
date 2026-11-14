@@ -14,6 +14,7 @@ import { EditorialImage } from "@/components/content/EditorialImage";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ayedeContent } from "@/content/approved";
+import { getProgramme } from "@/sanity/content";
 
 export const metadata: Metadata = {
   title: "AYEDE 4 Climate Action",
@@ -32,7 +33,14 @@ const approachIcons = [
 ] as const;
 const metricIcons = [RadioTower, GraduationCap, Map, FileText] as const;
 
-export default function AyedePage() {
+export default async function AyedePage() {
+  const programme = await getProgramme("ayede");
+  const overview = programme?.overviewText?.length
+    ? programme.overviewText
+    : [...ayedeContent.overview];
+  const approach = programme?.methodologySteps?.length
+    ? programme.methodologySteps.map(({ title }) => title)
+    : [...ayedeContent.approach];
   return (
     <>
       <div className="container">
@@ -48,8 +56,10 @@ export default function AyedePage() {
         <div className="container page-hero-grid">
           <div>
             <p className="eyebrow">AYEDE 4 Climate Action</p>
-            <h1 className="h1">{ayedeContent.title}</h1>
-            <p className="lead">{ayedeContent.supportingLine}</p>
+            <h1 className="h1">{programme?.title || ayedeContent.title}</h1>
+            <p className="lead">
+              {programme?.tagline || ayedeContent.supportingLine}
+            </p>
           </div>
           <EditorialImage
             src="/images/programmes/ayede/youth-climate-learning.jpeg"
@@ -73,7 +83,7 @@ export default function AyedePage() {
             />
           </div>
           <div className="prose">
-            {ayedeContent.overview.map((paragraph) => (
+            {overview.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
           </div>
@@ -88,7 +98,7 @@ export default function AyedePage() {
             </h2>
           </div>
           <div className="grid-3">
-            {ayedeContent.approach.map((item, index) => {
+            {approach.map((item, index) => {
               const Icon = approachIcons[index];
               return (
                 <article className="card" key={item}>
@@ -129,8 +139,11 @@ export default function AyedePage() {
             Partner with SPiD to strengthen youth climate leadership, learning
             and networks.
           </p>
-          <ButtonLink href="/contact?type=partnership" variant="warm">
-            Partner With Us
+          <ButtonLink
+            href={programme?.primaryAction?.href || "/contact?type=partnership"}
+            variant="warm"
+          >
+            {programme?.primaryAction?.label || "Partner With Us"}
           </ButtonLink>
         </div>
       </section>

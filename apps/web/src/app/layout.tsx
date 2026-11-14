@@ -5,6 +5,7 @@ import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { navItems as fallbackNavItems } from "@/components/layout/navigation";
 import { getSiteSettings } from "@/sanity/content";
 import "./globals.css";
 import "@/components/layout/layout.css";
@@ -38,13 +39,17 @@ export default async function RootLayout({
     draftMode().then((mode) => mode.isEnabled),
     getSiteSettings(),
   ]);
+  const navigation =
+    siteSettings.navigation?.items
+      ?.filter((item) => item.visible !== false)
+      .map(({ label, href }) => ({ label, href })) || fallbackNavItems;
   return (
     <html lang="en">
       <body>
         <a className="skip-link" href="#main-content">
           Skip to main content
         </a>
-        <Header />
+        <Header items={navigation} />
         {preview && (
           <div className="preview-banner">
             Draft preview — unpublished content may be visible.{" "}
@@ -55,6 +60,9 @@ export default async function RootLayout({
         <Footer
           socialLinks={siteSettings.socialLinks}
           officeAddress={siteSettings.officeAddress}
+          positioningStatement={
+            siteSettings.footer?.positioningStatement || undefined
+          }
         />
         {preview && <VisualEditing />}
         <Analytics />

@@ -1,6 +1,7 @@
 import { draftMode } from "next/headers";
 import { approvedSocialLinks, normaliseSocialLinks } from "@/content/social";
 import { mergeApprovedPartners } from "@/content/partners";
+import { approvedOfficeAddress } from "@/content/organisation";
 import { previewClient, publicClient } from "./client";
 import {
   fallbackHome,
@@ -12,6 +13,9 @@ import {
   type PublicProgramme,
 } from "./fallback";
 import {
+  ABOUT_PAGE_QUERY,
+  CONTACT_SETTINGS_QUERY,
+  CORE_PAGE_QUERY,
   HOME_PAGE_QUERY,
   INSIGHT_BY_SLUG_QUERY,
   PUBLIC_PARTNERS_QUERY,
@@ -19,18 +23,15 @@ import {
   SITE_SETTINGS_QUERY,
 } from "./queries";
 import type {
+  ABOUT_PAGE_QUERYResult,
+  CONTACT_SETTINGS_QUERYResult,
+  CORE_PAGE_QUERYResult,
   HOME_PAGE_QUERYResult,
   INSIGHT_BY_SLUG_QUERYResult,
   PUBLIC_PARTNERS_QUERYResult,
   PROGRAMME_BY_SLUG_QUERYResult,
   SITE_SETTINGS_QUERYResult,
 } from "./types";
-
-export const approvedOfficeAddress = [
-  "43A, Ruwan Godiya Street,",
-  "Opposite Gwandu, Unguwar Sarki,",
-  "Kaduna State, Nigeria.",
-] as const;
 
 type CompleteHome = Extract<
   NonNullable<HOME_PAGE_QUERYResult>,
@@ -43,7 +44,8 @@ const publicUtilityQueryOptions = () => ({
 
 function programmeSummary(
   value: CompleteHome["featuredProgrammes"][number],
-): PublicProgramme {
+): PublicProgramme | null {
+  if (!value) return null;
   return { ...value, acronym: value.acronym ?? undefined };
 }
 
@@ -61,7 +63,7 @@ function publicPartner(
     | NonNullable<CompleteHome["partners"]>[number]
     | PUBLIC_PARTNERS_QUERYResult[number],
 ): PublicPartner | null {
-  if (!value.logoUrl) return null;
+  if (!value || !value.logoUrl) return null;
   return {
     _id: value._id,
     name: value.name,
@@ -87,8 +89,15 @@ function publicHome(value: HOME_PAGE_QUERYResult): PublicHome | null {
   if (!value || typeof value.headline !== "string") return null;
   return {
     ...value,
+    valueProposition: value.valueProposition || fallbackHome.valueProposition,
+    workPillars: value.workPillars?.length
+      ? value.workPillars
+      : fallbackHome.workPillars,
+    values: value.values?.length ? value.values : fallbackHome.values,
     secondaryAction: value.secondaryAction ?? undefined,
-    featuredProgrammes: value.featuredProgrammes.map(programmeSummary),
+    featuredProgrammes: value.featuredProgrammes
+      .map(programmeSummary)
+      .filter((programme): programme is PublicProgramme => programme !== null),
     featuredInsight: value.featuredInsight
       ? insightSummary(value.featuredInsight)
       : undefined,
@@ -104,8 +113,13 @@ function publicProgramme(
   return {
     ...value,
     acronym: value.acronym ?? undefined,
-    overview: value.overview ?? undefined,
-    whyItMatters: value.whyItMatters ?? undefined,
+    tagline: value.tagline ?? undefined,
+    overviewText:
+      value.overviewText?.filter((item): item is string => item !== null) ??
+      undefined,
+    whyItMattersText:
+      value.whyItMattersText?.filter((item): item is string => item !== null) ??
+      undefined,
     locations: value.locations?.map(({ label, country }) => ({
       label,
       country,
@@ -143,25 +157,32 @@ function publicInsight(
 }
 
 async function clientForRequest(stega = true) {
-  if (!(await draftMode()).isEnabled) return publicClient;
+  const includeDrafts = (await draftMode()).isEnabled;
+  if (!includeDrafts) return { client: publicClient, includeDrafts };
 
   const client = previewClient();
-  return stega ? client : client.withConfig({ stega: false });
+  return {
+    client: stega ? client : client.withConfig({ stega: false }),
+    includeDrafts,
+  };
 }
 export async function getHome(): Promise<PublicHome> {
-  const client = await clientForRequest();
+  const { client, includeDrafts } = await clientForRequest();
   const home = client
-    ? publicHome(await client.fetch(HOME_PAGE_QUERY)) || fallbackHome
+    ? publicHome(await client.fetch(HOME_PAGE_QUERY, { includeDrafts })) ||
+      fallbackHome
     : fallbackHome;
   return { ...home, partners: mergeApprovedPartners(home.partners) };
 }
 
 export async function getSiteSettings() {
-  const client = await clientForRequest(false);
+  const client = publicClient;
   if (!client)
     return {
       socialLinks: approvedSocialLinks,
       officeAddress: approvedOfficeAddress,
+      navigation: null,
+      footer: null,
     };
   try {
     const settings: SITE_SETTINGS_QUERYResult = await client.fetch(
@@ -169,28 +190,63 @@ export async function getSiteSettings() {
       {},
       publicUtilityQueryOptions(),
     );
-    const officeAddress = settings?.officeAddress?.filter(Boolean);
+    const officeAddress = settings?.settings?.officeAddress?.filter(Boolean);
     return {
-      socialLinks: normaliseSocialLinks(settings?.socialLinks),
+      socialLinks: normaliseSocialLinks(settings?.settings?.socialLinks),
       officeAddress: officeAddress?.length
         ? officeAddress
         : approvedOfficeAddress,
+      navigation: settings?.navigation ?? null,
+      footer: settings?.footer ?? null,
     };
   } catch {
     return {
       socialLinks: approvedSocialLinks,
       officeAddress: approvedOfficeAddress,
+      navigation: null,
+      footer: null,
     };
   }
 }
 
+export async function getAboutContent() {
+  const { client, includeDrafts } = await clientForRequest();
+  if (!client) return null;
+  return (await client.fetch(ABOUT_PAGE_QUERY, {
+    includeDrafts,
+  })) as ABOUT_PAGE_QUERYResult;
+}
+
+export async function getCorePage(pageKey: string) {
+  const { client, includeDrafts } = await clientForRequest();
+  if (!client) return null;
+  return (await client.fetch(CORE_PAGE_QUERY, {
+    pageKey,
+    includeDrafts,
+  })) as CORE_PAGE_QUERYResult;
+}
+
+export async function getContactSettings() {
+  const { client } = await clientForRequest();
+  if (!client) return null;
+  try {
+    return (await client.fetch(
+      CONTACT_SETTINGS_QUERY,
+      {},
+      publicUtilityQueryOptions(),
+    )) as CONTACT_SETTINGS_QUERYResult;
+  } catch {
+    return null;
+  }
+}
+
 export async function getPublicPartners(): Promise<PublicPartner[]> {
-  const client = await clientForRequest(false);
+  const { client, includeDrafts } = await clientForRequest(false);
   if (!client) return mergeApprovedPartners([]);
   try {
     const partners: PUBLIC_PARTNERS_QUERYResult = await client.fetch(
       PUBLIC_PARTNERS_QUERY,
-      {},
+      { includeDrafts },
       publicUtilityQueryOptions(),
     );
     return mergeApprovedPartners(publicPartners(partners));
@@ -201,10 +257,10 @@ export async function getPublicPartners(): Promise<PublicPartner[]> {
 export async function getProgramme(
   slug: string,
 ): Promise<PublicProgramme | null> {
-  const client = await clientForRequest();
+  const { client, includeDrafts } = await clientForRequest();
   if (!client) return slug === "cpi4cg" ? fallbackProgramme : null;
   const programme = publicProgramme(
-    await client.fetch(PROGRAMME_BY_SLUG_QUERY, { slug }),
+    await client.fetch(PROGRAMME_BY_SLUG_QUERY, { slug, includeDrafts }),
   );
   return programme || (slug === "cpi4cg" ? fallbackProgramme : null);
 }
@@ -222,10 +278,10 @@ async function getInsightWithStega(
   slug: string,
   stega: boolean,
 ): Promise<PublicInsight | null> {
-  const client = await clientForRequest(stega);
+  const { client, includeDrafts } = await clientForRequest(stega);
   if (!client) return slug === fallbackInsight.slug ? fallbackInsight : null;
   const insight = publicInsight(
-    await client.fetch(INSIGHT_BY_SLUG_QUERY, { slug }),
+    await client.fetch(INSIGHT_BY_SLUG_QUERY, { slug, includeDrafts }),
   );
   return insight || (slug === fallbackInsight.slug ? fallbackInsight : null);
 }

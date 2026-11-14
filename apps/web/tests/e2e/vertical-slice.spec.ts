@@ -146,9 +146,10 @@ test("about purpose, portraits, and footer address remain responsive", async ({
   test.skip(testInfo.project.name !== "chromium");
   test.setTimeout(120_000);
 
+  await page.setViewportSize({ width: 360, height: 900 });
+  await page.goto("/about", { waitUntil: "domcontentloaded" });
   for (const width of [360, 390, 768, 1024, 1280, 1440]) {
     await page.setViewportSize({ width, height: 900 });
-    await page.goto("/about");
 
     await expect(
       page.getByRole("heading", { name: "Our Vision" }),
@@ -225,7 +226,7 @@ test("owner-approved impact dashboard values render and reflow", async ({
 test("navigation exposes Home and the non-transactional donation preview", async ({
   page,
 }, testInfo) => {
-  await page.goto("/about");
+  await page.goto("/about", { waitUntil: "domcontentloaded" });
   if (testInfo.project.name === "mobile") {
     await page.getByRole("button", { name: "Menu" }).click();
   }

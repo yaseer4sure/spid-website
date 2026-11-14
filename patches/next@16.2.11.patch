@@ -1,0 +1,28 @@
+diff --git a/dist/esm/lib/metadata/resolve-metadata.js b/dist/esm/lib/metadata/resolve-metadata.js
+index bf6a03083b99334a321bc3e948625d3502799c96..ace07ecf662bbab337d0565291d8eba955db0904 100644
+--- a/dist/esm/lib/metadata/resolve-metadata.js
++++ b/dist/esm/lib/metadata/resolve-metadata.js
+@@ -793,8 +793,8 @@ export async function accumulateViewport(viewportItems) {
+ }
+ // Exposed API for metadata component, that directly resolve the loader tree and related context as resolved metadata.
+ export async function resolveMetadata(tree, pathname, searchParams, errorConvention, interpolatedParams, metadataContext, isRuntimePrefetchable) {
+-    const metadataItems = await resolveMetadataItems(tree, searchParams, errorConvention, interpolatedParams, isRuntimePrefetchable);
+     const workStore = workAsyncStorage.getStore();
++    const metadataItems = await resolveMetadataItems(tree, searchParams, errorConvention, interpolatedParams, isRuntimePrefetchable);
+     if (!workStore) {
+         throw Object.defineProperty(new InvariantError('Expected workStore to be initialized'), "__NEXT_ERROR_CODE", {
+             value: "E1068",
+diff --git a/dist/lib/metadata/resolve-metadata.js b/dist/lib/metadata/resolve-metadata.js
+index 90e311049a18d05c6ec60e3aa4a310ce72d194a7..eb991beb7d43f8476e30e13991958183a2c0d9f8 100644
+--- a/dist/lib/metadata/resolve-metadata.js
++++ b/dist/lib/metadata/resolve-metadata.js
+@@ -862,8 +862,8 @@ async function accumulateViewport(viewportItems) {
+     return resolvedViewport;
+ }
+ async function resolveMetadata(tree, pathname, searchParams, errorConvention, interpolatedParams, metadataContext, isRuntimePrefetchable) {
+-    const metadataItems = await resolveMetadataItems(tree, searchParams, errorConvention, interpolatedParams, isRuntimePrefetchable);
+     const workStore = _workasyncstorageexternal.workAsyncStorage.getStore();
++    const metadataItems = await resolveMetadataItems(tree, searchParams, errorConvention, interpolatedParams, isRuntimePrefetchable);
+     if (!workStore) {
+         throw Object.defineProperty(new _invarianterror.InvariantError('Expected workStore to be initialized'), "__NEXT_ERROR_CODE", {
+             value: "E1068",
