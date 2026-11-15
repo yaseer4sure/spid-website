@@ -358,3 +358,36 @@ test("social and partner layouts reflow without horizontal overflow", async ({
     }
   }
 });
+
+test("approved WordPress routes redirect directly to their new destinations", async ({
+  request,
+}) => {
+  const redirects = [
+    ["/who-we-are/", "/about"],
+    ["/team/", "/about"],
+    ["/what-we-do/", "/our-work"],
+    ["/programs/", "/our-work"],
+    ["/our-works/", "/our-work"],
+    ["/initiatives/", "/our-work"],
+    ["/fellowships/", "/our-work/ayede"],
+    ["/impacts/", "/impact"],
+    ["/stories/", "/insights"],
+    ["/get-involve/", "/get-involved"],
+    ["/volunteer/", "/get-involved"],
+    ["/partner-with-us/", "/contact?type=partnership"],
+  ] as const;
+
+  for (const [source, destination] of redirects) {
+    const response = await request.get(source, { maxRedirects: 0 });
+    const location = response.headers().location;
+
+    expect(response.status()).toBe(308);
+    expect(location).toBeTruthy();
+    expect(new URL(location!, "http://localhost").pathname).toBe(
+      new URL(destination, "http://localhost").pathname,
+    );
+    expect(new URL(location!, "http://localhost").search).toBe(
+      new URL(destination, "http://localhost").search,
+    );
+  }
+});

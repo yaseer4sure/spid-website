@@ -3,6 +3,10 @@ import {
   frameAncestors,
   studioOriginForBuild,
 } from "./src/lib/contentSecurityPolicy";
+import {
+  legacyRedirects,
+  trailingSlashRedirect,
+} from "./src/lib/redirects/legacy-redirects";
 
 const trustedFrameAncestors = frameAncestors(
   studioOriginForBuild(
@@ -13,6 +17,7 @@ const trustedFrameAncestors = frameAncestors(
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  skipTrailingSlashRedirect: true,
   images: {
     remotePatterns: [
       {
@@ -21,6 +26,9 @@ const nextConfig: NextConfig = {
         pathname: "/images/**",
       },
     ],
+  },
+  async redirects() {
+    return [...legacyRedirects, trailingSlashRedirect];
   },
   async headers() {
     return [
