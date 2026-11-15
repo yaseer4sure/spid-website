@@ -18,6 +18,10 @@ describe("MobileNav", () => {
   it("opens, exposes the navigation, and closes", () => {
     const view = render(<MobileNav />);
     act(() => view.getByRole("button", { name: "Menu" }).click());
+    expect(view.getByRole("link", { name: "Home" })).toHaveAttribute(
+      "href",
+      "/",
+    );
     expect(view.getByRole("link", { name: "Get Involved" })).toBeTruthy();
     act(() => view.getByRole("button", { name: "Close" }).click());
     expect(view.queryByRole("link", { name: "Get Involved" })).toBeNull();

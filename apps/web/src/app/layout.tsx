@@ -5,7 +5,7 @@ import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { navItems as fallbackNavItems } from "@/components/layout/navigation";
+import { resolveNavigationItems } from "@/components/layout/navigation";
 import { getSiteSettings } from "@/sanity/content";
 import "./globals.css";
 import "@/components/layout/layout.css";
@@ -39,10 +39,7 @@ export default async function RootLayout({
     draftMode().then((mode) => mode.isEnabled),
     getSiteSettings(),
   ]);
-  const navigation =
-    siteSettings.navigation?.items
-      ?.filter((item) => item.visible !== false)
-      .map(({ label, href }) => ({ label, href })) || fallbackNavItems;
+  const navigation = resolveNavigationItems(siteSettings.navigation?.items);
   return (
     <html lang="en">
       <body>

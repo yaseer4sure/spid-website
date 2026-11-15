@@ -76,17 +76,18 @@ const documents: Array<SanityDocumentStub & { _id: string }> = [
     _id: "mainNavigation",
     _type: "navigation",
     items: [
-      "About",
-      "Our Work",
-      "Impact",
-      "Insights",
-      "Partners",
-      "Get Involved",
-      "Contact",
-    ].map((label) => ({
+      ["Home", "/"],
+      ["About", "/about"],
+      ["Our Work", "/our-work"],
+      ["Impact", "/impact"],
+      ["Insights", "/insights"],
+      ["Partners", "/partners"],
+      ["Get Involved", "/get-involved"],
+      ["Contact", "/contact"],
+    ].map(([label, href]) => ({
       _key: label,
       label,
-      href: `/${label.toLowerCase().replaceAll(" ", "-")}`,
+      href,
       visible: true,
     })),
     primaryAction: {

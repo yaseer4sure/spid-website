@@ -229,10 +229,18 @@ test("navigation exposes Home and the non-transactional donation preview", async
   await page.goto("/about", { waitUntil: "domcontentloaded" });
   if (testInfo.project.name === "mobile") {
     await page.getByRole("button", { name: "Menu" }).click();
+    const mobileNavigation = page.getByLabel("Mobile navigation");
+    await expect(
+      mobileNavigation.getByRole("link", { name: "Home", exact: true }),
+    ).toHaveAttribute("href", "/");
+  } else {
+    const primaryNavigation = page.getByRole("navigation", {
+      name: "Primary navigation",
+    });
+    await expect(
+      primaryNavigation.getByRole("link", { name: "Home", exact: true }),
+    ).toHaveAttribute("href", "/");
   }
-  await expect(
-    page.getByRole("link", { name: "Home", exact: true }),
-  ).toBeVisible();
   await page
     .getByRole("link", { name: /Donate/ })
     .first()
@@ -242,6 +250,49 @@ test("navigation exposes Home and the non-transactional donation preview", async
     page.getByRole("button", { name: /coming soon/i }),
   ).toBeDisabled();
   await expect(page.getByText(/No payment will be taken/i)).toBeVisible();
+});
+
+test("official favicon assets and metadata are public", async ({
+  page,
+  request,
+}) => {
+  for (const path of [
+    "/favicon.ico",
+    "/icon.png",
+    "/icon1.png",
+    "/apple-icon.png",
+  ]) {
+    const response = await request.get(path);
+    expect(response.ok()).toBeTruthy();
+    expect(response.headers()["content-type"]).toMatch(/^image\//);
+  }
+
+  await page.goto("/");
+  await expect(page).toHaveTitle(/SPiD \| Locally Led Climate Action/);
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+    "content",
+    /community-rooted, youth-driven climate resilience/i,
+  );
+  const canonical = await page
+    .locator('link[rel="canonical"]')
+    .getAttribute("href");
+  expect(new URL(canonical || "http://invalid").pathname).toBe("/");
+  const iconPaths = await page
+    .locator('link[rel="icon"], link[rel="apple-touch-icon"]')
+    .evaluateAll((links) =>
+      links.map((link) => new URL((link as HTMLLinkElement).href).pathname),
+    );
+  expect(iconPaths).toEqual(
+    expect.arrayContaining([
+      "/favicon.ico",
+      "/icon.png",
+      "/icon1.png",
+      "/apple-icon.png",
+    ]),
+  );
+  expect(await (await request.get("/robots.txt")).text()).not.toMatch(
+    /disallow:\s*\/(?:favicon\.ico|icon(?:1)?\.png|apple-icon\.png)/i,
+  );
 });
 
 test("Voices from the Ward is integrated without changing impact totals", async ({

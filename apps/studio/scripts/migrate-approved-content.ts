@@ -557,6 +557,7 @@ async function buildDocuments(
       _id: "mainNavigation",
       _type: "navigation",
       items: [
+        ["Home", "/"],
         ["About", "/about"],
         ["Our Work", "/our-work"],
         ["Impact", "/impact"],
