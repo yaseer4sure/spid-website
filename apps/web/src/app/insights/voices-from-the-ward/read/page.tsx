@@ -5,7 +5,9 @@ import { voicesFromTheWard } from "@/content/research/voicesFromTheWard";
 
 export const metadata: Metadata = {
   title: `Read ${voicesFromTheWard.title}`,
-  robots: { index: false, follow: false },
+  // Keep the embedded reader out of search results so the canonical landing
+  // page remains the single indexed publication URL. Links may be followed.
+  robots: { index: false, follow: true },
 };
 
 export default function ReportReaderPage() {

@@ -17,7 +17,6 @@ export function PublicationFeature({ compact = false }: { compact?: boolean }) {
           {voicesFromTheWard.publicationDateLabel} ·{" "}
           {voicesFromTheWard.location}
         </p>
-        <p className="publication-review-note">Publication approval pending</p>
         <ButtonLink href={voicesFromTheWard.landingPath}>
           Explore the Research
         </ButtonLink>

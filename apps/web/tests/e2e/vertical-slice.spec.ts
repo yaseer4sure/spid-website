@@ -255,10 +255,10 @@ test("Voices from the Ward is integrated without changing impact totals", async 
   await expect(
     page.getByRole("heading", { name: "Voices from the Ward", level: 1 }),
   ).toBeVisible();
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
-    "content",
-    /noindex, nofollow/,
-  );
+  await expect(
+    page.getByText(/publication approval pending|stakeholder review copy/i),
+  ).toHaveCount(0);
+  await expect(page.locator('meta[name="robots"]')).toHaveCount(0);
   await expect(
     page.getByRole("link", { name: "Read Full Report" }),
   ).toHaveAttribute("href", "/insights/voices-from-the-ward/read");
@@ -279,6 +279,9 @@ test("Voices from the Ward is integrated without changing impact totals", async 
     await expect(
       page.getByText("Voices from the Ward", { exact: true }).first(),
     ).toBeVisible();
+    await expect(page.getByText(/publication approval pending/i)).toHaveCount(
+      0,
+    );
   }
   await page.goto("/impact");
   await expect(
@@ -290,8 +293,8 @@ test("Voices from the Ward is integrated without changing impact totals", async 
   await expect(
     page.getByRole("region", { name: "SPiD impact indicators" }),
   ).toBeVisible();
-  expect(await (await request.get("/sitemap.xml")).text()).not.toContain(
-    "voices-from-the-ward",
+  expect(await (await request.get("/sitemap.xml")).text()).toMatch(
+    /<loc>https?:\/\/[^<]+\/insights\/voices-from-the-ward<\/loc>/,
   );
 });
 

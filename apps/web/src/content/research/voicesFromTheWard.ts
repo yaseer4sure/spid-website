@@ -13,7 +13,7 @@ export const voicesFromTheWard = {
   publicationDateLabel: "July 2026",
   fieldworkPeriod: "November–December 2025",
   location: "Sabon Gari LGA, Kaduna State",
-  approvalStatus: "pendingApproval" as const,
+  approvalStatus: "approved" as const,
   landingPath: "/insights/voices-from-the-ward",
   readerPath: "/insights/voices-from-the-ward/read",
   reportPath: "/research/voices-from-the-ward/report.html",
@@ -67,4 +67,4 @@ export const voicesFromTheWard = {
 } as const;
 
 export const voicesFromTheWardIsApproved =
-  voicesFromTheWard.approvalStatus === ("approved" as string);
+  voicesFromTheWard.approvalStatus === "approved";

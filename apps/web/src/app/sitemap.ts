@@ -5,8 +5,9 @@ import {
 } from "@/content/research/voicesFromTheWard";
 import { insightCategories } from "@/content/insightCategories";
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL || "https://spidclimateresilience.org";
+  const base = (
+    process.env.NEXT_PUBLIC_SITE_URL || "https://spidclimateresilience.org"
+  ).replace(/\/+$/, "");
   const paths = [
     "",
     "/about",

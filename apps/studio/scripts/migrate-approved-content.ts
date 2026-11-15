@@ -503,9 +503,9 @@ async function buildDocuments(
     summary: voicesFromTheWard.summary,
     publishedAt: `${voicesFromTheWard.publicationDate}T00:00:00.000Z`,
     organisationAuthor: voicesFromTheWard.organisationAuthor,
-    isPublic: false,
+    isPublic: true,
     internalNotes:
-      "Publication approval remains pending. The version-controlled HTML and PDF stay authoritative until approval.",
+      "Publication approved by SPiD. Publish this CMS record only through a separately authorised editorial action; the version-controlled HTML and PDF remain authoritative.",
   };
   const reportInsight: MigrationDocument = {
     _id: "drafts.insight-voices-from-the-ward",
@@ -524,9 +524,9 @@ async function buildDocuments(
     ]),
     relatedProgrammes: [ref("programme-cpi4cg")],
     primaryResource: ref("drafts.resource-voices-from-the-ward"),
-    seo: { _type: "seo", noIndex: true, noFollow: true },
+    seo: { _type: "seo", noIndex: false, noFollow: false },
     internalNotes:
-      "Organisation-supplied report; public publication approval pending.",
+      "Organisation-supplied report approved for publication. Publish this CMS record only through a separately authorised editorial action.",
   };
 
   return [
@@ -665,9 +665,7 @@ async function main() {
     safeguards: {
       iicareDraftOnly: ids.includes("drafts.programme-iicare"),
       impactMetricsDraftOnly: metricsAreDraftOnly(planned),
-      researchApprovalPending: ids.includes(
-        "drafts.insight-voices-from-the-ward",
-      ),
+      researchDraftOnly: ids.includes("drafts.insight-voices-from-the-ward"),
       noOverwrite: true,
     },
   };

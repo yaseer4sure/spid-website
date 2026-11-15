@@ -13,7 +13,7 @@
 | AYEDE | `apps/web/src/content/approved.ts` | `programme-ayede` | Homepage card and `/our-work/ayede` |
 | IICARE | Approved name only | `drafts.programme-iicare` | Preview only; excluded from public queries |
 | Organisational impact values | `apps/web/src/config/impactMetrics.ts` | Four draft `impactMetric` records | Not public until evidence fields and verification are approved |
-| Voices from the Ward metadata | `apps/web/src/content/research/voicesFromTheWard.ts` | Draft `insight` and `resource` records | Existing version-controlled publication remains the public fallback pending approval |
+| Voices from the Ward metadata | `apps/web/src/content/research/voicesFromTheWard.ts` | Draft `insight` and `resource` records | Approved version-controlled publication is the public fallback until separately authorised CMS publication |
 | Partners | `apps/web/src/content/partners.ts` and approved logo assets | Approved `partner` records | Homepage and `/partners`; local records remain fallback until migration |
 | Get Involved, Insights, Impact, Partners, Our Work and Contact headings | Existing route content | Fixed `page` records and `contactSettings` | Route-level CMS values with approved fallbacks |
 
@@ -75,8 +75,11 @@ unverified and non-public. Their reporting period, geography, evidence source
 and evidence owner are not currently approved. Editors must complete those
 fields and follow the evidence-verification workflow before publication.
 
-Voices from the Ward remains a draft CMS record because its repository metadata
-currently says publication approval is pending. IICARE remains a draft-
+SPiD approved Voices from the Ward for publication in November 2026. Its
+version-controlled landing page is public, indexable and included in the
+sitemap. The migrated Sanity Insight and Resource remain drafts until a
+separately authorised editorial action clears their legacy SEO restrictions,
+marks the Resource public and publishes both records. IICARE remains a draft-
 development programme and cannot enter public programme queries.
 
 ## Image management

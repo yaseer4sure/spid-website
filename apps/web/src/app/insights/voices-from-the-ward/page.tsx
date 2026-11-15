@@ -74,9 +74,6 @@ export default function VoicesFromTheWardPage() {
             <h1 className="h1">{voicesFromTheWard.title}</h1>
             <p className="lead">{voicesFromTheWard.subtitle}</p>
             <p>{voicesFromTheWard.description}</p>
-            <p className="publication-review-note">
-              Publication approval pending · stakeholder review copy
-            </p>
             <div className="hero-actions">
               <ButtonLink href={voicesFromTheWard.readerPath}>
                 Read Full Report
